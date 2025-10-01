@@ -1,0 +1,30 @@
+{
+  "name": "nc-ask-frontend",
+  "version": "1.0.0",
+  "description": "NC ASK Frontend - Educational platform for autism-related information",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cd frontend && vite",
+    "build": "cd frontend && tsc && vite build",
+    "preview": "cd frontend && vite preview",
+    "typecheck": "cd frontend && tsc --noEmit",
+    "lint": "cd frontend && eslint src --ext .ts,.tsx --fix"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.22",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "@vitejs/plugin-react": "^4.0.4",
+    "eslint": "^8.49.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
+  }
+}

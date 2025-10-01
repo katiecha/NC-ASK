@@ -1,0 +1,75 @@
+.about {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.about-content {
+  background: var(--color-white);
+  border-radius: 12px;
+  padding: 48px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.about-header {
+  margin-bottom: 40px;
+}
+
+.nc-ask-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.brain-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--color-blue);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.app-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-navy);
+  margin: 0;
+}
+
+.about-description {
+  text-align: left;
+  margin-bottom: 40px;
+}
+
+.about-description p {
+  margin: 20px 0;
+  color: var(--color-black);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.about-description strong {
+  font-weight: 600;
+}
+
+.feature-badges {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.feature-badge {
+  padding: 10px 20px;
+  background: transparent;
+  color: var(--color-blue);
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--color-blue);
+}

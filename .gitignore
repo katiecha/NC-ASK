@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+
+# Virtual Environments
+venv/
+env/
+
+# Environment Variables
+.env
+
+# IDE
+.vscode/
+
+# Operating System
+.DS_Store
+
+# Database
+*.db
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+
+# React Build
+build/
+dist/
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# API Keys and Secrets
+config/secrets.json
+*.pem
+*.key

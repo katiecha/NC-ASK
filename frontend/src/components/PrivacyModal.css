@@ -1,0 +1,106 @@
+.privacy-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.privacy-modal {
+  background: white;
+  border-radius: 12px;
+  max-width: 460px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.privacy-content {
+  padding: 32px;
+}
+
+.privacy-content h2 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.4;
+}
+
+.privacy-content p {
+  margin: 12px 0;
+  color: #333;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.privacy-content strong {
+  font-weight: 600;
+}
+
+.privacy-content em {
+  font-style: italic;
+  color: #007AFF;
+}
+
+.privacy-agreement {
+  margin: 20px 0;
+}
+
+.privacy-agreement ul {
+  margin: 12px 0;
+  padding-left: 18px;
+}
+
+.privacy-agreement li {
+  margin: 8px 0;
+  color: #333;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.privacy-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  align-items: center;
+}
+
+.privacy-link-button {
+  background: none;
+  border: none;
+  color: #007AFF;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+.privacy-link-button:hover {
+  color: #0056CC;
+}
+
+.privacy-accept-button {
+  background: #007AFF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-left: auto;
+}
+
+.privacy-accept-button:hover {
+  background: #0056CC;
+}

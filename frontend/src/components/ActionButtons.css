@@ -1,0 +1,38 @@
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.action-button {
+  width: 56px;
+  height: 56px;
+  background: var(--color-white);
+  border: none;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  box-shadow: 0 3px 12px rgba(75, 156, 211, 0.2);
+  transform: translateY(-1px);
+}
+
+.action-button:active {
+  transform: translateY(0);
+}
+
+.action-icon {
+  font-size: 20px;
+  color: #666;
+}
+
+.action-button:hover .action-icon {
+  color: var(--color-black);
+}
