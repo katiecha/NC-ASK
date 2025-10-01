@@ -1,21 +1,46 @@
 # Python
 __pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+*.pyc
+*.pyo
+*.pyd
 
 # Virtual Environments
 venv/
 env/
+ENV/
+.venv
 
-# Environment Variables
+# Environment Variables - NEVER COMMIT THESE
 .env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+frontend/.env.local
 
 # IDE
 .vscode/
+.idea/
+*.swp
+*.swo
+*~
 
 # Operating System
 .DS_Store
+Thumbs.db
 
 # Database
 *.db
+*.sqlite
+*.sqlite3
 
 # Node.js
 node_modules/
@@ -24,16 +49,57 @@ yarn-debug.log*
 yarn-error.log*
 .npm
 .eslintcache
+.pnpm-debug.log*
+lerna-debug.log*
 
-# React Build
+# React / Vite Build
 build/
 dist/
+dist-ssr/
+*.local
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+coverage/
 
 # Docker
 .dockerignore
 docker-compose.override.yml
 
-# API Keys and Secrets
+# API Keys and Secrets - CRITICAL
 config/secrets.json
 *.pem
 *.key
+*.p12
+credentials.json
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Supabase (local development)
+.supabase/
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Backup files
+*.bak
+*.backup

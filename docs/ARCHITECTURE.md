@@ -28,14 +28,14 @@
 - **CI/CD**: GitHub Actions
 
 ### Security & Governance
-- NC ASK Security Guidelines
+- NC ASK Security Guidelines: /autism-chat-bot/docs/NC ASK AI S&G Guiding Principles v0.docx
 - AI Safety & Governance Guidelines
 
 ## System Architecture Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                         User Layer                           │
+│                         User Layer                          │
 │  (Mobile Browser / Desktop Browser - No Login Required)     │
 └────────────────────┬────────────────────────────────────────┘
                      │

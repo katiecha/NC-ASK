@@ -1,0 +1,89 @@
+.query-response {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.response-content h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  font-size: 1.5rem;
+}
+
+.response-text {
+  line-height: 1.8;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.response-text p {
+  margin-bottom: 1rem;
+}
+
+.citations-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #e0e0e0;
+}
+
+.citations-section h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  font-size: 1.25rem;
+}
+
+.citations-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.citation-item {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  border-left: 4px solid #3498db;
+  border-radius: 4px;
+}
+
+.citation-link {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.citation-link:hover {
+  text-decoration: underline;
+}
+
+.citation-link:focus {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
+.relevance-score {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .query-response {
+    padding: 1rem;
+  }
+
+  .response-content h2 {
+    font-size: 1.25rem;
+  }
+
+  .response-text {
+    font-size: 1rem;
+  }
+
+  .citations-section h3 {
+    font-size: 1.1rem;
+  }
+}

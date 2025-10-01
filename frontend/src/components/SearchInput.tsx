@@ -6,13 +6,15 @@ interface SearchInputProps {
   onChange: (value: string) => void;
   onSearch: (query: string) => void;
   placeholder?: string;
+  disabled?: boolean;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ 
-  value, 
-  onChange, 
-  onSearch, 
-  placeholder = "Ask a question..." 
+const SearchInput: React.FC<SearchInputProps> = ({
+  value,
+  onChange,
+  onSearch,
+  placeholder = "Ask a question...",
+  disabled = false
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +41,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           placeholder={placeholder}
           rows={1}
           aria-label="Search input"
+          disabled={disabled}
         />
       </div>
     </form>
