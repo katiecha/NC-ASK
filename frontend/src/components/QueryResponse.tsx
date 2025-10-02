@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 import { Citation } from '../services/api';
 import './QueryResponse.css';
 
@@ -12,11 +13,8 @@ const QueryResponse: React.FC<QueryResponseProps> = ({ response, citations, cris
   return (
     <div className="query-response" role="region" aria-label="Response">
       <div className="response-content">
-        <h2>Answer</h2>
         <div className="response-text">
-          {response.split('\n').map((paragraph, index) => (
-            paragraph.trim() && <p key={index}>{paragraph}</p>
-          ))}
+          <ReactMarkdown>{response}</ReactMarkdown>
         </div>
       </div>
 
