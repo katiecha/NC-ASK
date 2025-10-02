@@ -2,8 +2,9 @@
 Configuration management using Pydantic Settings
 """
 from pydantic_settings import BaseSettings
-from typing import List
+from typing import List, Optional
 import os
+import json
 
 
 class Settings(BaseSettings):
@@ -22,11 +23,22 @@ class Settings(BaseSettings):
 
     # Security
     SECRET_KEY: str = "your-secret-key-for-session-signing-change-in-production"
-    ALLOWED_ORIGINS: List[str] = [
-        "http://localhost:5173",
-        "http://localhost:3000",
-        "http://localhost:8000"
-    ]
+    ALLOWED_ORIGINS: Optional[str] = None
+    
+    @property
+    def allowed_origins(self) -> List[str]:
+        """Parse ALLOWED_ORIGINS from string or return defaults"""
+        if self.ALLOWED_ORIGINS:
+            try:
+                return json.loads(self.ALLOWED_ORIGINS)
+            except json.JSONDecodeError:
+                # If it's a comma-separated string
+                return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",")]
+        return [
+            "http://localhost:5173",
+            "http://localhost:3000",
+            "http://localhost:8000"
+        ]
 
     # Rate Limiting
     RATE_LIMIT_PER_MINUTE: int = 10

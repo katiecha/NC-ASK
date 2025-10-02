@@ -9,7 +9,7 @@ postgrest==0.13.0
 
 # AI/ML
 langchain==0.1.0
-sentence-transformers==2.2.2
+sentence-transformers>=2.3.0
 google-generativeai==0.3.1
 
 # Document Processing
@@ -24,7 +24,7 @@ pydantic-settings==2.1.0
 
 # Utilities
 python-dotenv==1.0.0
-httpx==0.25.2
+httpx>=0.24.0,<0.25.0
 aiofiles==23.2.1
 
 # Testing

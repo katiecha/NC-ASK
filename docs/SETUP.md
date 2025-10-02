@@ -4,6 +4,13 @@ Complete setup instructions for the NC-ASK application.
 
 ## Prerequisites
 
+### Docker Setup (Recommended)
+- **Docker Desktop** installed and running
+- **Git**
+- **Supabase Account** (free tier is sufficient for MVP)
+- **Google Cloud Account** (for Gemini API)
+
+### Local Development Setup (Alternative)
 - **Node.js** 18+ and npm
 - **Python** 3.11+
 - **Git**
@@ -210,17 +217,88 @@ You should see crisis resources in the response.
 2. Type a question: "What autism services are available in NC?"
 3. Submit and verify you get a response with citations
 
-## 8. Docker Setup (Optional)
+## 8. Docker Setup (Recommended Method)
 
-If you prefer to use Docker:
+Docker is the recommended way to run NC-ASK as it eliminates the need to install Python, Node.js, and other dependencies on your local system.
+
+### Quick Start with Docker
+
+1. **Ensure Docker is running**:
+```bash
+docker --version  # Should show Docker version
+```
+
+2. **Create environment file**:
+```bash
+cp env.example .env
+# Edit .env with your Supabase and Gemini credentials
+```
+
+3. **Run preflight check** (optional but recommended):
+```bash
+./preflight-check.sh
+```
+
+4. **Start all services**:
+```bash
+docker compose up --build
+```
+
+Services will be available at:
+- **Backend**: http://localhost:8000
+- **Frontend**: http://localhost:5173
+- **Redis**: Port 6379 (internal)
+
+### Docker Services
+
+The application runs three Docker containers:
+- **backend** - FastAPI with Python 3.11, sentence-transformers, and all AI/ML dependencies
+- **frontend** - React/Vite with Node 18
+- **redis** - Redis 7 for caching and session storage
+
+### Docker Commands
 
 ```bash
-# Build and start services
-docker-compose up --build
+# Start services (detached mode)
+docker compose up -d
 
-# Backend will be available at http://localhost:8000
-# Frontend will be available at http://localhost:5173
+# View logs
+docker compose logs -f
+
+# Stop services
+docker compose down
+
+# Rebuild after code changes
+docker compose up --build
+
+# Check status
+docker compose ps
+
+# Access backend shell
+docker compose exec backend bash
+
+# Run document ingestion
+docker compose exec backend python scripts/ingest_documents.py
 ```
+
+### Docker Configuration Files
+
+- `docker-compose.yml` - Multi-container orchestration
+- `backend/Dockerfile` - Backend container configuration  
+- `frontend/Dockerfile` - Frontend container configuration
+- `env.example` - Environment variables template
+- `preflight-check.sh` - Pre-flight validation script
+
+### Advantages of Docker Setup
+
+✅ No need to install Python or Node.js locally  
+✅ Consistent environment across all machines  
+✅ Isolated dependencies (won't conflict with system packages)  
+✅ Easy to start/stop all services  
+✅ Hot reload works for both frontend and backend  
+✅ Production-like environment  
+
+For detailed Docker setup instructions, see `../START_HERE.md` and `../DOCKER_SETUP.md`.
 
 ## Troubleshooting
 

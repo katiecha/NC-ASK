@@ -17,9 +17,9 @@
 - **Caching**: Redis (optional for MVP)
 
 ### AI/ML Components
-- **Embedding Model**: sentence-transformers/all-MiniLM-L6-v2 (Hugging Face)
-- **LLM**: Google Gemini 2.5 Flash-lite
-- **Orchestration**: LangChain for RAG pipeline
+- **Embedding Model**: sentence-transformers/all-MiniLM-L6-v2 (>=2.3.0) (Hugging Face)
+- **LLM**: Google Gemini 1.5 Flash (via google-generativeai 0.3.1)
+- **Orchestration**: LangChain 0.1.0 for RAG pipeline
 
 ### Infrastructure
 - **Containerization**: Docker + Docker Compose (local dev)
@@ -246,11 +246,34 @@ CREATE TABLE crisis_resources (
 ### Docker Compose (Local Development)
 ```yaml
 services:
-  - frontend (Vite dev server)
-  - backend (FastAPI with hot reload)
-  # Note: Uses Supabase cloud for database/storage
-  - redis (optional, for caching)
+  backend:
+    - Python 3.11-slim base image
+    - FastAPI with uvicorn (hot reload enabled)
+    - All Python dependencies (sentence-transformers, langchain, etc.)
+    - Volume mount for live code updates
+    - Health checks enabled
+    
+  frontend:
+    - Node 18-alpine base image
+    - Vite dev server with HMR
+    - Volume mount for live code updates
+    - Proxies API requests to backend service
+    
+  redis:
+    - Redis 7-alpine
+    - Persistent volume for data
+    - AOF (Append-Only File) enabled for durability
+    - Health checks enabled
 ```
+
+**Key Docker Features**:
+- Container names for easy reference (nc-ask-backend, nc-ask-frontend, nc-ask-redis)
+- Health checks on all services
+- Automatic restarts with `restart: unless-stopped`
+- Volume mounts for hot reload during development
+- Named volumes for Redis data persistence
+- Environment variables via `.env` file
+- Service dependencies properly configured
 
 ### Production Deployment
 - **Frontend**: Vercel (free tier)

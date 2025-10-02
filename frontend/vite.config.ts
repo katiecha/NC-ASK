@@ -4,13 +4,17 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: '../dist'
+    outDir: 'dist'
   },
   server: {
-    port: 3000,
+    port: 5173,
+    host: '0.0.0.0',
+    watch: {
+      usePolling: true
+    },
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'http://backend:8000',
         changeOrigin: true
       }
     }

@@ -33,7 +33,7 @@ A complete MVP implementation of the NC-ASK (North Carolina Autism Support & Kno
 
 **Main Application**
 - `main.py` - FastAPI application entry point with CORS, health checks
-- `requirements.txt` - Complete Python dependencies
+- `requirements.txt` - Complete Python dependencies (updated with sentence-transformers >=2.3.0, httpx compatibility fixes)
 
 **API Layer (`backend/api/`)**
 - `routes.py` - API endpoints: `/api/query`, `/api/crisis-resources`, `/api/health`
@@ -53,6 +53,13 @@ A complete MVP implementation of the NC-ASK (North Carolina Autism Support & Kno
 **Scripts (`backend/scripts/`)**
 - `ingest_documents.py` - CLI script for ingesting documents
 - `supabase_setup.sql` - Complete database schema with tables, functions, RLS policies
+
+**Docker Configuration**
+- `backend/Dockerfile` - Backend container with Python 3.11-slim, all dependencies
+- `frontend/Dockerfile` - Frontend container with Node 18-alpine, Vite dev server
+- `docker-compose.yml` - Multi-container orchestration (backend, frontend, redis)
+- `env.example` - Environment variables template
+- `preflight-check.sh` - Pre-flight validation script for Docker setup
 
 **Configuration**
 - `Dockerfile` - Backend containerization
@@ -210,7 +217,16 @@ Following ROADMAP.md prioritization:
    # Verify VITE_API_BASE_URL points to backend
    ```
 
-3. **Install Dependencies**
+3. **Option A: Docker Setup (Recommended)**
+   ```bash
+   # Start all services with Docker
+   docker compose up --build
+   
+   # Run document ingestion in container
+   docker compose exec backend python scripts/ingest_documents.py
+   ```
+
+3. **Option B: Local Development Setup**
    ```bash
    # Backend
    python -m venv venv
@@ -224,17 +240,22 @@ Following ROADMAP.md prioritization:
 4. **Add Initial Documents**
    ```bash
    # Place PDF/DOCX/TXT/HTML files in backend/data/
-   # Run ingestion
-   cd backend
-   python scripts/ingest_documents.py
+   
+   # Docker:
+   docker compose exec backend python scripts/ingest_documents.py
+   
+   # Local:
+   cd backend && python scripts/ingest_documents.py
    ```
 
 5. **Start Development Servers**
    ```bash
+   # Docker (all services):
+   docker compose up
+   
+   # Local:
    # Terminal 1: Backend
-   cd backend
-   python -m uvicorn main:app --reload
-
+   cd backend && python -m uvicorn main:app --reload
    # Terminal 2: Frontend
    npm run dev
    ```
