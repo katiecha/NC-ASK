@@ -1,5 +1,5 @@
 """
-API route handlers
+API route handlers with dependency injection.
 """
 from fastapi import APIRouter, HTTPException, status, UploadFile, File
 from fastapi.responses import JSONResponse
@@ -12,18 +12,24 @@ from api.models import (
     Citation,
     CrisisResource
 )
-from services.rag_pipeline import RAGPipeline
-from services.crisis_detection import CrisisDetector
+from services.service_factory import get_service_factory
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
+# Get the service factory (creates services with proper dependencies)
+service_factory = get_service_factory()
+# Create RAG pipeline with all dependencies wired up (uses Supabase)
+rag_pipeline = service_factory.create_rag_pipeline()
+
 
 @router.post("/query", response_model=QueryResponse)
 async def query_endpoint(request: QueryRequest):
     """
-    Main query endpoint for asking questions
+    Main query endpoint for asking questions.
+
+    Uses dependency-injected RAG pipeline for processing.
 
     Args:
         request: QueryRequest with user's question
@@ -34,8 +40,8 @@ async def query_endpoint(request: QueryRequest):
     try:
         logger.info(f"Received query request (session: {request.session_id})")
 
-        # Process query through RAG pipeline
-        result = await RAGPipeline.process_query(
+        # Process query through RAG pipeline (using injected dependencies)
+        result = await rag_pipeline.process_query(
             query=request.query,
             session_id=request.session_id
         )
@@ -67,13 +73,17 @@ async def query_endpoint(request: QueryRequest):
 @router.get("/crisis-resources")
 async def get_crisis_resources():
     """
-    Get list of crisis resources
+    Get list of crisis resources.
+
+    Uses dependency-injected crisis detector.
 
     Returns:
         List of crisis resources
     """
     try:
-        resources = CrisisDetector.get_crisis_resources()
+        # Get crisis detector from the factory
+        crisis_detector = service_factory.get_crisis_detector()
+        resources = crisis_detector.get_crisis_resources()
         return {"resources": resources}
     except Exception as e:
         logger.error(f"Error getting crisis resources: {e}")

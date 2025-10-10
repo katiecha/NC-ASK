@@ -1,17 +1,63 @@
 """
-Complete RAG (Retrieval-Augmented Generation) pipeline
+Complete RAG (Retrieval-Augmented Generation) pipeline with dependency injection.
+
+This is the main orchestrator that combines all services to answer user queries.
 """
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 import logging
-from services.retrieval import RetrievalService
-from services.llm_service import LLMService
-from services.crisis_detection import CrisisDetector
+from services.interfaces import (
+    RetrievalService as RetrievalServiceProtocol,
+    LLMProvider,
+    CrisisDetector as CrisisDetectorProtocol
+)
 
 logger = logging.getLogger(__name__)
 
 
 class RAGPipeline:
-    """Main RAG pipeline orchestrator"""
+    """
+    Main RAG pipeline orchestrator with dependency injection.
+
+    This class coordinates the entire query processing flow:
+    1. Validation & sanitization
+    2. Crisis detection
+    3. Document retrieval
+    4. LLM response generation
+    5. Disclaimer addition
+    6. Citation extraction
+
+    Example:
+        >>> from services.service_factory import get_service_factory
+        >>> factory = get_service_factory()
+        >>> pipeline = factory.create_rag_pipeline()
+        >>> result = await pipeline.process_query("What is an IEP?")
+        >>> print(result["response"])
+    """
+
+    def __init__(
+        self,
+        retrieval_service: RetrievalServiceProtocol,
+        llm_provider: LLMProvider,
+        crisis_detector: CrisisDetectorProtocol
+    ):
+        """
+        Initialize RAG pipeline with dependencies.
+
+        Args:
+            retrieval_service: Service for retrieving relevant documents
+            llm_provider: LLM service for generating responses
+            crisis_detector: Service for detecting crisis situations
+        """
+        self.retrieval_service = retrieval_service
+        self.llm_provider = llm_provider
+        self.crisis_detector = crisis_detector
+
+        logger.info(
+            f"Initialized RAGPipeline with "
+            f"retrieval={type(retrieval_service).__name__}, "
+            f"llm={type(llm_provider).__name__}, "
+            f"crisis_detector={type(crisis_detector).__name__}"
+        )
 
     @staticmethod
     def validate_query(query: str, max_length: int = 500) -> tuple[bool, str]:
@@ -54,25 +100,32 @@ class RAGPipeline:
 
         return query.strip()
 
-    @classmethod
     async def process_query(
-        cls,
+        self,
         query: str,
-        session_id: str = None
+        session_id: Optional[str] = None
     ) -> Dict[str, Any]:
         """
-        Process a user query through the complete RAG pipeline
+        Process a user query through the complete RAG pipeline.
+
+        This is the main method that orchestrates all services.
 
         Args:
             query: User's question
-            session_id: Optional session identifier
+            session_id: Optional session identifier for logging
 
         Returns:
-            Dictionary containing response, citations, and metadata
+            Dictionary containing:
+                - response: str - Generated answer
+                - citations: List[Dict] - Source citations
+                - crisis_detected: bool - Whether crisis was detected
+                - crisis_severity: Optional[str] - Severity level if crisis
+                - crisis_resources: List[Dict] - Crisis resources if applicable
+                - error: bool - Whether an error occurred
         """
         try:
             # Step 1: Validate query
-            is_valid, error_msg = cls.validate_query(query)
+            is_valid, error_msg = self.validate_query(query)
             if not is_valid:
                 return {
                     "response": error_msg,
@@ -82,41 +135,41 @@ class RAGPipeline:
                 }
 
             # Step 2: Sanitize query
-            sanitized_query = cls.sanitize_query(query)
+            sanitized_query = self.sanitize_query(query)
             logger.info(f"Processing query (session: {session_id})")
 
-            # Step 3: Crisis detection
-            is_crisis, severity, crisis_keywords = CrisisDetector.detect_crisis(
+            # Step 3: Crisis detection (using injected detector)
+            is_crisis, severity, crisis_keywords = self.crisis_detector.detect_crisis(
                 sanitized_query
             )
 
-            # Step 4: Retrieve relevant documents
-            retrieval_results = RetrievalService.retrieve_similar_chunks(
+            # Step 4: Retrieve relevant documents (using injected retrieval service)
+            retrieval_results = self.retrieval_service.retrieve_similar_chunks(
                 sanitized_query
             )
 
-            # Step 5: Format context for LLM
-            context = RetrievalService.format_context_for_llm(retrieval_results)
+            # Step 5: Format context for LLM (using injected retrieval service)
+            context = self.retrieval_service.format_context_for_llm(retrieval_results)
 
-            # Step 6: Generate response
-            response = LLMService.generate_response(
+            # Step 6: Generate response (using injected LLM provider)
+            response = self.llm_provider.generate_response(
                 query=sanitized_query,
                 context=context
             )
 
-            # Step 7: Add disclaimers
-            response = LLMService.add_disclaimers(response, sanitized_query)
+            # Step 7: Add disclaimers (using injected LLM provider)
+            response = self.llm_provider.add_disclaimers(response, sanitized_query)
 
-            # Step 8: If crisis detected, prepend crisis resources
+            # Step 8: If crisis detected, prepend crisis resources (using injected detector)
             if is_crisis:
-                crisis_message = CrisisDetector.format_crisis_response(
+                crisis_message = self.crisis_detector.format_crisis_response(
                     severity=severity,
                     standard_response=response
                 )
                 response = crisis_message
 
-            # Step 9: Extract citations
-            citations = RetrievalService.extract_citations(retrieval_results)
+            # Step 9: Extract citations (using injected retrieval service)
+            citations = self.retrieval_service.extract_citations(retrieval_results)
 
             # Log completion (de-identified)
             logger.info(
@@ -131,7 +184,7 @@ class RAGPipeline:
                 "citations": citations,
                 "crisis_detected": is_crisis,
                 "crisis_severity": severity if is_crisis else None,
-                "crisis_resources": CrisisDetector.get_crisis_resources() if is_crisis else [],
+                "crisis_resources": self.crisis_detector.get_crisis_resources() if is_crisis else [],
                 "error": False
             }
 

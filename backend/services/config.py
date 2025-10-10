@@ -36,6 +36,7 @@ class Settings(BaseSettings):
                 return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",")]
         return [
             "http://localhost:5173",
+            "http://localhost:5174",
             "http://localhost:3000",
             "http://localhost:8000"
         ]
@@ -62,7 +63,8 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
 
     class Config:
-        env_file = ".env"
+        # Look for .env file in project root (one level up from backend/)
+        env_file = "../.env"
         case_sensitive = True
 
 

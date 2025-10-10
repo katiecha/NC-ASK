@@ -1,5 +1,8 @@
 """
-LLM service using Google Gemini for response generation
+LLM service using Google Gemini for response generation.
+
+This implementation uses Google's Gemini API. It can be swapped for other
+LLM providers (OpenAI, Anthropic, local models) via the LLMProvider interface.
 """
 from typing import Dict, Any, Optional
 import logging
@@ -8,14 +11,8 @@ from services.config import settings
 
 logger = logging.getLogger(__name__)
 
-
-class LLMService:
-    """Service for generating responses using Google Gemini"""
-
-    _model = None
-
-    # System prompt for plain language responses
-    SYSTEM_PROMPT = """You are NC-ASK, a helpful assistant specializing in North Carolina autism services and resources.
+# System prompt for plain language responses (shared across implementations)
+SYSTEM_PROMPT = """You are NC-ASK, a helpful assistant specializing in North Carolina autism services and resources.
 
 Your role is to provide clear, accurate, and compassionate information about:
 - Autism services in North Carolina
@@ -47,67 +44,106 @@ Important Disclaimers:
 If you don't know something or the context doesn't contain the answer, say so clearly. Never make up information.
 """
 
-    @classmethod
-    def get_model(cls):
-        """Initialize and return Gemini model"""
-        if cls._model is None:
+
+class GeminiLLM:
+    """
+    LLM service using Google Gemini API.
+
+    Implements the LLMProvider interface for dependency injection.
+    Can be swapped for other LLM providers (OpenAI, Anthropic, local models).
+
+    Features:
+    - Lazy loading: Model configured on first use
+    - Configurable temperature and model name
+    - Automatic fallback on errors
+    - Plain language optimization (8th grade reading level)
+    """
+
+    def __init__(
+        self,
+        api_key: str | None = None,
+        model_name: str | None = None,
+        temperature: float | None = None
+    ):
+        """
+        Initialize Gemini LLM service.
+
+        Args:
+            api_key: Optional API key override. If None, uses settings.GOOGLE_API_KEY
+            model_name: Optional model name override. If None, uses settings.LLM_MODEL
+            temperature: Optional default temperature. If None, uses settings.LLM_TEMPERATURE
+        """
+        self.api_key = api_key or settings.GOOGLE_API_KEY
+        self.model_name = model_name or settings.LLM_MODEL
+        self.default_temperature = temperature or settings.LLM_TEMPERATURE
+        self._model: genai.GenerativeModel | None = None
+        logger.info(f"Initialized GeminiLLM with model: {self.model_name}")
+
+    @property
+    def model(self) -> genai.GenerativeModel:
+        """
+        Get or initialize Gemini model (lazy loading).
+
+        Returns:
+            Configured Gemini model
+        """
+        if self._model is None:
             try:
-                genai.configure(api_key=settings.GOOGLE_API_KEY)
-                cls._model = genai.GenerativeModel(settings.LLM_MODEL)
-                logger.info(f"Initialized Gemini model: {settings.LLM_MODEL}")
+                genai.configure(api_key=self.api_key)
+                self._model = genai.GenerativeModel(self.model_name)
+                logger.info(f"Gemini model loaded: {self.model_name}")
             except Exception as e:
                 logger.error(f"Failed to initialize Gemini model: {e}")
                 raise
-        return cls._model
+        return self._model
 
-    @classmethod
     def generate_response(
-        cls,
+        self,
         query: str,
         context: str,
-        temperature: float = None
+        temperature: float | None = None
     ) -> str:
         """
-        Generate a response using Gemini
+        Generate a response using Gemini.
+
+        Implements LLMProvider.generate_response()
 
         Args:
             query: User's question
             context: Retrieved context from documents
-            temperature: Generation temperature (0-1)
+            temperature: Generation temperature (0-1). If None, uses default_temperature
 
         Returns:
             Generated response text
         """
         try:
-            model = cls.get_model()
-            temperature = temperature or settings.LLM_TEMPERATURE
+            temp = temperature if temperature is not None else self.default_temperature
 
             # Build the prompt
-            prompt = cls._build_prompt(query, context)
+            prompt = self._build_prompt(query, context)
 
             # Generate response
-            response = model.generate_content(
+            response = self.model.generate_content(
                 prompt,
                 generation_config=genai.types.GenerationConfig(
-                    temperature=temperature,
+                    temperature=temp,
                     max_output_tokens=1024,
                 )
             )
 
             response_text = response.text.strip()
-            logger.info(f"Generated response ({len(response_text)} chars)")
+            logger.info(f"Generated response ({len(response_text)} chars, temp={temp})")
 
             return response_text
 
         except Exception as e:
             logger.error(f"Error generating LLM response: {e}")
             # Return fallback response
-            return cls._get_fallback_response()
+            return self._get_fallback_response()
 
-    @classmethod
-    def _build_prompt(cls, query: str, context: str) -> str:
+    def _build_prompt(self, query: str, context: str) -> str:
         """
-        Build the complete prompt for the LLM
+        Build the complete prompt for the LLM.
 
         Args:
             query: User's question
@@ -116,7 +152,7 @@ If you don't know something or the context doesn't contain the answer, say so cl
         Returns:
             Complete prompt string
         """
-        prompt = f"""{cls.SYSTEM_PROMPT}
+        prompt = f"""{SYSTEM_PROMPT}
 
 CONTEXT FROM KNOWLEDGE BASE:
 {context if context else "No specific context available."}
@@ -131,7 +167,7 @@ RESPONSE (in plain language, at 8th grade reading level):
     @staticmethod
     def _get_fallback_response() -> str:
         """
-        Get a fallback response when LLM fails
+        Get a fallback response when LLM fails.
 
         Returns:
             Fallback response text
@@ -144,10 +180,11 @@ Please try again in a moment, or contact:
 
 For urgent questions, please call these resources directly."""
 
-    @classmethod
-    def add_disclaimers(cls, response: str, query: str) -> str:
+    def add_disclaimers(self, response: str, query: str) -> str:
         """
-        Add appropriate disclaimers to the response
+        Add appropriate disclaimers to the response.
+
+        Implements LLMProvider.add_disclaimers()
 
         Args:
             response: Generated response
@@ -180,17 +217,37 @@ For urgent questions, please call these resources directly."""
 
         return response
 
+
+# ============================================================================
+# Backward Compatibility Layer (DEPRECATED - will be removed in future)
+# ============================================================================
+
+class LLMService:
+    """
+    DEPRECATED: Legacy static wrapper for backward compatibility.
+
+    Use GeminiLLM instance instead for better testability and dependency injection.
+    """
+    _instance: GeminiLLM | None = None
+
     @classmethod
-    def simplify_language(cls, text: str) -> str:
-        """
-        Apply additional language simplification if needed
+    def get_instance(cls) -> GeminiLLM:
+        """Get singleton instance"""
+        if cls._instance is None:
+            cls._instance = GeminiLLM()
+        return cls._instance
 
-        Args:
-            text: Input text
+    @classmethod
+    def generate_response(
+        cls,
+        query: str,
+        context: str,
+        temperature: float | None = None
+    ) -> str:
+        """DEPRECATED: Use GeminiLLM instance instead"""
+        return cls.get_instance().generate_response(query, context, temperature)
 
-        Returns:
-            Simplified text
-        """
-        # This is a placeholder for future language simplification
-        # Could integrate with readability checkers or simplification models
-        return text
+    @classmethod
+    def add_disclaimers(cls, response: str, query: str) -> str:
+        """DEPRECATED: Use GeminiLLM instance instead"""
+        return cls.get_instance().add_disclaimers(response, query)

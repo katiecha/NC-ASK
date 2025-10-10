@@ -1,5 +1,16 @@
 # NC-ASK Development Guidelines
 
+## Core Principle: Modularity
+Our MVP is designed to be highly modular with a microservices mindset. Every component should be independently swappable, allowing us to upgrade individual pieces without rewriting the entire system.
+
+### Key Modularity Requirements
+- Interface-Based Design: All components communicate through well-defined interfaces/contracts
+- Loose Coupling: Minimize dependencies between modules
+- Single Responsibility: Each module handles one clear concern
+- Technology Agnostic: Design interfaces so implementations can be swapped (e.g., pgvector → Elasticsearch)
+- Independent Deployment: Each service should be deployable independently (future state)
+
+
 ## Quick Commands
 
 ### Frontend
