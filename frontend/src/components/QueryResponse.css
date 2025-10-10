@@ -149,6 +149,76 @@
   font-size: 0.9rem;
 }
 
+/* Dark mode styles */
+.dark-mode .query-response {
+  background-color: var(--color-surface);
+  color: #FFFFFF;
+}
+
+.dark-mode .response-content {
+  color: #FFFFFF;
+}
+
+.dark-mode .response-text {
+  color: #FFFFFF;
+}
+
+.dark-mode .response-text h1,
+.dark-mode .response-text h2,
+.dark-mode .response-text h3,
+.dark-mode .response-text h4,
+.dark-mode .response-text h5,
+.dark-mode .response-text h6 {
+  color: #FFFFFF;
+}
+
+.dark-mode .response-text code {
+  background-color: var(--color-surface-elevated);
+  color: #FFFFFF;
+}
+
+.dark-mode .response-text pre {
+  background-color: var(--color-surface-elevated);
+}
+
+.dark-mode .response-text blockquote {
+  border-left-color: var(--color-primary);
+  color: #CCCCCC;
+}
+
+.dark-mode .response-text a {
+  color: var(--color-primary);
+}
+
+.dark-mode .response-text strong {
+  color: #FFFFFF;
+}
+
+.dark-mode .citations-section {
+  border-top-color: var(--color-border);
+}
+
+.dark-mode .citations-section h3 {
+  color: #FFFFFF;
+}
+
+.dark-mode .citation-item {
+  background-color: var(--color-surface-elevated);
+  border-left-color: var(--color-primary);
+}
+
+.dark-mode .citation-link {
+  color: var(--color-primary);
+}
+
+.dark-mode .citation-link:focus {
+  outline-color: var(--color-primary);
+}
+
+.dark-mode .relevance-score {
+  color: #CCCCCC;
+}
+
 @media (max-width: 768px) {
   .query-response {
     padding: 1rem;

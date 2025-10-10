@@ -83,6 +83,15 @@
   line-height: 1.5;
 }
 
+/* Dark mode styles for user message */
+.dark-mode .user-message {
+  background: var(--unc-navy);
+}
+
+.dark-mode .user-message p {
+  color: #FFFFFF;
+}
+
 .loading-indicator {
   text-align: center;
   padding: 20px;
