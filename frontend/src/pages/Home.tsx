@@ -101,7 +101,7 @@ const Home: React.FC = () => {
         <div className="messages-container">
           {messages.length === 0 && (
             <div className="welcome-message">
-              <h2>Welcome to NC Autism Resources</h2>
+              <h2>Welcome to NC Ask</h2>
               <p>Ask any question about autism resources in North Carolina</p>
             </div>
           )}

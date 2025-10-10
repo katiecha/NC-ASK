@@ -1,10 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './About.css';
 
 const About: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="about">
       <div className="about-content">
+        <button className="back-button" onClick={() => navigate('/')}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+
         <div className="about-header">
           <div className="nc-ask-logo">
             <img src="/neurology.svg" alt="Neurology" className="brain-icon" />

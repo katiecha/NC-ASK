@@ -28,9 +28,8 @@
 .input-container {
   position: sticky;
   bottom: 0;
-  background: var(--color-background, #f5f5f5);
+  background: var(--color-background);
   padding: 20px 0;
-  border-top: 1px solid #e0e0e0;
   display: flex;
   justify-content: center;
 }
@@ -38,17 +37,18 @@
 .welcome-message {
   text-align: center;
   padding: 60px 20px;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .welcome-message h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #2c3e50;
+  color: var(--color-text);
 }
 
 .welcome-message p {
   font-size: 1.1rem;
+  color: var(--color-text-secondary);
 }
 
 .message {

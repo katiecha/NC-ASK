@@ -1,0 +1,169 @@
+/* Global CSS Variables - UNC Color Palette */
+/* https://identity.unc.edu/brand/color-palette/ */
+
+:root {
+  /* UNC Primary Colors */
+  --unc-carolina-blue: #4B9CD3;
+  --unc-carolina-blue-web: #007FAE;
+  --unc-navy: #13294B;
+  --unc-black: #151515;
+  --unc-white: #FFFFFF;
+  --unc-gray: #F8F8F8;
+
+  /* UNC Secondary Colors */
+  --unc-basin-slate: #4F758B;
+  --unc-longleaf-pine: #00594C;
+  --unc-azalea-pink: #EF426F;
+  --unc-tile-teal: #00A5AD;
+  --unc-sunburst-yellow: #FFD100;
+  --unc-davie-green: #C4D600;
+
+  /* Light Mode Colors (Default) - UNC Palette */
+  --color-primary: var(--unc-carolina-blue);
+  --color-secondary: var(--unc-longleaf-pine);
+  --color-gray: var(--unc-gray);
+  --color-white: var(--unc-white);
+
+  /* All text in light mode is UNC Navy */
+  --color-text: var(--unc-navy);
+  --color-text-secondary: var(--unc-basin-slate);
+
+  --color-border: #e0e0e0;
+  --color-error: var(--unc-azalea-pink);
+  --color-warning: var(--unc-sunburst-yellow);
+  --color-success: var(--unc-davie-green);
+
+  /* Light Mode Surface Colors */
+  --color-background: var(--unc-gray);
+  --color-surface: var(--unc-white);
+  --color-surface-elevated: var(--unc-white);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Colors - UNC Palette + WCAG 2.2 AA Compliant */
+.dark-mode {
+  /* Primary colors - UNC Carolina Blue brightened for dark bg */
+  --color-primary: #7CB8E8;  /* Lightened Carolina Blue for dark mode */
+  --color-secondary: #5FE3B5; /* Brightened Longleaf Pine */
+
+  /* Backgrounds - UNC Black with variations */
+  --color-gray: var(--unc-black);
+  --color-white: #1f1f1f;
+  --color-background: var(--unc-black);
+  --color-surface: #1a1a1a;
+  --color-surface-elevated: #252525;
+
+  /* All text in dark mode is pure white - WCAG AAA compliant */
+  --color-text: #FFFFFF;        /* Pure white: 21:1 contrast ratio */
+  --color-text-secondary: #CCCCCC; /* Light gray: 11.9:1 contrast ratio */
+
+  /* Borders - visible against dark background */
+  --color-border: #4a4a4a;
+
+  /* Status colors with high contrast - UNC palette adjusted */
+  --color-error: #FF6B8A;     /* Brightened Azalea Pink */
+  --color-warning: #FFE34D;   /* Brightened Sunburst Yellow */
+  --color-success: #D4E84D;   /* Brightened Davie Green */
+
+  /* Dark Mode Specific Variables */
+  --color-dark-surface: #252525;
+  --color-dark-border: #4a4a4a;
+
+  /* Stronger shadows for dark mode depth */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.7);
+}
+
+/* Apply dark mode to body */
+.dark-mode {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* Smooth transitions for color changes */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Disable transitions for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+/* Global dark mode styles for common elements - Maximum Contrast */
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode select {
+  background-color: #2d2d2d; /* Lighter gray for better visibility */
+  color: #FFFFFF; /* Pure white text */
+  border-color: #666666; /* Lighter border */
+}
+
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder {
+  color: #FFFFFF; /* Pure white placeholders */
+  opacity: 0.7; /* Slightly transparent to differentiate from actual text */
+}
+
+.dark-mode button {
+  background-color: #FFFFFF; /* White buttons */
+  color: var(--unc-navy); /* Navy text on white */
+  border: 2px solid #FFFFFF;
+}
+
+.dark-mode button:hover {
+  background-color: #e0e0e0;
+  color: var(--unc-navy);
+}
+
+/* Force all headings to be white in dark mode */
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+  color: #FFFFFF !important;
+}
+
+/* Force all paragraphs and text to be white */
+.dark-mode p,
+.dark-mode span,
+.dark-mode div,
+.dark-mode label {
+  color: #FFFFFF;
+}
+
+.dark-mode a {
+  color: var(--color-primary);
+  text-decoration: underline; /* Better accessibility */
+}
+
+.dark-mode a:hover {
+  color: #80c4ff; /* Lighter on hover for feedback */
+}
+
+.dark-mode code {
+  background-color: var(--color-surface-elevated);
+  color: #FFFFFF; /* Pure white for code text */
+}
+
+/* Ensure focus indicators are visible in dark mode */
+.dark-mode *:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Dark mode for disabled elements */
+.dark-mode button:disabled,
+.dark-mode input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

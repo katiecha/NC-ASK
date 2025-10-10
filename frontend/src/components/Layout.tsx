@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import HamburgerMenu from './HamburgerMenu';
 import Sidebar from './Sidebar';
 import InfoButton from './InfoButton';
+import DarkModeToggle from './DarkModeToggle';
 import './Layout.css';
 
 interface LayoutProps {
@@ -24,15 +25,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <div className="layout-header">
         <HamburgerMenu onClick={toggleSidebar} />
       </div>
-      
+
+      {/* Dark Mode Toggle - Top Right */}
+      <DarkModeToggle />
+
       <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
-      
+
       <main className="layout-main">
         {children}
       </main>
-      
+
       <InfoButton />
-      
+
       {isSidebarOpen && <div className="sidebar-overlay" onClick={closeSidebar} />}
     </div>
   );

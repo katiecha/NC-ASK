@@ -42,3 +42,22 @@
 .sidebar-link:active {
   background-color: #e6f3ff;
 }
+
+/* Dark mode styles */
+.dark-mode .sidebar {
+  background: var(--color-surface);
+}
+
+.dark-mode .sidebar-link {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.dark-mode .sidebar-link:hover {
+  background-color: var(--color-surface-elevated);
+  color: #FFFFFF;
+}
+
+.dark-mode .sidebar-link:active {
+  background-color: var(--color-surface-elevated);
+}

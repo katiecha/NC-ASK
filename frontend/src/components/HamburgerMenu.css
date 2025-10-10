@@ -7,16 +7,14 @@
   height: 48px;
   background: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s ease;
   gap: 4px;
 }
 
-.hamburger-menu:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(0, 122, 255, 0.3);
+.hamburger-menu:focus {
+  outline: none;
 }
 
 .hamburger-line {
@@ -24,9 +22,4 @@
   height: 2px;
   background-color: #333;
   border-radius: 1px;
-  transition: all 0.2s ease;
-}
-
-.hamburger-menu:hover .hamburger-line {
-  background-color: #007AFF;
 }

@@ -1,0 +1,64 @@
+.dark-mode-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dark-mode-toggle:focus {
+  outline: none;
+}
+
+.dark-mode-toggle svg {
+  color: #333;
+}
+
+/* Dark mode styles - keep white like hamburger menu */
+.dark-mode .dark-mode-toggle {
+  background-color: white;
+  border: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dark-mode .dark-mode-toggle svg {
+  color: #333;
+}
+
+/* Accessibility - reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .dark-mode-toggle {
+    transition: none;
+  }
+
+  .dark-mode-toggle:hover {
+    transform: none;
+  }
+
+  .dark-mode-toggle:active {
+    transform: none;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .dark-mode-toggle {
+    top: 15px;
+    right: 15px;
+    width: 44px;
+    height: 44px;
+  }
+}

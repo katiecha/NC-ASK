@@ -192,7 +192,7 @@ class RAGPipeline:
             logger.error(f"Error in RAG pipeline: {e}", exc_info=True)
             return {
                 "response": "I apologize, but I encountered an error processing your question. "
-                           "Please try again or contact NC Autism resources directly at 1-800-442-2762.",
+                           "Please try again or contact NC Ask directly at 1-800-442-2762.",
                 "citations": [],
                 "crisis_detected": False,
                 "error": True,
