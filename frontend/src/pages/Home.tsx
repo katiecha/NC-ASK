@@ -23,11 +23,10 @@ const Home: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const hasAcceptedPrivacy = localStorage.getItem('nc-ask-privacy-accepted');
+    // commenting out for demo purposes
+    // const hasAcceptedPrivacy = localStorage.getItem('nc-ask-privacy-accepted');
 
-    if (!hasAcceptedPrivacy) {
-      setShowPrivacyModal(true);
-    }
+    setShowPrivacyModal(true);
   }, []);
 
   useEffect(() => {
@@ -35,7 +34,7 @@ const Home: React.FC = () => {
   }, [messages]);
 
   const handlePrivacyAccept = () => {
-    localStorage.setItem('nc-ask-privacy-accepted', 'true');
+    // localStorage.setItem('nc-ask-privacy-accepted', 'true');
     setShowPrivacyModal(false);
   };
 

@@ -4,7 +4,9 @@
   "description": "NC ASK Frontend - Educational platform for autism-related information",
   "main": "index.js",
   "scripts": {
-    "dev": "cd frontend && vite",
+    "dev": "concurrently --names \"BACKEND,FRONTEND\" --prefix-colors \"bgBlue.bold,bgGreen.bold\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && uvicorn main:app --reload",
+    "dev:frontend": "cd frontend && vite",
     "build": "cd frontend && tsc && vite build",
     "preview": "cd frontend && vite preview",
     "typecheck": "cd frontend && tsc --noEmit",
@@ -21,6 +23,7 @@
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
     "@vitejs/plugin-react": "^4.0.4",
+    "concurrently": "^9.2.1",
     "eslint": "^8.49.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",

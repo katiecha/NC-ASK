@@ -2,6 +2,7 @@
 Configuration management using Pydantic Settings
 """
 from pydantic_settings import BaseSettings
+from pathlib import Path
 from typing import List, Optional
 import os
 import json
@@ -64,7 +65,7 @@ class Settings(BaseSettings):
 
     class Config:
         # Look for .env file in project root (one level up from backend/)
-        env_file = "../.env"
+        env_file = Path(__file__).resolve().parents[2] / ".env"
         case_sensitive = True
 
 
