@@ -1,33 +1,18 @@
 {
-  "name": "nc-ask-frontend",
+  "name": "nc-ask",
   "version": "1.0.0",
-  "description": "NC ASK Frontend - Educational platform for autism-related information",
-  "main": "index.js",
+  "description": "NC ASK - Educational platform for autism-related information",
+  "private": true,
   "scripts": {
     "dev": "concurrently --names \"BACKEND,FRONTEND\" --prefix-colors \"bgBlue.bold,bgGreen.bold\" \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:backend": "cd backend && uvicorn main:app --reload",
-    "dev:frontend": "cd frontend && vite",
-    "build": "cd frontend && tsc && vite build",
-    "preview": "cd frontend && vite preview",
-    "typecheck": "cd frontend && tsc --noEmit",
-    "lint": "cd frontend && eslint src --ext .ts,.tsx --fix"
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.15.0"
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "preview": "cd frontend && npm run preview",
+    "typecheck": "cd frontend && npm run typecheck",
+    "lint": "cd frontend && npm run lint"
   },
   "devDependencies": {
-    "@types/react": "^18.2.22",
-    "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.7.0",
-    "@typescript-eslint/parser": "^6.7.0",
-    "@vitejs/plugin-react": "^4.0.4",
-    "concurrently": "^9.2.1",
-    "eslint": "^8.49.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.3",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.9"
+    "concurrently": "^9.2.1"
   }
 }
