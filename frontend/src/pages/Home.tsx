@@ -3,7 +3,6 @@ import PrivacyModal from '../components/PrivacyModal';
 import SearchInput from '../components/SearchInput';
 import ActionButtons from '../components/ActionButtons';
 import QueryResponse from '../components/QueryResponse';
-import CrisisBanner from '../components/CrisisBanner';
 import { queryKnowledgeBase, QueryResponse as QueryResponseType } from '../services/api';
 import './Home.css';
 
@@ -81,8 +80,6 @@ const Home: React.FC = () => {
     console.log('Voice input');
   };
 
-  const hasCrisisDetected = messages.some(msg => msg.response?.crisis_detected);
-  const crisisResources = messages.find(msg => msg.response?.crisis_detected)?.response?.crisis_resources;
 
   return (
     <div className="home">
@@ -92,9 +89,6 @@ const Home: React.FC = () => {
         onReadPolicy={handleReadPolicy}
       />
 
-      {hasCrisisDetected && crisisResources && (
-        <CrisisBanner resources={crisisResources} />
-      )}
 
       <div className="home-content">
         <div className="messages-container">
@@ -116,6 +110,7 @@ const Home: React.FC = () => {
                   response={message.response!.response}
                   citations={message.response!.citations}
                   crisisDetected={message.response!.crisis_detected}
+                  crisisResources={message.response!.crisis_resources}
                 />
               )}
             </div>
