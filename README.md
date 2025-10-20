@@ -58,3 +58,100 @@ NC-ASK is an educational tool, driven by an LLM application that provides clear,
 - **Containerization**: Docker + Docker Compose
 - **Development**: Hot reload for both frontend and backend
 - **Deployment**: Vercel (frontend), Render/Railway (backend)
+
+## Document Configuration
+
+NC-ASK uses a modular configuration system for managing document metadata. This separates document data from ingestion logic for better maintainability.
+
+### Adding Documents
+
+Documents are configured in `backend/config/documents.json`. To add a new document:
+
+```json
+{
+  "your_document_key": {
+    "title": "Document Title",
+    "topic": "Topic Name",
+    "subtopic": "Subtopic Name",
+    "audience": ["families", "providers"],
+    "tags": ["tag1", "tag2", "tag3"],
+    "content_type": "ProceduralGuide",
+    "source_org": "Organization Name",
+    "source_url": "https://example.com/document.pdf",
+    "authority_level": 2
+  }
+}
+```
+
+### Required Fields
+
+- **title**: Display name of the document
+- **topic**: Main category (e.g., "Education", "Medicaid Programs")
+- **audience**: List of target audiences (e.g., ["families", "providers"])
+- **tags**: List of searchable keywords
+- **content_type**: Type of document (see valid types below)
+- **source_org**: Originating organization
+
+### Optional Fields
+
+- **subtopic**: Subcategory within the topic
+- **source_url**: URL to fetch the document from (for remote documents)
+- **authority_level**: 1 (highest) to 3 (lowest) - affects retrieval ranking
+- **escalation_flag**: Set to "crisis" for urgent/crisis-related content
+
+### Valid Content Types
+
+- `ProceduralGuide` - Step-by-step instructions
+- `FAQ` - Frequently asked questions
+- `LegalRight` - Legal rights and protections
+- `ClinicalSummary` - Clinical/medical information
+- `FormTemplate` - Forms and templates
+- `ResourceDirectory` - Lists of resources
+- `GeneralInfo` - General information
+
+### Using Document Config in Code
+
+```python
+from config import get_document_config
+
+# Load all documents
+config = get_document_config()
+all_docs = config.get_all_documents()
+
+# Get specific document
+doc = config.get_document("iep_referral_process")
+
+# Filter by topic
+education_docs = config.get_documents_by_topic("Education")
+
+# Filter by content type
+guides = config.get_documents_by_content_type("ProceduralGuide")
+
+# Filter by organization
+asnc_docs = config.get_documents_by_source_org("Autism Society of North Carolina")
+
+# Validate configuration
+if config.validate_all():
+    print("All documents are valid!")
+```
+
+### Document Ingestion
+
+To ingest documents into the RAG system:
+
+```bash
+# Navigate to project root
+cd backend
+
+# Run ingestion script
+python scripts/ingest_documents.py
+```
+
+The script will:
+1. Load configurations from `backend/config/documents.json`
+2. Download remote documents (if `source_url` is provided)
+3. Process local documents from `backend/data/`
+4. Extract text and generate embeddings
+5. Store in Supabase with metadata
+
+**Supported formats**: PDF, DOCX, HTML, TXT

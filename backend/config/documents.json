@@ -1,0 +1,243 @@
+{
+  "iep_referral_process": {
+    "title": "DRNC IEP Referral Process Guide",
+    "topic": "Education",
+    "subtopic": "IEP Process",
+    "audience": ["families", "advocates"],
+    "tags": ["IEP", "special education", "evaluation", "IDEA", "DRNC"],
+    "content_type": "ProceduralGuide",
+    "source_org": "Disability Rights NC",
+    "authority_level": 2
+  },
+  "drowning_prevention": {
+    "title": "CDC Water Safety and Drowning Prevention",
+    "topic": "Everyday Clinical Topics",
+    "subtopic": "Safety",
+    "audience": ["families"],
+    "tags": ["safety", "water safety", "drowning", "elopement"],
+    "content_type": "ClinicalSummary",
+    "source_org": "CDC",
+    "escalation_flag": "crisis",
+    "authority_level": 1
+  },
+  "partners_run_roadmap_pdf": {
+    "title": "Partners Registry of Unmet Needs Roadmap (PDF)",
+    "topic": "Medicaid Programs",
+    "subtopic": "Registry of Unmet Needs (RUN)",
+    "audience": ["families"],
+    "tags": ["RUN", "waitlist", "innovations waiver", "partners", "pdf"],
+    "content_type": "ProceduralGuide",
+    "source_org": "Partners Health Management",
+    "source_url": "https://www.partnersbhm.org/wp-content/uploads/partners-registry-roadmap.pdf",
+    "authority_level": 2
+  },
+  "meettheneednc_waiver_pathway_pdf": {
+    "title": "Meet the Need NC - Innovations Waiver Pathway (PDF)",
+    "topic": "Medicaid Programs",
+    "subtopic": "Innovations Waiver",
+    "audience": ["families"],
+    "tags": ["innovations", "waiver", "pathway", "guide", "checklist", "pdf"],
+    "content_type": "ProceduralGuide",
+    "source_org": "Meet the Need NC",
+    "source_url": "https://meettheneednc.org/wp-content/uploads/2025/02/Innovations-Waiver-Pathway.pdf",
+    "authority_level": 3
+  },
+  "partners_run_main_page": {
+    "title": "Partners Health - Registry of Unmet Needs Page",
+    "topic": "Medicaid Programs",
+    "subtopic": "Registry of Unmet Needs (RUN)",
+    "audience": ["families", "providers"],
+    "tags": ["RUN", "waitlist", "application", "partners"],
+    "content_type": "GeneralInfo",
+    "source_org": "Partners Health Management",
+    "source_url": "https://www.partnersbhm.org/registry-of-unmet-needs",
+    "authority_level": 2
+  },
+  "cdc_asd_diagnosis_new": {
+    "title": "CDC - ASD Diagnosis and Testing",
+    "topic": "Everyday Clinical Topics",
+    "subtopic": "Diagnosis",
+    "audience": ["families", "providers"],
+    "tags": ["diagnosis", "screening", "DSM-5", "autism", "ASD"],
+    "content_type": "ClinicalSummary",
+    "source_org": "Centers for Disease Control and Prevention (CDC)",
+    "source_url": "https://www.cdc.gov/autism/diagnosis/?CDC_AAref_Val=https://www.cdc.gov/ncbddd/autism/screening.html",
+    "authority_level": 1
+  },
+  "cdc_asd_treatments_new": {
+    "title": "CDC ASD Treatments and Interventions",
+    "topic": "Everyday Clinical Topics",
+    "subtopic": "Therapies & Interventions",
+    "audience": ["families", "providers"],
+    "tags": ["treatment", "therapy", "intervention", "ABA", "TEACCH", "speech", "OT"],
+    "content_type": "ClinicalSummary",
+    "source_org": "Centers for Disease Control and Prevention (CDC)",
+    "source_url": "https://www.cdc.gov/autism/treatment/?CDC_AAref_Val=https://www.cdc.gov/ncbddd/autism/treatment.html",
+    "authority_level": 1
+  },
+  "asnc_main_toolkits_page": {
+    "title": "ASNC Toolkits and Guides Landing Page",
+    "topic": "General Resources",
+    "subtopic": "ASNC Support",
+    "audience": ["families", "advocates"],
+    "tags": ["toolkits", "ASNC", "guides"],
+    "content_type": "ResourceDirectory",
+    "source_org": "Autism Society of North Carolina",
+    "source_url": "https://www.autismsociety-nc.org/toolkits/",
+    "authority_level": 2
+  },
+  "asnc_moving_to_nc_toolkit": {
+    "title": "ASNC Moving to NC Toolkit",
+    "topic": "General Resources",
+    "subtopic": "Relocation Guide",
+    "audience": ["families"],
+    "tags": ["relocation", "new resident", "NC guide", "ASNC"],
+    "content_type": "ProceduralGuide",
+    "source_org": "Autism Society of North Carolina",
+    "source_url": "https://www.autismsociety-nc.org/moving-to-nc-toolkit/",
+    "authority_level": 2
+  },
+  "asnc_advocacy_101": {
+    "title": "ASNC Advocacy 101 Toolkit",
+    "topic": "Legal and Advocacy",
+    "subtopic": "Advocacy Skills",
+    "audience": ["families", "advocates"],
+    "tags": ["advocacy", "rights", "toolkit"],
+    "content_type": "LegalRight",
+    "source_org": "Autism Society of North Carolina",
+    "source_url": "https://issuu.com/autismsocietync/docs/advocacy_101_toolkit_2025",
+    "authority_level": 2
+  },
+  "asnc_aba_misconceptions": {
+    "title": "ASNC ABA Misconceptions and Quality Indicators",
+    "topic": "Everyday Clinical Topics",
+    "subtopic": "Therapies & Interventions",
+    "audience": ["families", "providers"],
+    "tags": ["ABA", "quality", "misconceptions", "therapy"],
+    "content_type": "GeneralInfo",
+    "source_org": "Autism Society of North Carolina",
+    "source_url": "https://www.autismsociety-nc.org/aba-misconceptions-quality-indicators/",
+    "authority_level": 2
+  },
+  "asnc_aba_101": {
+    "title": "ASNC Applied Behavior Analysis (ABA) 101",
+    "topic": "Everyday Clinical Topics",
+    "subtopic": "Therapies & Interventions",
+    "audience": ["families"],
+    "tags": ["ABA", "basics", "therapy"],
+    "content_type": "ClinicalSummary",
+    "source_org": "Autism Society of North Carolina",
+    "source_url": "https://www.autismsociety-nc.org/applied-behavior-analysis-aba-101/",
+    "authority_level": 2
+  },
+  "asnc_daylight_savings": {
+    "title": "ASNC Autism and Daylight Savings",
+    "topic": "Everyday Clinical Topics",
+    "subtopic": "Routine and Sleep",
+    "audience": ["families"],
+    "tags": ["sleep", "routine", "daylight savings"],
+    "content_type": "GeneralInfo",
+    "source_org": "Autism Society of North Carolina",
+    "source_url": "https://www.autismsociety-nc.org/autism-daylight-savings/",
+    "authority_level": 3
+  },
+  "asnc_special_ed_meeting": {
+    "title": "ASNC Navigating the Special Education School Meeting",
+    "topic": "Education",
+    "subtopic": "IEP Process",
+    "audience": ["families"],
+    "tags": ["IEP", "meeting", "school", "special education"],
+    "content_type": "ProceduralGuide",
+    "source_org": "Autism Society of North Carolina",
+    "source_url": "https://www.autismsociety-nc.org/navigating-the-special-education-school-meeting/",
+    "authority_level": 2
+  },
+  "asnc_toilet_training": {
+    "title": "ASNC Toilet Training for Autistic Children",
+    "topic": "Everyday Clinical Topics",
+    "subtopic": "Daily Living Skills",
+    "audience": ["families"],
+    "tags": ["toilet training", "daily living", "skills"],
+    "content_type": "ProceduralGuide",
+    "source_org": "Autism Society of North Carolina",
+    "source_url": "https://www.autismsociety-nc.org/toilet-training-for-autistic-children-potties-and-patience/",
+    "authority_level": 3
+  },
+  "asnc_halloween": {
+    "title": "ASNC Halloween: Tricky for Treats",
+    "topic": "Everyday Clinical Topics",
+    "subtopic": "Social Skills",
+    "audience": ["families"],
+    "tags": ["social skills", "holiday", "halloween"],
+    "content_type": "GeneralInfo",
+    "source_org": "Autism Society of North Carolina",
+    "source_url": "https://www.autismsociety-nc.org/halloween-tricky-for-treats/",
+    "authority_level": 3
+  },
+  "asnc_parenting_teammates": {
+    "title": "ASNC Parenting: Becoming Teammates",
+    "topic": "Family Support",
+    "subtopic": "Coping Strategies",
+    "audience": ["families"],
+    "tags": ["parenting", "family support", "relationships"],
+    "content_type": "GeneralInfo",
+    "source_org": "Autism Society of North Carolina",
+    "source_url": "https://www.autismsociety-nc.org/parenting-becoming-teammates-instead-of-opponents/",
+    "authority_level": 3
+  },
+  "asnc_transition_back_to_school": {
+    "title": "ASNC Easing Transition Back to School",
+    "topic": "Education",
+    "subtopic": "Transitions",
+    "audience": ["families"],
+    "tags": ["school", "transition", "back to school", "routine"],
+    "content_type": "GeneralInfo",
+    "source_org": "Autism Society of North Carolina",
+    "source_url": "https://www.autismsociety-nc.org/easing-transition-back-to-school/",
+    "authority_level": 3
+  },
+  "asnc_calendar": {
+    "title": "ASNC Calendar of Events",
+    "topic": "Community Events",
+    "subtopic": "ASNC Events",
+    "audience": ["families", "advocates"],
+    "tags": ["calendar", "events", "support group"],
+    "content_type": "ResourceDirectory",
+    "source_org": "Autism Society of North Carolina",
+    "source_url": "https://www.autismsociety-nc.org/calendar-2/",
+    "authority_level": 3
+  },
+  "arc_nc_events": {
+    "title": "The Arc of NC Events Calendar",
+    "topic": "Community Events",
+    "subtopic": "Statewide Events",
+    "audience": ["families", "advocates"],
+    "tags": ["calendar", "events", "advocacy"],
+    "content_type": "ResourceDirectory",
+    "source_org": "The Arc of North Carolina",
+    "source_url": "https://www.arcnc.org/events",
+    "authority_level": 3
+  },
+  "nc_medicaid_events": {
+    "title": "NC Medicaid Plans Events",
+    "topic": "Community Events",
+    "subtopic": "Medicaid Outreach",
+    "audience": ["families", "providers"],
+    "tags": ["calendar", "medicaid", "outreach"],
+    "content_type": "ResourceDirectory",
+    "source_org": "NC Medicaid / NCDHHS",
+    "source_url": "https://ncmedicaidplans.gov/en/events",
+    "authority_level": 1
+  },
+  "duke_autism_center_events": {
+    "title": "Duke Autism Center Events and Seminars",
+    "topic": "Community Events",
+    "subtopic": "Clinical Seminars",
+    "audience": ["families", "providers"],
+    "tags": ["calendar", "events", "research", "clinical"],
+    "content_type": "ResourceDirectory",
+    "source_org": "Duke Autism Center",
+    "source_url": "https://autismcenter.duke.edu/events",
+    "authority_level": 3
+  }
+}
