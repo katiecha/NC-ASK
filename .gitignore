@@ -103,3 +103,5 @@ logs/
 # Backup files
 *.bak
 *.backup
+
+CLAUDE.md
