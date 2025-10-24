@@ -312,7 +312,7 @@ Not yet implemented. When adding:
 
 For more detailed information, see:
 - [README.md](/README.md) - Project overview and quick start
-- [START_HERE.md](/START_HERE.md) - Local development setup guide
+- [LOCAL_SETUP.md](/LOCAL_SETUP.md) - Local development setup guide
 - [DOCKER_SETUP.md](/DOCKER_SETUP.md) - Docker development guide
 - [DEPLOYMENT.md](/DEPLOYMENT.md) - Production deployment guide
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Detailed system architecture

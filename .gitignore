@@ -35,6 +35,8 @@ frontend/.env.local
 
 # Operating System
 .DS_Store
+.AppleDouble
+.LSOverride
 Thumbs.db
 
 # Database
@@ -53,8 +55,6 @@ yarn-error.log*
 lerna-debug.log*
 
 # React / Vite Build
-build/
-dist/
 dist-ssr/
 *.local
 
@@ -67,7 +67,6 @@ htmlcov/
 coverage/
 
 # Docker
-.dockerignore
 docker-compose.override.yml
 
 # API Keys and Secrets - CRITICAL
@@ -90,10 +89,6 @@ logs/
 # Supabase (local development)
 .supabase/
 
-# macOS
-.AppleDouble
-.LSOverride
-
 # Jupyter Notebook
 .ipynb_checkpoints
 
@@ -103,5 +98,3 @@ logs/
 # Backup files
 *.bak
 *.backup
-
-CLAUDE.md

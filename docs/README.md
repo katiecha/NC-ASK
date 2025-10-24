@@ -50,7 +50,7 @@ npm run dev
 ```
 Requires Python 3.11+ venv and Node.js 18+.
 
-→ See [START_HERE.md](START_HERE.md) for full setup (~10 minutes)
+→ See [LOCAL_SETUP.md](LOCAL_SETUP.md) for full setup (~10 minutes)
 
 ### Production Deployment
 See [DEPLOYMENT.md](DEPLOYMENT.md) for production Docker or cloud deployment instructions.
