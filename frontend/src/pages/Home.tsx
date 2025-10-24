@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PrivacyModal from '../components/PrivacyModal';
 import SearchInput from '../components/SearchInput';
-import ActionButtons from '../components/ActionButtons';
 import QueryResponse from '../components/QueryResponse';
 import { queryKnowledgeBase, QueryResponse as QueryResponseType } from '../services/api';
 import './Home.css';
@@ -69,17 +68,6 @@ const Home: React.FC = () => {
       setIsLoading(false);
     }
   };
-
-  const handleFileUpload = (file: File) => {
-    // File upload not in MVP scope
-    console.log('File upload:', file.name);
-  };
-
-  const handleVoiceInput = () => {
-    // Voice input not in MVP scope
-    console.log('Voice input');
-  };
-
 
   return (
     <div className="home">

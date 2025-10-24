@@ -1,0 +1,52 @@
+# Production Docker Compose Configuration for NC-ASK
+# Usage: docker-compose -f docker-compose.prod.yml up --build
+
+services:
+  # FastAPI Backend (Production with Gunicorn)
+  backend:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile.prod
+    container_name: nc-ask-backend-prod
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - nc-ask-network
+
+  # Frontend (Production with Nginx)
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile.prod
+      args:
+        # Set this to your production backend URL
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000}
+    container_name: nc-ask-frontend-prod
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    networks:
+      - nc-ask-network
+
+networks:
+  nc-ask-network:
+    driver: bridge

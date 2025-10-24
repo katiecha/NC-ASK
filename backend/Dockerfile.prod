@@ -1,0 +1,57 @@
+# Production Dockerfile for NC-ASK Backend
+# Multi-stage build for smaller final image
+
+# Stage 1: Builder - Install dependencies
+FROM python:3.11-slim AS builder
+
+WORKDIR /app
+
+# Install system dependencies needed for building
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements from project root
+COPY requirements.txt .
+
+# Install Python dependencies to user directory
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# Stage 2: Runtime - Minimal production image
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install curl for healthchecks
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy installed dependencies from builder
+COPY --from=builder /root/.local /root/.local
+
+# Copy backend application code
+COPY backend/ .
+
+# Ensure scripts are in PATH
+ENV PATH=/root/.local/bin:$PATH
+
+# Create non-root user for security
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
+    CMD curl -f http://localhost:8000/api/health || exit 1
+
+# Run with gunicorn (4 workers for production)
+CMD ["gunicorn", "main:app", \
+     "--workers", "4", \
+     "--worker-class", "uvicorn.workers.UvicornWorker", \
+     "--bind", "0.0.0.0:8000", \
+     "--access-logfile", "-", \
+     "--error-logfile", "-", \
+     "--log-level", "info"]

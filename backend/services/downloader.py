@@ -1,10 +1,10 @@
 """
 services/downloader.py
 
-Asynchronous utility functions for safely downloading remote documents 
+Asynchronous utility functions for safely downloading remote documents
 to a local, temporary directory for ingestion.
 """
-import aiohttp
+import httpx
 import asyncio
 import logging
 from pathlib import Path
@@ -22,7 +22,7 @@ TEMP_DOWNLOAD_DIR.mkdir(exist_ok=True)
 
 def get_file_extension_from_url(url: str, content_type: Optional[str] = None) -> str:
     """Infers the file extension from the URL path or Content-Type header."""
-    
+
     path = urlparse(url).path
     if '.' in path:
         return Path(path).suffix.lower()
@@ -31,53 +31,58 @@ def get_file_extension_from_url(url: str, content_type: Optional[str] = None) ->
         ext = mimetypes.guess_extension(content_type)
         if ext:
             return ext.replace('.jpe', '.jpg')
-            
+
     return ".html"
 
-async def download_remote_file(session: aiohttp.ClientSession, url: str, key: str) -> Optional[Path]:
+async def download_remote_file(client: httpx.AsyncClient, url: str, key: str) -> Optional[Path]:
     """
     Downloads a remote file asynchronously and saves it to a temporary location.
+
+    Args:
+        client: httpx.AsyncClient instance
+        url: URL to download from
+        key: Unique key for naming the downloaded file
+
+    Returns:
+        Path to downloaded file or None on failure
     """
     temp_file_path = None
-    
-    # CRITICAL FIX: Add User-Agent header to bypass 403 Forbidden errors
+
+    # Add User-Agent header to bypass 403 Forbidden errors
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36'
     }
-    
+
     try:
         logger.info(f"Attempting to download: {url}")
-        
-        # Pass the headers to the session.get call
-        async with session.get(url, timeout=30, headers=headers) as response:
-            
+
+        # Use httpx to download with timeout
+        async with client.stream('GET', url, timeout=30.0, headers=headers, follow_redirects=True) as response:
+
             response.raise_for_status()
-            
+
             content_type = response.headers.get('Content-Type')
             ext = get_file_extension_from_url(url, content_type)
-            
+
             # Create the unique local path
-            temp_file_name = f"{key}_{response.status}{ext}"
+            temp_file_name = f"{key}_{response.status_code}{ext}"
             temp_file_path = TEMP_DOWNLOAD_DIR / temp_file_name
-            
+
             # Read and write content in chunks
             with open(temp_file_path, 'wb') as f:
-                while True:
-                    chunk = await response.content.read(1024)
-                    if not chunk:
-                        break
+                async for chunk in response.aiter_bytes(chunk_size=1024):
                     f.write(chunk)
 
             logger.info(f"Successfully downloaded {url} to {temp_file_path.name}")
             return temp_file_path
 
-    except aiohttp.ClientError as e:
-        logger.error(f"HTTP/Client error downloading {url}: {e}")
+    except httpx.HTTPError as e:
+        logger.error(f"HTTP error downloading {url}: {e}")
     except asyncio.TimeoutError:
         logger.error(f"Timeout error downloading {url}")
     except Exception as e:
         logger.error(f"An unexpected error occurred during download of {url}: {e}")
-        
+
     return None
 
 def cleanup_temp_downloads():

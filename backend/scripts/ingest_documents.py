@@ -5,7 +5,7 @@ Bridges existing ingestion service with NC ASK metadata requirements
 """
 import asyncio
 import sys
-import aiohttp
+import httpx
 from pathlib import Path
 import logging
 from dotenv import load_dotenv
@@ -144,8 +144,8 @@ async def ingest_nc_ask_documents():
 
     logger.info(f"Found {len(ingestion_targets)} total resources to process.")
 
-    # 2. Ingest documents using an aiohttp session for concurrent downloads
-    async with aiohttp.ClientSession() as session:
+    # 2. Ingest documents using httpx client for concurrent downloads
+    async with httpx.AsyncClient() as client:
         for target in ingestion_targets:
             doc_path_str = target['path']
             metadata = target['metadata'].copy()
@@ -154,7 +154,7 @@ async def ingest_nc_ask_documents():
             if target['is_remote']:
                 # DOWNLOAD STEP: Fetch remote file and get local path
                 key = target.get("key", source_url)
-                local_path_obj = await download_remote_file(session, source_url, key)
+                local_path_obj = await download_remote_file(client, source_url, key)
 
                 if not local_path_obj:
                     logger.error(f"✗ Failed to download remote resource: {source_url}. Skipping ingestion.")
