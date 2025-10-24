@@ -29,13 +29,43 @@ NC-ASK is an educational tool, driven by an LLM application that provides clear,
 
 ## Quick Start
 
-**For detailed setup instructions, see [docs/SETUP.md](docs/SETUP.md)**
+**Not sure which setup to use?** → See [WHICH_SETUP.md](WHICH_SETUP.md) for a decision guide
 
-### Prerequisites
-- Node.js 18+
-- Python 3.11+
-- Supabase account (free tier)
-- Google Cloud account (for Gemini API)
+### Development Setup - Choose Your Path
+
+#### Option A: Docker (Recommended for consistency)
+Run everything in containers with one command:
+```bash
+docker-compose up --build
+```
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8000
+
+→ See [DOCKER_SETUP.md](DOCKER_SETUP.md) for full setup (~5 minutes)
+
+#### Option B: Local (Faster iteration)
+Run frontend and backend locally with hot reload:
+```bash
+npm run dev
+```
+Requires Python 3.11+ venv and Node.js 18+.
+
+→ See [START_HERE.md](START_HERE.md) for full setup (~10 minutes)
+
+### Production Deployment
+See [DEPLOYMENT.md](DEPLOYMENT.md) for production Docker or cloud deployment instructions.
+
+---
+
+## What You'll Need
+
+**To get started developing:**
+- Node.js 18+ and Python 3.11+ (for local development)
+- OR Docker Desktop (for Docker development)
+
+**External services (set up after project is running):**
+- Supabase account (free tier) - Database and vector storage
+- Google Gemini API key (free tier) - LLM for generating responses
 
 ## Tech Stack
 

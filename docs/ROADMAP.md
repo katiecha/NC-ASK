@@ -1,26 +1,26 @@
 # NC-ASK MVP Implementation Roadmap
 
-## 📊 Overall Progress
+## Overall Progress
 
 | Phase | Status | Completion |
 |-------|--------|------------|
-| Phase 0: Project Setup | ✅ Complete | 95% |
-| Phase 1: Core RAG Pipeline | ✅ Complete | 98% |
-| Phase 2: Safety & Crisis Features | ✅ Complete | 100% |
-| Phase 3: Plain Language & Accessibility | ✅ Complete | 90% |
-| Phase 4: Core Features & Polish | ✅ Mostly Complete | 85% |
-| Phase 5: Testing & Documentation | ⏳ In Progress | 60% |
-| Phase 6: Deployment & Launch | ⏳ Pending | 0% |
+| Phase 0: Project Setup | Complete | 95% |
+| Phase 1: Core RAG Pipeline | Complete | 98% |
+| Phase 2: Safety & Crisis Features | Complete | 100% |
+| Phase 3: Plain Language & Accessibility | Complete | 90% |
+| Phase 4: Core Features & Polish | Mostly Complete | 85% |
+| Phase 5: Testing & Documentation | In Progress | 60% |
+| Phase 6: Deployment & Launch | Pending | 0% |
 
-**Overall MVP Status**: 🟢 **Ready for Testing & User Validation**
+**Overall MVP Status**: **Ready for Testing & User Validation**
 
 ### Key Accomplishments
-- ✅ Full Docker setup with multi-container orchestration
-- ✅ Complete RAG pipeline with vector search
-- ✅ Crisis detection and safety features
-- ✅ Accessible, mobile-first UI
-- ✅ Plain language responses
-- ✅ Comprehensive documentation
+- [x] Full Docker setup with multi-container orchestration
+- [x] Complete RAG pipeline with vector search
+- [x] Crisis detection and safety features
+- [x] Accessible, mobile-first UI
+- [x] Plain language responses
+- [x] Comprehensive documentation
 
 ### Next Steps
 1. Add sample documents to `backend/data/`
@@ -31,7 +31,7 @@
 
 ---
 
-## Phase 0: Project Setup (Week 1) ✅ COMPLETE
+## Phase 0: Project Setup (Week 1) - COMPLETE
 
 ### Infrastructure Setup
 - [x] Set up GitHub repository with branch protection
@@ -57,11 +57,11 @@
 - [x] Implement basic routing structure
 - [x] Configure CSS modules
 
-**Deliverable**: Running "Hello World" full-stack application ✅
+**Deliverable**: Running "Hello World" full-stack application
 
 ---
 
-## Phase 1: Core RAG Pipeline (Weeks 2-3) ✅ COMPLETE
+## Phase 1: Core RAG Pipeline (Weeks 2-3) - COMPLETE
 
 ### Document Ingestion System
 - [x] Create document ingestion script
@@ -93,16 +93,16 @@
 - [x] GET `/api/health` - Health check
 - [x] Implement error handling and logging
 
-**Deliverable**: Basic Q&A system that can answer simple questions about autism services ✅
+**Deliverable**: Basic Q&A system that can answer simple questions about autism services
 
 **Test Criteria**:
-- ✅ Successfully answers 5 test queries
-- ✅ Returns relevant citations
-- ✅ Response time < 10 seconds
+- [x] Successfully answers 5 test queries
+- [x] Returns relevant citations
+- [x] Response time < 10 seconds
 
 ---
 
-## Phase 2: Safety & Crisis Features (Week 4) ✅ COMPLETE
+## Phase 2: Safety & Crisis Features (Week 4) - COMPLETE
 
 ### Crisis Detection System
 - [x] Create crisis keyword database
@@ -126,16 +126,16 @@
 - [x] Create fallback responses for uncertain queries
 - [x] Test edge cases and adversarial inputs
 
-**Deliverable**: System that reliably detects and responds to crisis queries ✅
+**Deliverable**: System that reliably detects and responds to crisis queries
 
 **Test Criteria**:
-- ✅ 95%+ crisis detection accuracy on test set
-- ✅ Crisis resources display within 2 seconds
-- ✅ No false negatives for critical crisis terms
+- [x] 95%+ crisis detection accuracy on test set
+- [x] Crisis resources display within 2 seconds
+- [x] No false negatives for critical crisis terms
 
 ---
 
-## Phase 3: Plain Language & Accessibility (Week 5) ✅ COMPLETE
+## Phase 3: Plain Language & Accessibility (Week 5) - COMPLETE
 
 ### Plain Language Processing
 - [x] Implement readability scoring (Flesch-Kincaid)
@@ -160,17 +160,17 @@
 - [ ] Test on iOS Safari and Android Chrome - Ready for testing
 - [x] Optimize font sizes for mobile readability
 
-**Deliverable**: Fully accessible, mobile-optimized UI with plain language responses ✅
+**Deliverable**: Fully accessible, mobile-optimized UI with plain language responses
 
 **Test Criteria**:
-- ✅ All responses at 8th grade reading level or below
-- ✅ WCAG 2.2 AA compliance verified
-- ✅ Keyboard navigation works for all features
-- ⏳ Mobile usability testing completed - Ready for user testing
+- [x] All responses at 8th grade reading level or below
+- [x] WCAG 2.2 AA compliance verified
+- [x] Keyboard navigation works for all features
+- [ ] Mobile usability testing completed - Ready for user testing
 
 ---
 
-## Phase 4: Core Features & Polish (Week 6) ✅ MOSTLY COMPLETE
+## Phase 4: Core Features & Polish (Week 6) - MOSTLY COMPLETE
 
 ### Resource Lookup Enhancement
 - [x] Improve citation formatting
@@ -202,17 +202,17 @@
 - [x] Minimize LLM prompt size
 - [ ] Test with 10 concurrent users - Ready for load testing
 
-**Deliverable**: Secure, performant MVP ready for testing ✅
+**Deliverable**: Secure, performant MVP ready for testing
 
 **Test Criteria**:
-- ✅ Query response time < 5 seconds (p95)
-- ⏳ Handles 10 concurrent users - Ready for testing
-- ✅ No security vulnerabilities in basic audit
-- ✅ Privacy protections verified
+- [x] Query response time < 5 seconds (p95)
+- [ ] Handles 10 concurrent users - Ready for testing
+- [x] No security vulnerabilities in basic audit
+- [x] Privacy protections verified
 
 ---
 
-## Phase 5: Testing & Documentation (Week 7) ✅ MOSTLY COMPLETE
+## Phase 5: Testing & Documentation (Week 7) - MOSTLY COMPLETE
 
 ### Comprehensive Testing
 - [ ] Create test suite for all user stories - Ready to create
@@ -239,12 +239,12 @@
 - [ ] Write incident response procedures - Pending
 - [ ] Create monitoring runbook - Pending
 
-**Deliverable**: Tested, documented MVP ready for soft launch ⏳
+**Deliverable**: Tested, documented MVP ready for soft launch
 
 **Test Criteria**:
-- ⏳ All MVP success criteria met (see SPECS.md) - Ready for validation
-- ⏳ User satisfaction score ≥ 4/5 - Pending user testing
-- ✅ Documentation complete and reviewed
+- [ ] All MVP success criteria met (see SPECS.md) - Ready for validation
+- [ ] User satisfaction score ≥ 4/5 - Pending user testing
+- [x] Documentation complete and reviewed
 
 ---
 
@@ -341,17 +341,17 @@
 ## Success Metrics (MVP)
 
 ### Technical Metrics
-- ✅ 95%+ uptime during business hours (Supabase SLA)
-- ✅ < 5 second query response time (p95)
-- ✅ 95%+ crisis detection accuracy
-- ✅ 0 privacy violations
-- ✅ Stay within Supabase free tier limits (500MB)
+- [x] 95%+ uptime during business hours (Supabase SLA)
+- [x] < 5 second query response time (p95)
+- [x] 95%+ crisis detection accuracy
+- [x] 0 privacy violations
+- [x] Stay within Supabase free tier limits (500MB)
 
 ### User Metrics
-- ✅ 80%+ query answering accuracy
-- ✅ 4/5 average user satisfaction
-- ✅ 100% of target user stories addressed
-- ✅ WCAG 2.2 AA compliance
+- [x] 80%+ query answering accuracy
+- [x] 4/5 average user satisfaction
+- [x] 100% of target user stories addressed
+- [x] WCAG 2.2 AA compliance
 
 ### Business Metrics
 - Target: 50+ users in first month
@@ -365,13 +365,13 @@
 
 | Phase | Duration | Key Deliverable | Status |
 |-------|----------|-----------------|--------|
-| Phase 0 | Week 1 | Running full-stack app | ✅ Complete |
-| Phase 1 | Weeks 2-3 | Basic Q&A system | ✅ Complete |
-| Phase 2 | Week 4 | Crisis detection | ✅ Complete |
-| Phase 3 | Week 5 | Accessible, plain language UI | ✅ Complete |
-| Phase 4 | Week 6 | Polished MVP | ✅ Mostly Complete |
-| Phase 5 | Week 7 | Tested, documented system | ⏳ In Progress |
-| Phase 6 | Week 8 | Public launch | ⏳ Pending |
+| Phase 0 | Week 1 | Running full-stack app | Complete |
+| Phase 1 | Weeks 2-3 | Basic Q&A system | Complete |
+| Phase 2 | Week 4 | Crisis detection | Complete |
+| Phase 3 | Week 5 | Accessible, plain language UI | Complete |
+| Phase 4 | Week 6 | Polished MVP | Mostly Complete |
+| Phase 5 | Week 7 | Tested, documented system | In Progress |
+| Phase 6 | Week 8 | Public launch | Pending |
 
 **Total MVP Timeline**: 8 weeks  
 **Current Status**: Week 7 (Testing & Documentation phase)  
@@ -382,24 +382,24 @@
 ## Next Steps (Updated October 2025)
 
 ### Immediate (This Week)
-1. ✅ **Configure environment** - Add Supabase and Gemini API credentials to `.env`
-2. ✅ **Run Docker setup** - `docker compose up --build`
-3. 📝 **Add documents** - Place NC autism services documents in `backend/data/`
-4. 📝 **Run ingestion** - `docker compose exec backend python scripts/ingest_documents.py`
-5. 📝 **Test queries** - Verify system responds correctly at http://localhost:5173
+1. [x] **Configure environment** - Add Supabase and Gemini API credentials to `.env`
+2. [x] **Run Docker setup** - `docker compose up --build`
+3. [ ] **Add documents** - Place NC autism services documents in `backend/data/`
+4. [ ] **Run ingestion** - `docker compose exec backend python scripts/ingest_documents.py`
+5. [ ] **Test queries** - Verify system responds correctly at http://localhost:5173
 
 ### Week 7 (Testing Phase)
-1. 📝 **User acceptance testing** - Recruit target users and gather feedback
-2. 📝 **Load testing** - Test with 10+ concurrent users
-3. 📝 **Mobile testing** - Test on iOS Safari and Android Chrome
-4. 📝 **Accessibility audit** - Screen reader testing
-5. 📝 **Create test suite** - Automated tests for all user stories
+1. [ ] **User acceptance testing** - Recruit target users and gather feedback
+2. [ ] **Load testing** - Test with 10+ concurrent users
+3. [ ] **Mobile testing** - Test on iOS Safari and Android Chrome
+4. [ ] **Accessibility audit** - Screen reader testing
+5. [ ] **Create test suite** - Automated tests for all user stories
 
 ### Week 8 (Deployment)
-1. ⏳ **Production deployment** - Deploy to Render/Railway + Vercel
-2. ⏳ **Monitoring setup** - Configure alerts and logging
-3. ⏳ **Soft launch** - Limited release to gather initial feedback
-4. ⏳ **Public launch** - Open to all users
+1. [ ] **Production deployment** - Deploy to Render/Railway + Vercel
+2. [ ] **Monitoring setup** - Configure alerts and logging
+3. [ ] **Soft launch** - Limited release to gather initial feedback
+4. [ ] **Public launch** - Open to all users
 
 ### Ongoing
 - Weekly team sync to review progress and blockers

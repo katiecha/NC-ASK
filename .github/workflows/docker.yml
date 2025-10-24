@@ -1,0 +1,70 @@
+name: Docker Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-dev:
+    name: Build Development Images
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build backend (dev)
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./backend/Dockerfile.dev
+        push: false
+        tags: nc-ask-backend:dev
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Build frontend (dev)
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./frontend/Dockerfile.dev
+        push: false
+        tags: nc-ask-frontend:dev
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  build-prod:
+    name: Build Production Images
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build backend (prod)
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./backend/Dockerfile.prod
+        push: false
+        tags: nc-ask-backend:prod
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Build frontend (prod)
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./frontend/Dockerfile.prod
+        push: false
+        tags: nc-ask-frontend:prod
+        build-args: |
+          VITE_API_BASE_URL=http://localhost:8000
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
