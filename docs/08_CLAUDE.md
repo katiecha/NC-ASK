@@ -311,10 +311,10 @@ Not yet implemented. When adding:
 ## Additional Documentation
 
 For more detailed information, see:
-- [README.md](/README.md) - Project overview and quick start
-- [LOCAL_SETUP.md](/LOCAL_SETUP.md) - Local development setup guide
-- [DOCKER_SETUP.md](/DOCKER_SETUP.md) - Docker development guide
-- [DEPLOYMENT.md](/DEPLOYMENT.md) - Production deployment guide
-- [ARCHITECTURE.md](./ARCHITECTURE.md) - Detailed system architecture
+- [01_README.md](/01_README.md) - Project overview and quick start
+- [04_LOCAL_SETUP.md](/04_LOCAL_SETUP.md) - Local development setup guide
+- [03_DOCKER_SETUP.md](/03_DOCKER_SETUP.md) - Docker development guide
+- [05_DEPLOYMENT.md](/05_DEPLOYMENT.md) - Production deployment guide
+- [06_ARCHITECTURE.md](./06_ARCHITECTURE.md) - Detailed system architecture
 - [SPECS.md](./SPECS.md) - User stories and requirements
 

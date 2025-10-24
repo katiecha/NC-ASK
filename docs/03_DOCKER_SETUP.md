@@ -2,7 +2,7 @@
 
 Complete guide to run NC-ASK entirely in Docker without installing anything on your local system.
 
-**Note**: This guide covers **development** Docker setup. For production deployment, see [DEPLOYMENT.md](DEPLOYMENT.md).
+**Note**: This guide covers **development** Docker setup. For production deployment, see [05_DEPLOYMENT.md](05_DEPLOYMENT.md).
 
 ## Prerequisites
 
@@ -298,7 +298,7 @@ docker-compose exec frontend sh
 
 ## Production Deployment
 
-**For production deployment, see [DEPLOYMENT.md](DEPLOYMENT.md)**
+**For production deployment, see [05_DEPLOYMENT.md](05_DEPLOYMENT.md)**
 
 Production setup includes:
 - Multi-stage Dockerfiles (`Dockerfile.prod`)

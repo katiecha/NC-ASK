@@ -357,7 +357,7 @@ docker-compose -f docker-compose.prod.yml logs backend
 ## Support
 
 For deployment issues:
-- Check [DOCKER_SETUP.md](DOCKER_SETUP.md) for Docker troubleshooting
-- Review [ARCHITECTURE.md](docs/ARCHITECTURE.md) for system design
+- Check [03_DOCKER_SETUP.md](03_DOCKER_SETUP.md) for Docker troubleshooting
+- Review [06_ARCHITECTURE.md](06_ARCHITECTURE.md) for system design
 - Create an issue in the GitHub repository
 

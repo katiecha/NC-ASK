@@ -31,7 +31,7 @@ Quick decision guide for NC-ASK development and deployment.
 - Environment inconsistencies possible across team
 
 ### Setup
-See [LOCAL_SETUP.md](LOCAL_SETUP.md) (~10 minutes)
+See [04_LOCAL_SETUP.md](04_LOCAL_SETUP.md) (~10 minutes)
 
 ### Commands
 ```bash
@@ -59,7 +59,7 @@ make dev                 # Using Makefile
 - Requires Docker Desktop
 
 ### Setup
-See [DOCKER_SETUP.md](DOCKER_SETUP.md) (~5 minutes)
+See [03_DOCKER_SETUP.md](03_DOCKER_SETUP.md) (~5 minutes)
 
 ### Commands
 ```bash
@@ -91,7 +91,7 @@ This gives you:
 - No dev volumes or debug tools
 
 ### For Production Deployment
-See [DEPLOYMENT.md](DEPLOYMENT.md) for:
+See [05_DEPLOYMENT.md](05_DEPLOYMENT.md) for:
 - Cloud deployment (Vercel + Render)
 - Self-hosted Docker deployment
 - Environment variable security

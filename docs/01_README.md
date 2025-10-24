@@ -29,7 +29,7 @@ NC-ASK is an educational tool, driven by an LLM application that provides clear,
 
 ## Quick Start
 
-**Not sure which setup to use?** → See [WHICH_SETUP.md](WHICH_SETUP.md) for a decision guide
+**Not sure which setup to use?** → See [02_WHICH_SETUP.md](02_WHICH_SETUP.md) for a decision guide
 
 ### Development Setup - Choose Your Path
 
@@ -41,7 +41,7 @@ docker-compose up --build
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:8000
 
-→ See [DOCKER_SETUP.md](DOCKER_SETUP.md) for full setup (~5 minutes)
+→ See [03_DOCKER_SETUP.md](03_DOCKER_SETUP.md) for full setup (~5 minutes)
 
 #### Option B: Local (Faster iteration)
 Run frontend and backend locally with hot reload:
@@ -50,10 +50,10 @@ npm run dev
 ```
 Requires Python 3.11+ venv and Node.js 18+.
 
-→ See [LOCAL_SETUP.md](LOCAL_SETUP.md) for full setup (~10 minutes)
+→ See [04_LOCAL_SETUP.md](04_LOCAL_SETUP.md) for full setup (~10 minutes)
 
 ### Production Deployment
-See [DEPLOYMENT.md](DEPLOYMENT.md) for production Docker or cloud deployment instructions.
+See [05_DEPLOYMENT.md](05_DEPLOYMENT.md) for production Docker or cloud deployment instructions.
 
 ---
 
