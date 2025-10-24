@@ -32,18 +32,19 @@ async def query_endpoint(request: QueryRequest):
     Uses dependency-injected RAG pipeline for processing.
 
     Args:
-        request: QueryRequest with user's question
+        request: QueryRequest with user's question and view type
 
     Returns:
         QueryResponse with answer, citations, and crisis info
     """
     try:
-        logger.info(f"Received query request (session: {request.session_id})")
+        logger.info(f"Received query request (session: {request.session_id}, view: {request.view_type})")
 
-        # Process query through RAG pipeline (using injected dependencies)
+        # Process query through RAG pipeline (using injected dependencies with view-specific prompting)
         result = await rag_pipeline.process_query(
             query=request.query,
-            session_id=request.session_id
+            session_id=request.session_id,
+            view_type=request.view_type
         )
 
         # Convert to response model
