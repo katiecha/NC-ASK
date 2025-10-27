@@ -25,71 +25,54 @@ class Example(TypedDict):
 PROVIDER_EXAMPLES: List[Example] = [
     {
         "query": "What are the eligibility criteria for the Innovations Waiver?",
-        "response": """The Innovations Waiver eligibility criteria include:
-
-1. **Diagnosis Requirement**: Intellectual/developmental disability (IDD) diagnosis documented by qualified professional
-2. **Age**: Must be 3 years or older
-3. **Functional Assessment**: ICF/IID level of care determination via CAP-DA assessment
-4. **Residency**: North Carolina resident with legal immigration status
-5. **Medicaid**: Must be Medicaid-eligible or meet Medicaid financial criteria
+        "response": """**Eligibility Criteria**:
+1. IDD diagnosis documented by qualified professional
+2. Age ≥3 years
+3. ICF/IID level of care via CAP-DA assessment
+4. NC residency with legal immigration status
+5. Medicaid-eligible or meets Medicaid financial criteria
 
 **Application Process**:
-- Contact Local Management Entity/Managed Care Organization (LME/MCO)
+- Contact LME/MCO (Alliance: 1-800-510-9132 | Vaya: 1-800-849-6127 | Partners: 1-888-235-4673 | Trillium: 1-877-685-2415)
 - Complete CAP-DA assessment
-- Slot assignment from waitlist based on priority population status
-
-**Contact**: Alliance Health: 1-800-510-9132 | Vaya Health: 1-800-849-6127
-
-**Note**: This is general eligibility information. Individual patient circumstances require case-by-case evaluation by the LME/MCO."""
+- Slot assignment from waitlist (priority based on population status)"""
     },
     {
         "query": "How do I refer a patient for IEP evaluation?",
-        "response": """IEP evaluation referral process per IDEA regulations:
-
-**Referral Steps**:
+        "response": """**Referral Process**:
 1. Submit written referral to school principal or Director of Exceptional Children
-2. Include specific educational concerns and supporting documentation
+2. Include educational concerns and supporting documentation
 3. Request comprehensive psychoeducational evaluation under IDEA
 
-**Required Timeline**:
-- School must respond within 10 business days
-- Evaluation must be completed within 90 days of parental consent
+**Timeline**:
+- School response: 10 business days
+- Evaluation completion: 90 days from parental consent
 
-**Evaluation Domains** (as clinically indicated):
-- Cognitive functioning
-- Academic achievement
-- Communication skills
-- Motor skills
-- Behavioral/emotional functioning
-- Adaptive behavior
+**Evaluation Domains** (as indicated):
+Cognitive functioning, academic achievement, communication, motor skills, behavioral/emotional functioning, adaptive behavior
 
-**Clinical Documentation**: Provide relevant medical records, developmental history, and diagnostic reports to support referral.
+**Clinical Documentation**: Medical records, developmental history, diagnostic reports
 
-**Parent Rights**: Parents must receive prior written notice and consent before evaluation begins (34 CFR §300.304).
+**Regulatory Requirements**: Prior written notice and parental consent required (34 CFR §300.304)
 
-Refer families to NC Department of Public Instruction Exceptional Children Division for procedural guidance: 919-807-3969."""
+**Resource**: NC DPI Exceptional Children Division: 919-807-3969"""
     },
     {
         "query": "What medications are covered for autism treatment?",
-        "response": """Medication coverage for autism spectrum disorder varies by insurance plan and clinical indication.
+        "response": """**NC Medicaid Coverage** (requires FDA approval for indication + medical necessity):
+- Atypical antipsychotics (risperidone, aripiprazole): irritability/aggression
+- SSRIs: co-morbid anxiety/OCD
+- Stimulants/atomoxetine: co-morbid ADHD
+- Sleep medications: documented sleep disorders
 
-**NC Medicaid Coverage**:
-Medications must be FDA-approved for specific indications and medically necessary. Common covered categories include:
-- Atypical antipsychotics (risperidone, aripiprazole) for irritability/aggression
-- SSRIs for co-morbid anxiety/OCD
-- Stimulants/atomoxetine for co-morbid ADHD
-- Sleep medications for documented sleep disorders
+**Prior Authorization**: Required for certain medications. Submit clinical documentation.
 
-**Prior Authorization**: May be required for certain medications. Submit clinical documentation supporting medical necessity.
+**Clinical Considerations**:
+- No FDA-approved medications for core autism symptoms
+- Pharmacotherapy targets behavioral/psychiatric co-morbidities only
+- Evidence-based behavioral interventions = first-line treatment
 
-**Important Clinical Considerations**:
-- No medications are FDA-approved to treat core autism symptoms
-- Pharmacotherapy targets specific behavioral or psychiatric co-morbidities
-- Evidence-based behavioral interventions remain first-line treatment
-
-**Recommendation**: Consult patient's insurance formulary and prior authorization requirements. Consider referral to developmental-behavioral pediatrician or child psychiatrist for medication management.
-
-This is general information only. Prescribing decisions must be based on individual patient assessment and clinical judgment."""
+**Recommendations**: Review patient formulary and PA requirements. Consider referral to developmental-behavioral pediatrician or child psychiatrist."""
     },
 ]
 
@@ -100,108 +83,74 @@ This is general information only. Prescribing decisions must be based on individ
 
 PATIENT_EXAMPLES: List[Example] = [
     {
-        "query": "What are the eligibility criteria for the Innovations Waiver?",
-        "response": """The Innovations Waiver helps families get services for their child with autism. Here's what your child needs to qualify:
+        "query": "I need help for my child with autism but I'm not sure where to start.",
+        "response": """In North Carolina, each county is served by a Local Management Entity/Managed Care Organization (LME/MCO) that manages Medicaid services for mental health, developmental disabilities and substance-use needs. They can connect you to programs like the Innovations Waiver and 1915(i) services, which offer home- and community-based supports, respite and crisis services. To find your LME/MCO, use the state directory or call 1-855-262-1946. You do not need to know the program names in advance—describe your child's needs, and the LME/MCO will explain the options and help you apply.
 
-**Who Can Get It**:
-- Children 3 years or older
-- Has an autism or developmental disability diagnosis
-- Lives in North Carolina
-- Qualifies for Medicaid (or meets income requirements)
-
-**How to Apply**:
-1. Call your local care coordinator (we can help you find them)
-2. They'll set up an assessment to see what services your child needs
-3. Your child will be placed on a waitlist
-
-**Important to Know**: There is a waitlist for this program. Some families get priority based on their child's needs.
-
-**Need Help Getting Started?**
-- Alliance Health: 1-800-510-9132
-- Vaya Health: 1-800-849-6127
-
-The people at these organizations are there to help you through the process. Don't hesitate to call with questions."""
+Would you like help finding the phone number for your county's LME/MCO or learning how to apply for Medicaid if you aren't already enrolled?"""
     },
     {
-        "query": "How do I get my child evaluated for an IEP?",
-        "response": """Getting your child evaluated for an IEP is simpler than it sounds. Here's what to do:
+        "query": "We need support at home for daily activities—what programs could help us?",
+        "response": """Two main Medicaid programs provide in-home support: the Innovations Waiver and 1915(i) services. Both are designed for people with intellectual or developmental disabilities. The Innovations Waiver offers assistance with daily tasks like bathing, dressing and cooking; support for community participation; and adaptations to your home or vehicle. 1915(i) services (which replaced an earlier program called 1915(b)(3)) help children and adults learn skills to live at home and participate in the community, find a job and provide respite for caregivers. Your LME/MCO can tell you which program fits your situation and help you join the Innovations waitlist or apply for 1915(i) services.
 
-**Step 1: Write a Letter**
-Send a letter to your child's school principal asking for an evaluation. You can say something like: "I am requesting a full evaluation for my child under IDEA to see if they qualify for special education services."
-
-**Step 2: The School Responds**
-The school has 10 days to respond to your request. They'll set up a meeting to discuss the evaluation.
-
-**Step 3: Give Permission**
-You'll sign a consent form allowing the school to evaluate your child. This is your right as a parent.
-
-**Step 4: Evaluation Happens**
-The school has 90 days to complete the evaluation. They'll look at your child's learning, behavior, and other areas.
-
-**What Happens Next?**
-After the evaluation, the school will meet with you to discuss if your child qualifies for an IEP.
-
-**You're Not Alone**: If you need help with this process, the NC Autism Society can guide you: 1-800-442-2762.
-
-Remember: You are your child's best advocate. Don't be afraid to ask questions."""
+Are you currently enrolled in Medicaid, or would you like guidance on how to get coverage so you can access these services?"""
     },
     {
-        "query": "What medications are covered for autism treatment?",
-        "response": """I understand you're looking into medication options for your child. Here's what you should know:
+        "query": "My child is having a behavioral crisis. Is there someone who can come to us?",
+        "response": """Yes. North Carolina has mobile crisis teams—counselors who can meet you at home, school or another safe place to help calm the situation. Mobile crisis services are available 24 hours a day, seven days a week and are free even if you don't have insurance. They will listen, assess the situation and connect you with ongoing support. For immediate danger, call 988 or 911 and ask for a Crisis Intervention Team officer. Otherwise, you can call your LME/MCO's crisis line to reach a mobile crisis team.
 
-**Important First Step**: Talk to your child's doctor before starting any medication. They know your child's specific needs.
+Is anyone in immediate danger? If not, would you like the phone number for your local mobile crisis provider?"""
+    },
+    {
+        "query": "We're overwhelmed and need a break—are there programs that support caregivers?",
+        "response": """Both the Innovations Waiver and 1915(i) services include respite care and other caregiver supports. The Innovations Waiver provides scheduled breaks and emergency respite, as well as training and consultations to help family and friends support you better. 1915(i) services can also give caregivers a break and teach skills to help your loved one live more independently. To access respite, contact your LME/MCO and explain that you need caregiver support; they will help determine which program you qualify for.
 
-**What Insurance Usually Covers**:
-Most NC Medicaid and insurance plans cover medications that help with:
-- Behavior challenges (like aggression or irritability)
-- Anxiety or repetitive behaviors
-- Sleep problems
-- ADHD symptoms that happen with autism
+Do you want information on joining the Innovations waitlist or applying for 1915(i) services to start getting respite support?"""
+    },
+    {
+        "query": "I've heard there are services to help adults with disabilities live on their own. How does that work?",
+        "response": """1915(i) services are designed to help adults and children with mental-health conditions, substance-use disorders, traumatic brain injuries or intellectual/developmental disabilities live and work in their communities. They can teach skills to live at home, participate in the community and find employment. They also provide respite and community transition support. These services are available through Medicaid Tailored Plans, NC Medicaid Direct or the Eastern Band of Cherokee Indians Tribal Option. An LME/MCO care manager will help you set goals and coordinate services.
 
-**How to Find Out What's Covered**:
-1. Call the number on the back of your insurance card
-2. Ask about "autism-related medication coverage"
-3. Ask if you need "prior authorization" (approval before getting the medication)
+Do you know which Medicaid plan you have? If not, would you like help finding out so we can determine whether you can access 1915(i) services?"""
+    },
+    {
+        "query": "Our therapist mentioned 'Intensive In-Home.' What does that mean?",
+        "response": """Intensive In-Home (IIH) services are team-based mental-health supports for children and young adults (ages 3–20) who are experiencing severe behavioral or emotional challenges. A team of therapists and case managers works with the whole family in your home to provide individual therapy, family therapy, crisis intervention, behavioral interventions, and coaching on daily routines and coping skills. IIH is intended to prevent out-of-home placements and is covered by Medicaid and some private insurance plans. Eligibility usually requires that outpatient therapy has been tried and that the child's needs are intense.
 
-**What to Know About Medications**:
-- There's no medication that "treats" autism itself
-- Medications can help with specific challenges your child faces
-- Therapy and behavioral support are still very important
+Have you already tried outpatient therapy, and would you like help contacting your LME/MCO to see if your child qualifies for Intensive In-Home services?"""
+    },
+    {
+        "query": "I'm not sure what Medicaid plan I have or what services I'm eligible for.",
+        "response": """NC Medicaid offers different plan types. Standard Plans cover general physical and behavioral health, while Tailored Plans provide additional services for people with serious mental illness, substance-use disorders, or I/DD. 1915(i) services are only available with Tailored Plans, NC Medicaid Direct or the Eastern Band of Cherokee Indians Tribal Option and are not available through Standard Plans. If you're unsure which plan you have, call the NC Medicaid Enrollment Broker at 1-833-870-5500. You can also call your LME/MCO or look at your Medicaid ID card.
 
-**Need Help?**
-- Your child's doctor can work with insurance for you
-- NC Autism Society can help: 1-800-442-2762
+Would you like me to help you identify your plan or provide instructions on how to call the enrollment broker?"""
+    },
+    {
+        "query": "I have Medicaid but don't know who to call for help with mental-health or developmental-disability services.",
+        "response": """Start with your LME/MCO. They manage mental-health, I/DD and substance-use services for Medicaid beneficiaries in your county. The LME/MCO directory lists phone numbers and crisis lines. Alliance Health (1-800-510-9132), Partners Health Management (1-888-235-4673), Trillium Health Resources (1-877-685-2415) and Vaya Health (1-800-962-9003) are the four LME/MCOs. If you don't know which serves your county, call 1-855-262-1946 for assistance.
 
-You're doing a great job looking out for your child. Every child is different, so work closely with your doctor to find what's best for your family."""
+Would you like me to look up which LME/MCO serves your county and provide the contact number?"""
+    },
+    {
+        "query": "Is there a program that helps pay for ramps or other modifications to my home or vehicle?",
+        "response": """Yes. The Innovations Waiver covers home and vehicle modifications to make your environment safer and more accessible. It also pays for assistive technologies like communication devices and smart-home tools. To access these supports, you need to have a waiver slot. If you aren't yet on the waiver, contact your LME/MCO to join the waitlist. While waiting, some equipment may be covered through other Medicaid programs, so ask your care manager.
+
+Are you already on the Innovations waitlist, or would you like guidance on how to apply and explore interim options while you wait?"""
+    },
+    {
+        "query": "We're struggling to get to appointments. Is transportation available?",
+        "response": """NC Medicaid offers Non-Emergency Medical Transportation (NEMT), which provides free rides to and from doctor visits, mental-health appointments, and pharmacies. You should request a ride at least two days before your appointment. If you drive yourself or are driven by a friend or family member, you may be reimbursed for travel costs. To schedule a ride, call the NEMT number on your Medicaid card or contact your health plan.
+
+Do you need assistance finding the phone number to schedule NEMT or learning about mileage reimbursement?"""
     },
 ]
 
 
-# Placeholder examples - You can add your actual prompt-response pairs here
-PROVIDER_EXAMPLES_PLACEHOLDER: List[Example] = [
-    {
-        "query": "[Your example provider question here]",
-        "response": "[Your ideal clinical response here]"
-    },
-    # Add 9 more examples as you collect them
-]
-
-PATIENT_EXAMPLES_PLACEHOLDER: List[Example] = [
-    {
-        "query": "[Your example parent/patient question here]",
-        "response": "[Your ideal empathetic response here]"
-    },
-    # Add 9 more examples as you collect them
-]
-
-
-def get_examples(view_type: ViewType, use_placeholder: bool = False) -> List[Example]:
+def get_examples(view_type: ViewType) -> List[Example]:
     """
     Get example query-response pairs for a specific view type.
 
     Args:
         view_type: Type of view - "provider" or "patient"
-        use_placeholder: If True, returns placeholder examples for you to fill in
 
     Returns:
         List of example query-response pairs
@@ -213,9 +162,6 @@ def get_examples(view_type: ViewType, use_placeholder: bool = False) -> List[Exa
         >>> examples = get_examples("provider")
         >>> # Returns PROVIDER_EXAMPLES
     """
-    if use_placeholder:
-        return PROVIDER_EXAMPLES_PLACEHOLDER if view_type == "provider" else PATIENT_EXAMPLES_PLACEHOLDER
-
     if view_type == "provider":
         return PROVIDER_EXAMPLES
     elif view_type == "patient":
