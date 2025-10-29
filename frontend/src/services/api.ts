@@ -4,9 +4,12 @@
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
+export type ViewType = 'provider' | 'patient';
+
 export interface QueryRequest {
   query: string;
   session_id?: string;
+  view_type?: ViewType;
 }
 
 export interface Citation {
@@ -54,8 +57,14 @@ function getSessionId(): string {
 
 /**
  * Query the NC-ASK knowledge base
+ *
+ * @param query - User's question
+ * @param viewType - Optional view type ('provider' or 'patient') to tailor response tone
  */
-export async function queryKnowledgeBase(query: string): Promise<QueryResponse> {
+export async function queryKnowledgeBase(
+  query: string,
+  viewType?: ViewType
+): Promise<QueryResponse> {
   const sessionId = getSessionId();
 
   const response = await fetch(`${API_BASE_URL}/api/query`, {
@@ -66,6 +75,7 @@ export async function queryKnowledgeBase(query: string): Promise<QueryResponse> 
     body: JSON.stringify({
       query,
       session_id: sessionId,
+      view_type: viewType || 'patient',
     } as QueryRequest),
   });
 

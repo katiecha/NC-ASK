@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import PrivacyModal from '../components/PrivacyModal';
 import SearchInput from '../components/SearchInput';
 import QueryResponse from '../components/QueryResponse';
+import ViewSelector from '../components/ViewSelector';
+import ViewIndicator from '../components/ViewIndicator';
+import { useView } from '../contexts/ViewContext';
 import { queryKnowledgeBase, QueryResponse as QueryResponseType } from '../services/api';
 import './Home.css';
 
@@ -13,6 +16,7 @@ interface Message {
 }
 
 const Home: React.FC = () => {
+  const { selectedView, setSelectedView } = useView();
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +57,8 @@ const Home: React.FC = () => {
     setError(null);
 
     try {
-      const result = await queryKnowledgeBase(query);
+      // Pass the selected view to the API (defaults to 'patient' if not selected)
+      const result = await queryKnowledgeBase(query, selectedView || 'patient');
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: 'assistant',
@@ -71,14 +76,20 @@ const Home: React.FC = () => {
 
   return (
     <div className="home">
+      <ViewSelector
+        isOpen={selectedView === null}
+        onSelectView={setSelectedView}
+      />
+
       <PrivacyModal
-        isOpen={showPrivacyModal}
+        isOpen={showPrivacyModal && selectedView !== null}
         onAccept={handlePrivacyAccept}
         onReadPolicy={handleReadPolicy}
       />
 
-
       <div className="home-content">
+        {selectedView && <ViewIndicator view={selectedView} />}
+
         <div className="messages-container">
           {messages.length === 0 && (
             <div className="welcome-message">

@@ -2,13 +2,17 @@
 Pydantic models for API request/response validation
 """
 from pydantic import BaseModel, Field, field_validator
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Literal
 
 
 class QueryRequest(BaseModel):
     """Request model for query endpoint"""
     query: str = Field(..., min_length=1, max_length=500, description="User's question")
     session_id: Optional[str] = Field(None, description="Optional session identifier")
+    view_type: Literal["provider", "patient"] = Field(
+        default="patient",
+        description="User view type: 'provider' for healthcare professionals, 'patient' for parents/caregivers"
+    )
 
     @field_validator('query')
     @classmethod

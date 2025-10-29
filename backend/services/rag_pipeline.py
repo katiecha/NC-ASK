@@ -3,7 +3,7 @@ Complete RAG (Retrieval-Augmented Generation) pipeline with dependency injection
 
 This is the main orchestrator that combines all services to answer user queries.
 """
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Literal
 import logging
 from services.interfaces import (
     RetrievalService as RetrievalServiceProtocol,
@@ -103,7 +103,8 @@ class RAGPipeline:
     async def process_query(
         self,
         query: str,
-        session_id: Optional[str] = None
+        session_id: Optional[str] = None,
+        view_type: Literal["provider", "patient"] = "patient"
     ) -> Dict[str, Any]:
         """
         Process a user query through the complete RAG pipeline.
@@ -113,6 +114,7 @@ class RAGPipeline:
         Args:
             query: User's question
             session_id: Optional session identifier for logging
+            view_type: User view type ("provider" or "patient") for response tailoring
 
         Returns:
             Dictionary containing:
@@ -136,7 +138,7 @@ class RAGPipeline:
 
             # Step 2: Sanitize query
             sanitized_query = self.sanitize_query(query)
-            logger.info(f"Processing query (session: {session_id})")
+            logger.info(f"Processing query (session: {session_id}, view: {view_type})")
 
             # Step 3: Crisis detection (using injected detector)
             is_crisis, severity, crisis_keywords = self.crisis_detector.detect_crisis(
@@ -151,10 +153,11 @@ class RAGPipeline:
             # Step 5: Format context for LLM (using injected retrieval service)
             context = self.retrieval_service.format_context_for_llm(retrieval_results)
 
-            # Step 6: Generate response (using injected LLM provider)
+            # Step 6: Generate response (using injected LLM provider with view-specific prompt)
             response = self.llm_provider.generate_response(
                 query=sanitized_query,
-                context=context
+                context=context,
+                view_type=view_type
             )
 
             # Step 7: Add disclaimers (using injected LLM provider)

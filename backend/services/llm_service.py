@@ -4,14 +4,17 @@ LLM service using Google Gemini for response generation.
 This implementation uses Google's Gemini API. It can be swapped for other
 LLM providers (OpenAI, Anthropic, local models) via the LLMProvider interface.
 """
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Literal
 import logging
 import google.generativeai as genai
 from services.config import settings
+from config.prompts import get_system_prompt
+from config.examples import get_examples, format_examples_for_prompt
 
 logger = logging.getLogger(__name__)
 
-# System prompt for plain language responses (shared across implementations)
+# DEPRECATED: Legacy system prompt kept for backward compatibility
+# Use config.prompts.get_system_prompt() instead
 SYSTEM_PROMPT = """You are NC-ASK, a helpful assistant specializing in North Carolina autism services and resources.
 
 Your role is to provide clear, accurate, and compassionate information about:
@@ -101,7 +104,8 @@ class GeminiLLM:
         self,
         query: str,
         context: str,
-        temperature: float | None = None
+        temperature: float | None = None,
+        view_type: Literal["provider", "patient"] = "patient"
     ) -> str:
         """
         Generate a response using Gemini.
@@ -112,6 +116,7 @@ class GeminiLLM:
             query: User's question
             context: Retrieved context from documents
             temperature: Generation temperature (0-1). If None, uses default_temperature
+            view_type: User view type ("provider" or "patient") for system prompt selection
 
         Returns:
             Generated response text
@@ -119,8 +124,8 @@ class GeminiLLM:
         try:
             temp = temperature if temperature is not None else self.default_temperature
 
-            # Build the prompt
-            prompt = self._build_prompt(query, context)
+            # Build the prompt with view-specific system prompt
+            prompt = self._build_prompt(query, context, view_type)
 
             # Generate response
             response = self.model.generate_content(
@@ -132,7 +137,7 @@ class GeminiLLM:
             )
 
             response_text = response.text.strip()
-            logger.info(f"Generated response ({len(response_text)} chars, temp={temp})")
+            logger.info(f"Generated response ({len(response_text)} chars, temp={temp}, view={view_type})")
 
             return response_text
 
@@ -141,18 +146,41 @@ class GeminiLLM:
             # Return fallback response
             return self._get_fallback_response()
 
-    def _build_prompt(self, query: str, context: str) -> str:
+    def _build_prompt(
+        self,
+        query: str,
+        context: str,
+        view_type: Literal["provider", "patient"] = "patient"
+    ) -> str:
         """
-        Build the complete prompt for the LLM.
+        Build the complete prompt for the LLM with view-specific system prompt and examples.
 
         Args:
             query: User's question
             context: Retrieved context
+            view_type: User view type for system prompt selection
 
         Returns:
-            Complete prompt string
+            Complete prompt string with few-shot examples
         """
-        prompt = f"""{SYSTEM_PROMPT}
+        # Get view-specific system prompt
+        system_prompt = get_system_prompt(view_type)
+
+        # Get view-specific examples for few-shot learning
+        examples = get_examples(view_type)
+        formatted_examples = format_examples_for_prompt(examples)
+
+        # Customize response instruction based on view
+        response_instruction = (
+            "RESPONSE (clinical, evidence-based):" if view_type == "provider"
+            else "RESPONSE (in plain language, at 8th grade reading level):"
+        )
+
+        # Build prompt with examples between system prompt and user question
+        prompt = f"""{system_prompt}
+
+EXAMPLE INTERACTIONS:
+{formatted_examples}
 
 CONTEXT FROM KNOWLEDGE BASE:
 {context if context else "No specific context available."}
@@ -160,7 +188,7 @@ CONTEXT FROM KNOWLEDGE BASE:
 USER QUESTION:
 {query}
 
-RESPONSE (in plain language, at 8th grade reading level):
+{response_instruction}
 """
         return prompt
 
