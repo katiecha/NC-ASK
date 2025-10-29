@@ -29,7 +29,7 @@ NC-ASK is an educational tool, driven by an LLM application that provides clear,
 
 ## Quick Start
 
-**Not sure which setup to use?** → See [02_WHICH_SETUP.md](02_WHICH_SETUP.md) for a decision guide
+**Not sure which setup to use?** → See [02_WHICH_SETUP.md](docs/02_WHICH_SETUP.md) for a decision guide
 
 ### Development Setup - Choose Your Path
 
@@ -41,7 +41,7 @@ docker-compose up --build
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:8000
 
-→ See [03_DOCKER_SETUP.md](03_DOCKER_SETUP.md) for full setup (~5 minutes)
+→ See [03_DOCKER_SETUP.md](docs/03_DOCKER_SETUP.md) for full setup (~5 minutes)
 
 #### Option B: Local (Faster iteration)
 Run frontend and backend locally with hot reload:
@@ -50,10 +50,10 @@ npm run dev
 ```
 Requires Python 3.11+ venv and Node.js 18+.
 
-→ See [04_LOCAL_SETUP.md](04_LOCAL_SETUP.md) for full setup (~10 minutes)
+→ See [04_LOCAL_SETUP.md](docs/04_LOCAL_SETUP.md) for full setup (~10 minutes)
 
 ### Production Deployment
-See [05_DEPLOYMENT.md](05_DEPLOYMENT.md) for production Docker or cloud deployment instructions.
+See [05_DEPLOYMENT.md](docs/05_DEPLOYMENT.md) for production Docker or cloud deployment instructions.
 
 ---
 
@@ -88,6 +88,18 @@ See [05_DEPLOYMENT.md](05_DEPLOYMENT.md) for production Docker or cloud deployme
 - **Containerization**: Docker + Docker Compose
 - **Development**: Hot reload for both frontend and backend
 - **Deployment**: Vercel (frontend), Render/Railway (backend)
+
+For detailed architecture information, see [06_ARCHITECTURE.md](docs/06_ARCHITECTURE.md).
+
+## Documentation
+
+- **[Setup Decision Guide](docs/02_WHICH_SETUP.md)** - Choose between Docker and local development
+- **[Docker Setup](docs/03_DOCKER_SETUP.md)** - Container-based development setup
+- **[Local Setup](docs/04_LOCAL_SETUP.md)** - Local environment setup
+- **[Deployment Guide](docs/05_DEPLOYMENT.md)** - Production deployment instructions
+- **[Architecture](docs/06_ARCHITECTURE.md)** - System architecture and technical design
+- **[Implementation Summary](docs/07_IMPLEMENTATION_SUMMARY.md)** - Current implementation status and features
+- **[Claude Code Guidance](docs/08_CLAUDE.md)** - AI-assisted development guidelines
 
 ## Document Configuration
 
