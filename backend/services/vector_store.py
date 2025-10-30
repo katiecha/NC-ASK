@@ -8,7 +8,6 @@ from typing import List, Dict, Any
 import logging
 from services.interfaces import RetrievalResult
 from services.supabase_client import get_supabase
-from services.config import settings
 
 logger = logging.getLogger(__name__)
 

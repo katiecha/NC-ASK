@@ -6,7 +6,6 @@ ML-based or hybrid approaches via the CrisisDetector interface.
 """
 from typing import List, Dict, Any, Tuple
 import logging
-import re
 
 logger = logging.getLogger(__name__)
 

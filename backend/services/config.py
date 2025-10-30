@@ -5,7 +5,6 @@ from pydantic_settings import BaseSettings
 from pydantic import ConfigDict
 from pathlib import Path
 from typing import List, Optional
-import os
 import json
 
 

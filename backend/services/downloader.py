@@ -11,7 +11,6 @@ from pathlib import Path
 from typing import Optional
 from urllib.parse import urlparse
 import mimetypes
-import os # Added for path manipulation
 
 logger = logging.getLogger(__name__)
 

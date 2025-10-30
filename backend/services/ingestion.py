@@ -4,7 +4,7 @@ Document ingestion service for uploading and indexing documents
 from typing import List, Dict, Any, Optional
 import logging
 from pathlib import Path
-from services.supabase_client import get_supabase, SupabaseClient
+from services.supabase_client import SupabaseClient
 from services.document_processor import DocumentProcessor, DocumentChunk
 from services.embeddings import EmbeddingService
 

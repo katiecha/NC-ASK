@@ -5,22 +5,19 @@ Bridges existing ingestion service with NC ASK metadata requirements
 """
 import asyncio
 import sys
-import httpx
 from pathlib import Path
-import logging
-from dotenv import load_dotenv
-
-load_dotenv()
-
-# --- Setup and Initialization ---
 
 # Add parent directory to path (assuming this script is in a subdirectory)
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-# Import services
+import httpx
+import logging
+from dotenv import load_dotenv
 from services.ingestion import IngestionService
 from services.downloader import download_remote_file, cleanup_temp_downloads, TEMP_DOWNLOAD_DIR
-from config import get_document_config, ContentType
+from config import get_document_config
+
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

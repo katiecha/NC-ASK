@@ -4,7 +4,7 @@ LLM service using Google Gemini for response generation.
 This implementation uses Google's Gemini API. It can be swapped for other
 LLM providers (OpenAI, Anthropic, local models) via the LLMProvider interface.
 """
-from typing import Dict, Any, Optional, Literal
+from typing import Literal
 import logging
 import google.generativeai as genai
 from services.config import settings

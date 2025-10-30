@@ -1,14 +1,12 @@
 """
 API route handlers with dependency injection.
 """
-from fastapi import APIRouter, HTTPException, status, UploadFile, File
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, HTTPException, status
 import logging
 from api.models import (
     QueryRequest,
     QueryResponse,
     HealthResponse,
-    ErrorResponse,
     Citation,
     CrisisResource
 )

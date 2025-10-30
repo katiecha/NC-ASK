@@ -3,7 +3,7 @@ Complete RAG (Retrieval-Augmented Generation) pipeline with dependency injection
 
 This is the main orchestrator that combines all services to answer user queries.
 """
-from typing import Dict, Any, List, Optional, Literal
+from typing import Dict, Any, Optional, Literal
 import logging
 from services.interfaces import (
     RetrievalService as RetrievalServiceProtocol,
