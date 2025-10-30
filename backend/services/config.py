@@ -2,6 +2,7 @@
 Configuration management using Pydantic Settings
 """
 from pydantic_settings import BaseSettings
+from pydantic import ConfigDict
 from pathlib import Path
 from typing import List, Optional
 import os
@@ -63,10 +64,11 @@ class Settings(BaseSettings):
     ENABLE_QUERY_LOGGING: bool = True
     LOG_LEVEL: str = "INFO"
 
-    class Config:
-        # Look for .env file in project root (one level up from backend/)
-        env_file = Path(__file__).resolve().parents[2] / ".env"
-        case_sensitive = True
+    model_config = ConfigDict(
+        extra='ignore',
+        env_file=str(Path(__file__).resolve().parents[2] / ".env"),
+        case_sensitive=True
+    )
 
 
 # Create global settings instance
