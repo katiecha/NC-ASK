@@ -5,9 +5,8 @@ Handles loading and validation of document metadata from JSON config files
 """
 import json
 import logging
-from pathlib import Path
-from typing import Dict, List, Optional
 from enum import Enum
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +25,7 @@ class ContentType(Enum):
 class DocumentConfigLoader:
     """Loads and manages document metadata configurations."""
 
-    def __init__(self, config_path: Optional[Path] = None):
+    def __init__(self, config_path: Path | None = None):
         """
         Initialize the document config loader.
 
@@ -38,7 +37,7 @@ class DocumentConfigLoader:
             config_path = Path(__file__).parent / "documents.json"
 
         self.config_path = config_path
-        self._documents: Dict = {}
+        self._documents: dict = {}
         self._load_config()
 
     def _load_config(self):
@@ -49,7 +48,7 @@ class DocumentConfigLoader:
                 self._documents = {}
                 return
 
-            with open(self.config_path, 'r', encoding='utf-8') as f:
+            with open(self.config_path, encoding='utf-8') as f:
                 self._documents = json.load(f)
 
             logger.info(f"Loaded {len(self._documents)} document configurations from {self.config_path}")
@@ -61,7 +60,7 @@ class DocumentConfigLoader:
             logger.error(f"Error loading config file {self.config_path}: {e}")
             self._documents = {}
 
-    def get_all_documents(self) -> Dict:
+    def get_all_documents(self) -> dict:
         """
         Get all document configurations.
 
@@ -70,7 +69,7 @@ class DocumentConfigLoader:
         """
         return self._documents.copy()
 
-    def get_document(self, key: str) -> Optional[Dict]:
+    def get_document(self, key: str) -> dict | None:
         """
         Get a specific document configuration by key.
 
@@ -82,7 +81,7 @@ class DocumentConfigLoader:
         """
         return self._documents.get(key)
 
-    def get_documents_by_topic(self, topic: str) -> Dict:
+    def get_documents_by_topic(self, topic: str) -> dict:
         """
         Get all documents for a specific topic.
 
@@ -97,7 +96,7 @@ class DocumentConfigLoader:
             if doc.get("topic") == topic
         }
 
-    def get_documents_by_content_type(self, content_type: str) -> Dict:
+    def get_documents_by_content_type(self, content_type: str) -> dict:
         """
         Get all documents of a specific content type.
 
@@ -112,7 +111,7 @@ class DocumentConfigLoader:
             if doc.get("content_type") == content_type
         }
 
-    def get_documents_by_source_org(self, source_org: str) -> Dict:
+    def get_documents_by_source_org(self, source_org: str) -> dict:
         """
         Get all documents from a specific organization.
 
@@ -127,7 +126,7 @@ class DocumentConfigLoader:
             if doc.get("source_org") == source_org
         }
 
-    def validate_document(self, key: str, metadata: Dict) -> List[str]:
+    def validate_document(self, key: str, metadata: dict) -> list[str]:
         """
         Validate a document metadata structure.
 

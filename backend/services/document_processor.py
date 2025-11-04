@@ -1,12 +1,14 @@
 """
 Document processing and chunking service
 """
-from typing import List, Dict, Any
 import logging
 from pathlib import Path
+from typing import Any
+
 import PyPDF2
-from docx import Document
 from bs4 import BeautifulSoup
+from docx import Document
+
 from services.config import settings
 
 logger = logging.getLogger(__name__)
@@ -20,7 +22,7 @@ class DocumentChunk:
         text: str,
         chunk_index: int,
         document_id: int = None,
-        metadata: Dict[str, Any] = None
+        metadata: dict[str, Any] = None
     ):
         self.text = text
         self.chunk_index = chunk_index
@@ -60,7 +62,7 @@ class DocumentProcessor:
     def extract_text_from_html(file_path: str) -> str:
         """Extract text from HTML file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as file:
+            with open(file_path, encoding='utf-8') as file:
                 soup = BeautifulSoup(file.read(), 'lxml')
                 # Remove script and style elements
                 for script in soup(["script", "style"]):
@@ -96,7 +98,7 @@ class DocumentProcessor:
         elif extension in ['.html', '.htm']:
             return DocumentProcessor.extract_text_from_html(file_path)
         elif extension == '.txt':
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 return f.read()
         else:
             raise ValueError(f"Unsupported file type: {extension}")
@@ -106,7 +108,7 @@ class DocumentProcessor:
         text: str,
         chunk_size: int = None,
         chunk_overlap: int = None
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Split text into semantic chunks with overlap
 
@@ -161,8 +163,8 @@ class DocumentProcessor:
     def process_document(
         file_path: str,
         document_id: int = None,
-        metadata: Dict[str, Any] = None
-    ) -> List[DocumentChunk]:
+        metadata: dict[str, Any] = None
+    ) -> list[DocumentChunk]:
         """
         Process a document: extract text and create chunks
 

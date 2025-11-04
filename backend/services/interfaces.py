@@ -1,9 +1,10 @@
 """
 Service interfaces using Python Protocol for dependency injection and modularity.
 """
-from typing import Protocol, List, Dict, Any, Tuple
-from dataclasses import dataclass
+from __future__ import annotations
 
+from dataclasses import dataclass
+from typing import Any, Protocol
 
 # ============================================================================
 # Data Models (shared across interfaces)
@@ -16,11 +17,11 @@ class RetrievalResult:
     chunk_text: str
     document_id: int
     similarity_score: float
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     document_title: str | None = None
     source_url: str | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for API responses"""
         return {
             "chunk_id": self.chunk_id,
@@ -40,7 +41,7 @@ class RetrievalResult:
 class EmbeddingProvider(Protocol):
     """Interface for embedding generation services."""
 
-    def generate_embedding(self, text: str) -> List[float]:
+    def generate_embedding(self, text: str) -> list[float]:
         """
         Generate embedding vector for a single text.
 
@@ -52,7 +53,7 @@ class EmbeddingProvider(Protocol):
         """
         ...
 
-    def generate_embeddings(self, texts: List[str]) -> List[List[float]]:
+    def generate_embeddings(self, texts: list[str]) -> list[list[float]]:
         """
         Generate embedding vectors for multiple texts (batched for efficiency).
 
@@ -70,10 +71,10 @@ class VectorStore(Protocol):
 
     def search_similar(
         self,
-        query_embedding: List[float],
+        query_embedding: list[float],
         top_k: int,
         threshold: float = 0.1
-    ) -> List[RetrievalResult]:
+    ) -> list[RetrievalResult]:
         """
         Search for similar document chunks using vector similarity.
 
@@ -89,8 +90,8 @@ class VectorStore(Protocol):
 
     def store_document_chunks(
         self,
-        chunks: List[Dict[str, Any]]
-    ) -> List[int]:
+        chunks: list[dict[str, Any]]
+    ) -> list[int]:
         """
         Store document chunks with their embeddings.
 
@@ -142,7 +143,7 @@ class LLMProvider(Protocol):
 class CrisisDetector(Protocol):
     """Interface for crisis detection services."""
 
-    def detect_crisis(self, query: str) -> Tuple[bool, str, List[str]]:
+    def detect_crisis(self, query: str) -> tuple[bool, str, list[str]]:
         """
         Detect if a query contains crisis indicators.
 
@@ -157,7 +158,7 @@ class CrisisDetector(Protocol):
         """
         ...
 
-    def get_crisis_resources(self) -> List[Dict[str, Any]]:
+    def get_crisis_resources(self) -> list[dict[str, Any]]:
         """
         Get list of crisis resources.
 
@@ -191,7 +192,7 @@ class RetrievalService(Protocol):
         self,
         query: str,
         top_k: int = 5
-    ) -> List[RetrievalResult]:
+    ) -> list[RetrievalResult]:
         """
         Retrieve top-k most similar document chunks for a query.
 
@@ -206,7 +207,7 @@ class RetrievalService(Protocol):
 
     def format_context_for_llm(
         self,
-        retrieval_results: List[RetrievalResult],
+        retrieval_results: list[RetrievalResult],
         max_tokens: int = 2000
     ) -> str:
         """
@@ -223,8 +224,8 @@ class RetrievalService(Protocol):
 
     def extract_citations(
         self,
-        retrieval_results: List[RetrievalResult]
-    ) -> List[Dict[str, Any]]:
+        retrieval_results: list[RetrievalResult]
+    ) -> list[dict[str, Any]]:
         """
         Extract citation information from retrieval results.
 

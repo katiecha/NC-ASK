@@ -2,10 +2,10 @@
 Configuration package for NC ASK backend
 """
 from .document_config import (
-    DocumentConfigLoader,
     ContentType,
+    DocumentConfigLoader,
     get_document_config,
-    reload_document_config
+    reload_document_config,
 )
 
 __all__ = [

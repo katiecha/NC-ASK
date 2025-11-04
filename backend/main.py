@@ -2,13 +2,13 @@
 NC-ASK FastAPI Backend
 Main application entry point
 """
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 import logging
 from contextlib import asynccontextmanager
 
 from api.routes import router
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from services.config import settings
 
 # Configure logging

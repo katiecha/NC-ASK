@@ -1,7 +1,6 @@
-import pytest
-from services.vector_store import InMemoryVectorStore
-from services.retrieval import DocumentRetrieval
 from services.interfaces import RetrievalResult
+from services.retrieval import DocumentRetrieval
+from services.vector_store import InMemoryVectorStore
 
 
 def make_result(idx, doc_id, title, text, score=0.5, url=None):

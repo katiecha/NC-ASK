@@ -1,11 +1,13 @@
 """
 Configuration management using Pydantic Settings
 """
-from pydantic_settings import BaseSettings
-from pydantic import ConfigDict
-from pathlib import Path
-from typing import List, Optional
+from __future__ import annotations
+
 import json
+from pathlib import Path
+
+from pydantic import ConfigDict
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -24,10 +26,10 @@ class Settings(BaseSettings):
 
     # Security
     SECRET_KEY: str = "your-secret-key-for-session-signing-change-in-production"
-    ALLOWED_ORIGINS: Optional[str] = None
-    
+    ALLOWED_ORIGINS: str | None = None
+
     @property
-    def allowed_origins(self) -> List[str]:
+    def allowed_origins(self) -> list[str]:
         """Parse ALLOWED_ORIGINS from string or return defaults"""
         if self.ALLOWED_ORIGINS:
             try:

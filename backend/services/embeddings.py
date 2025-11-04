@@ -1,9 +1,10 @@
 """
 Embedding generation service using sentence-transformers.
 """
-from sentence_transformers import SentenceTransformer
-from typing import List
 import logging
+
+from sentence_transformers import SentenceTransformer
+
 from services.config import settings
 
 logger = logging.getLogger(__name__)
@@ -48,7 +49,7 @@ class SentenceTransformerEmbedding:
                 raise
         return self._model
 
-    def generate_embedding(self, text: str) -> List[float]:
+    def generate_embedding(self, text: str) -> list[float]:
         """
         Generate embedding vector for a single text.
 
@@ -67,7 +68,7 @@ class SentenceTransformerEmbedding:
             logger.error(f"Error generating embedding: {e}")
             raise
 
-    def generate_embeddings(self, texts: List[str]) -> List[List[float]]:
+    def generate_embeddings(self, texts: list[str]) -> list[list[float]]:
         """
         Generate embedding vectors for multiple texts (batched for efficiency).
 
@@ -110,17 +111,17 @@ class EmbeddingService:
         return cls._instance
 
     @classmethod
-    def generate_embedding(cls, text: str) -> List[float]:
+    def generate_embedding(cls, text: str) -> list[float]:
         """DEPRECATED: Use SentenceTransformerEmbedding instance instead"""
         return cls.get_instance().generate_embedding(text)
 
     @classmethod
-    def generate_embeddings(cls, texts: List[str]) -> List[List[float]]:
+    def generate_embeddings(cls, texts: list[str]) -> list[list[float]]:
         """DEPRECATED: Use SentenceTransformerEmbedding instance instead"""
         return cls.get_instance().generate_embeddings(texts)
 
 
-def generate_embedding(text: str) -> List[float]:
+def generate_embedding(text: str) -> list[float]:
     """
     DEPRECATED: Convenience function for backward compatibility.
 

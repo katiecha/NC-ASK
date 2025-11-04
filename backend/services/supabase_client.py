@@ -1,9 +1,11 @@
 """
 Supabase client configuration and utilities
 """
-from supabase import create_client, Client
-from services.config import settings
 import logging
+
+from supabase import Client, create_client
+
+from services.config import settings
 
 logger = logging.getLogger(__name__)
 

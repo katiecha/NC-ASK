@@ -4,13 +4,12 @@ services/downloader.py
 Asynchronous utility functions for safely downloading remote documents
 to a local, temporary directory for ingestion.
 """
-import httpx
-import asyncio
 import logging
-from pathlib import Path
-from typing import Optional
-from urllib.parse import urlparse
 import mimetypes
+from pathlib import Path
+from urllib.parse import urlparse
+
+import httpx
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +18,7 @@ TEMP_DOWNLOAD_DIR = Path(__file__).parent.parent / "data" / "temp_downloads"
 TEMP_DOWNLOAD_DIR.mkdir(exist_ok=True)
 
 
-def get_file_extension_from_url(url: str, content_type: Optional[str] = None) -> str:
+def get_file_extension_from_url(url: str, content_type: str | None = None) -> str:
     """Infers the file extension from the URL path or Content-Type header."""
 
     path = urlparse(url).path
@@ -33,7 +32,7 @@ def get_file_extension_from_url(url: str, content_type: Optional[str] = None) ->
 
     return ".html"
 
-async def download_remote_file(client: httpx.AsyncClient, url: str, key: str) -> Optional[Path]:
+async def download_remote_file(client: httpx.AsyncClient, url: str, key: str) -> Path | None:
     """
     Downloads a remote file asynchronously and saves it to a temporary location.
 
@@ -77,7 +76,7 @@ async def download_remote_file(client: httpx.AsyncClient, url: str, key: str) ->
 
     except httpx.HTTPError as e:
         logger.error(f"HTTP error downloading {url}: {e}")
-    except asyncio.TimeoutError:
+    except TimeoutError:
         logger.error(f"Timeout error downloading {url}")
     except Exception as e:
         logger.error(f"An unexpected error occurred during download of {url}: {e}")

@@ -3,13 +3,12 @@ Complete RAG (Retrieval-Augmented Generation) pipeline with dependency injection
 
 This is the main orchestrator that combines all services to answer user queries.
 """
-from typing import Dict, Any, Optional, Literal
 import logging
-from services.interfaces import (
-    RetrievalService as RetrievalServiceProtocol,
-    LLMProvider,
-    CrisisDetector as CrisisDetectorProtocol
-)
+from typing import Any, Literal
+
+from services.interfaces import CrisisDetector as CrisisDetectorProtocol
+from services.interfaces import LLMProvider
+from services.interfaces import RetrievalService as RetrievalServiceProtocol
 
 logger = logging.getLogger(__name__)
 
@@ -103,9 +102,9 @@ class RAGPipeline:
     async def process_query(
         self,
         query: str,
-        session_id: Optional[str] = None,
+        session_id: str | None = None,
         view_type: Literal["provider", "patient"] = "patient"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process a user query through the complete RAG pipeline.
 

@@ -7,7 +7,7 @@ to guide response generation through in-context learning.
 
 You can update these examples based on actual user queries and optimal responses.
 """
-from typing import TypedDict, List, Literal
+from typing import Literal, TypedDict
 
 ViewType = Literal["provider", "patient"]
 
@@ -22,7 +22,7 @@ class Example(TypedDict):
 # Healthcare Provider Examples (Clinical, Evidence-Based Tone)
 # ============================================================================
 
-PROVIDER_EXAMPLES: List[Example] = [
+PROVIDER_EXAMPLES: list[Example] = [
     {
         "query": "What are the eligibility criteria for the Innovations Waiver?",
         "response": """**Eligibility Criteria**:
@@ -81,7 +81,7 @@ Cognitive functioning, academic achievement, communication, motor skills, behavi
 # Patient/Parent Examples (Empathetic, Plain Language Tone)
 # ============================================================================
 
-PATIENT_EXAMPLES: List[Example] = [
+PATIENT_EXAMPLES: list[Example] = [
     {
         "query": "I need help for my child with autism but I'm not sure where to start.",
         "response": """In North Carolina, each county is served by a Local Management Entity/Managed Care Organization (LME/MCO) that manages Medicaid services for mental health, developmental disabilities and substance-use needs. They can connect you to programs like the Innovations Waiver and 1915(i) services, which offer home- and community-based supports, respite and crisis services. To find your LME/MCO, use the state directory or call 1-855-262-1946. You do not need to know the program names in advance—describe your child's needs, and the LME/MCO will explain the options and help you apply.
@@ -145,7 +145,7 @@ Do you need assistance finding the phone number to schedule NEMT or learning abo
 ]
 
 
-def get_examples(view_type: ViewType) -> List[Example]:
+def get_examples(view_type: ViewType) -> list[Example]:
     """
     Get example query-response pairs for a specific view type.
 
@@ -170,7 +170,7 @@ def get_examples(view_type: ViewType) -> List[Example]:
         raise ValueError(f"Invalid view_type: {view_type}. Must be 'provider' or 'patient'")
 
 
-def format_examples_for_prompt(examples: List[Example]) -> str:
+def format_examples_for_prompt(examples: list[Example]) -> str:
     """
     Format examples into a string suitable for inclusion in LLM prompt.
 

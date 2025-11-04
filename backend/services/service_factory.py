@@ -14,25 +14,21 @@ Example:
     >>> rag_pipeline = factory.create_rag_pipeline()
     >>> result = rag_pipeline.process_query("What is an IEP?")
 """
-from typing import Optional
 import logging
-from services.config import settings
 
-# Import interfaces
-from services.interfaces import (
-    EmbeddingProvider,
-    VectorStore,
-    LLMProvider,
-    CrisisDetector as CrisisDetectorProtocol,
-    RetrievalService as RetrievalServiceProtocol
-)
+from services.config import settings
+from services.crisis_detection import KeywordCrisisDetector
 
 # Import concrete implementations
 from services.embeddings import SentenceTransformerEmbedding
-from services.vector_store import SupabaseVectorStore, InMemoryVectorStore
+from services.interfaces import CrisisDetector as CrisisDetectorProtocol
+
+# Import interfaces
+from services.interfaces import EmbeddingProvider, LLMProvider, VectorStore
+from services.interfaces import RetrievalService as RetrievalServiceProtocol
 from services.llm_service import GeminiLLM
-from services.crisis_detection import KeywordCrisisDetector
 from services.retrieval import DocumentRetrieval
+from services.vector_store import InMemoryVectorStore, SupabaseVectorStore
 
 logger = logging.getLogger(__name__)
 
@@ -63,10 +59,10 @@ class ServiceFactory:
     def __init__(
         self,
         # Allow dependency injection for testing
-        embedding_provider: Optional[EmbeddingProvider] = None,
-        vector_store: Optional[VectorStore] = None,
-        llm_provider: Optional[LLMProvider] = None,
-        crisis_detector: Optional[CrisisDetectorProtocol] = None,
+        embedding_provider: EmbeddingProvider | None = None,
+        vector_store: VectorStore | None = None,
+        llm_provider: LLMProvider | None = None,
+        crisis_detector: CrisisDetectorProtocol | None = None,
         use_in_memory_store: bool = False
     ):
         """
@@ -217,7 +213,7 @@ class ServiceFactory:
 # Global Factory Instance (for easy access)
 # =================================================================
 
-_default_factory: Optional[ServiceFactory] = None
+_default_factory: ServiceFactory | None = None
 
 
 def get_service_factory() -> ServiceFactory:

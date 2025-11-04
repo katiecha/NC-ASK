@@ -1,16 +1,12 @@
 """
 API route handlers with dependency injection.
 """
-from fastapi import APIRouter, HTTPException, status
 import logging
-from api.models import (
-    QueryRequest,
-    QueryResponse,
-    HealthResponse,
-    Citation,
-    CrisisResource
-)
+
+from fastapi import APIRouter, HTTPException, status
 from services.service_factory import get_service_factory
+
+from api.models import Citation, CrisisResource, HealthResponse, QueryRequest, QueryResponse
 
 logger = logging.getLogger(__name__)
 
@@ -66,7 +62,7 @@ async def query_endpoint(request: QueryRequest):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An error occurred processing your query"
-        )
+        ) from e
 
 
 @router.get("/crisis-resources")
@@ -89,7 +85,7 @@ async def get_crisis_resources():
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Error retrieving crisis resources"
-        )
+        ) from e
 
 
 @router.get("/health", response_model=HealthResponse)

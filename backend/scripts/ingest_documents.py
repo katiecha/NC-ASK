@@ -10,12 +10,13 @@ from pathlib import Path
 # Add parent directory to path (assuming this script is in a subdirectory)
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-import httpx
 import logging
-from dotenv import load_dotenv
-from services.ingestion import IngestionService
-from services.downloader import download_remote_file, cleanup_temp_downloads, TEMP_DOWNLOAD_DIR
+
+import httpx
 from config import get_document_config
+from dotenv import load_dotenv
+from services.downloader import TEMP_DOWNLOAD_DIR, cleanup_temp_downloads, download_remote_file
+from services.ingestion import IngestionService
 
 load_dotenv()
 
@@ -40,7 +41,7 @@ def get_document_metadata(doc_path: Path) -> dict:
 
     if metadata_path.exists():
         import json
-        with open(metadata_path, 'r') as f:
+        with open(metadata_path) as f:
             return json.load(f)
 
     # Return basic metadata if no metadata file exists

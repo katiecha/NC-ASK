@@ -1,0 +1,48 @@
+# Ruff configuration for NC-ASK backend
+# Balanced approach: catch real issues without being overly strict
+
+# Target Python 3.11
+target-version = "py311"
+
+# Set line length to match common Python standards
+line-length = 100
+
+[lint]
+# Select rule categories to check
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "W",   # pycodestyle warnings
+    "B",   # flake8-bugbear (common bugs)
+    "I",   # isort (import sorting)
+    "UP",  # pyupgrade (modern Python syntax)
+    "S",   # flake8-bandit (security)
+]
+
+# Ignore specific rules that are too strict or not relevant
+ignore = [
+    "E501",   # Line too long (handled by formatter)
+    "S101",   # Use of assert (common in tests)
+    "S104",   # Binding to all interfaces (common in dev)
+    "S105",   # Possible hardcoded password (too many false positives)
+    "S106",   # Possible hardcoded password (too many false positives)
+    "S107",   # Possible hardcoded password (too many false positives)
+]
+
+# Exclude common directories
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "env",
+    ".pytest_cache",
+    "node_modules",
+]
+
+[lint.per-file-ignores]
+# Allow certain violations in test files
+"tests/**/*.py" = [
+    "S101",   # Allow asserts in tests
+    "S106",   # Allow test credentials
+]

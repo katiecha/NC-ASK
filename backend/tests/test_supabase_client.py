@@ -1,5 +1,4 @@
 import types
-import pytest
 
 
 def test_supabase_client_singleton_and_admin(monkeypatch):

@@ -4,8 +4,8 @@ Crisis detection service for identifying urgent mental health concerns.
 This implementation uses keyword-based detection. It can be swapped for
 ML-based or hybrid approaches via the CrisisDetector interface.
 """
-from typing import List, Dict, Any, Tuple
 import logging
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -43,9 +43,9 @@ class KeywordCrisisDetector:
 
     def __init__(
         self,
-        critical_keywords: List[str] | None = None,
-        high_priority_keywords: List[str] | None = None,
-        moderate_keywords: List[str] | None = None
+        critical_keywords: list[str] | None = None,
+        high_priority_keywords: list[str] | None = None,
+        moderate_keywords: list[str] | None = None
     ):
         """
         Initialize crisis detector with custom keywords.
@@ -60,7 +60,7 @@ class KeywordCrisisDetector:
         self.moderate_keywords = moderate_keywords or MODERATE_KEYWORDS
         logger.info("Initialized KeywordCrisisDetector")
 
-    def detect_crisis(self, query: str) -> Tuple[bool, str, List[str]]:
+    def detect_crisis(self, query: str) -> tuple[bool, str, list[str]]:
         """
         Detect if a query contains crisis indicators.
 
@@ -107,7 +107,7 @@ class KeywordCrisisDetector:
 
         return False, "none", []
 
-    def get_crisis_resources(self) -> List[Dict[str, Any]]:
+    def get_crisis_resources(self) -> list[dict[str, Any]]:
         """
         Get list of crisis resources.
 
@@ -206,12 +206,12 @@ class CrisisDetector:
         return cls._instance
 
     @classmethod
-    def detect_crisis(cls, query: str) -> Tuple[bool, str, List[str]]:
+    def detect_crisis(cls, query: str) -> tuple[bool, str, list[str]]:
         """DEPRECATED: Use KeywordCrisisDetector instance instead"""
         return cls.get_instance().detect_crisis(query)
 
     @classmethod
-    def get_crisis_resources(cls) -> List[Dict[str, Any]]:
+    def get_crisis_resources(cls) -> list[dict[str, Any]]:
         """DEPRECATED: Use KeywordCrisisDetector instance instead"""
         return cls.get_instance().get_crisis_resources()
 
