@@ -15,7 +15,11 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 
 # Install Python dependencies to user directory
-RUN pip install --user --no-cache-dir -r requirements.txt
+# Use --no-cache-dir to avoid storing pip cache (saves ~500MB)
+RUN pip install --user --no-cache-dir -r requirements.txt \
+    && find /root/.local -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true \
+    && find /root/.local -type f -name "*.pyc" -delete \
+    && find /root/.local -type f -name "*.pyo" -delete
 
 # Stage 2: Runtime - Minimal production image
 FROM python:3.11-slim

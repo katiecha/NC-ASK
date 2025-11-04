@@ -44,6 +44,20 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Free up disk space
+      run: |
+        echo "Disk space before cleanup:"
+        df -h
+        # Remove unnecessary pre-installed software
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /opt/hostedtoolcache/CodeQL
+        # Clean Docker system
+        docker system prune -af --volumes
+        echo "Disk space after cleanup:"
+        df -h
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
@@ -55,7 +69,7 @@ jobs:
         push: false
         tags: nc-ask-backend:prod
         cache-from: type=gha
-        cache-to: type=gha,mode=max
+        cache-to: type=gha,mode=min
 
     - name: Build frontend (prod)
       uses: docker/build-push-action@v5
