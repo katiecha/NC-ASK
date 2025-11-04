@@ -5,7 +5,8 @@ from services.service_factory import ServiceFactory
 @pytest.mark.asyncio
 async def test_rag_pipeline():
     """Test RAG pipeline returns valid response."""
-    factory = ServiceFactory()
+    # Use in-memory vector store to avoid real Supabase connection
+    factory = ServiceFactory(use_in_memory_store=True)
     pipeline = factory.create_rag_pipeline()
 
     result = await pipeline.process_query("What resources are available for autism support?")

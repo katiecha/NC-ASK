@@ -46,3 +46,7 @@ exclude = [
     "S101",   # Allow asserts in tests
     "S106",   # Allow test credentials
 ]
+# Allow FastAPI dependency injection pattern in API routes
+"backend/api/routes.py" = [
+    "B008",   # Depends() in function defaults is the correct FastAPI pattern
+]
