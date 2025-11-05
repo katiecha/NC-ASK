@@ -25,9 +25,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run pytest
+    - name: Run pytest with coverage
       working-directory: ./backend
-      run: python -m pytest -v
+      run: python -m pytest -v --cov=. --cov-report=term --cov-report=xml
 
   # Frontend tests would go here when implemented
   # frontend-tests:

@@ -118,17 +118,3 @@ async def health_check():
         status="healthy",
         service="NC-ASK Backend API"
     )
-
-
-@router.get("/api/health", response_model=HealthResponse)
-async def api_health_check():
-    """
-    Alternative health check endpoint (with /api prefix for backwards compatibility)
-
-    Returns:
-        Health status
-    """
-    return HealthResponse(
-        status="healthy",
-        service="NC-ASK Backend API"
-    )

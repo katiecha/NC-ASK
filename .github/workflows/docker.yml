@@ -36,7 +36,7 @@ jobs:
         push: false
         tags: nc-ask-backend:dev
         cache-from: type=gha
-        cache-to: type=gha,mode=min
+        cache-to: type=gha,mode=max
 
     - name: Build frontend (dev)
       uses: docker/build-push-action@v5
@@ -46,7 +46,7 @@ jobs:
         push: false
         tags: nc-ask-frontend:dev
         cache-from: type=gha
-        cache-to: type=gha,mode=min
+        cache-to: type=gha,mode=max
 
   build-prod:
     name: Build Production Images
@@ -80,7 +80,7 @@ jobs:
         push: false
         tags: nc-ask-backend:prod
         cache-from: type=gha
-        cache-to: type=gha,mode=min
+        cache-to: type=gha,mode=max
 
     - name: Build frontend (prod)
       uses: docker/build-push-action@v5
