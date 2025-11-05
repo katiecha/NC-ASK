@@ -1,12 +1,13 @@
 """
 Document ingestion service for uploading and indexing documents
 """
-from typing import List, Dict, Any, Optional
 import logging
 from pathlib import Path
-from services.supabase_client import SupabaseClient
-from services.document_processor import DocumentProcessor, DocumentChunk
+from typing import Any
+
+from services.document_processor import DocumentChunk, DocumentProcessor
 from services.embeddings import EmbeddingService
+from services.supabase_client import SupabaseClient
 
 logger = logging.getLogger(__name__)
 
@@ -54,10 +55,10 @@ class IngestionService:
     @staticmethod
     def create_document_record(
         title: str,
-        source_url: Optional[str],
+        source_url: str | None,
         content_type: str,
         file_path: str,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: dict[str, Any] | None = None
     ) -> int:
         """
         Create a document record in the database
@@ -97,7 +98,7 @@ class IngestionService:
             raise
 
     @staticmethod
-    def insert_document_chunks(chunks: List[DocumentChunk]) -> None:
+    def insert_document_chunks(chunks: list[DocumentChunk]) -> None:
         """
         Insert document chunks with embeddings into the database
 
@@ -113,7 +114,7 @@ class IngestionService:
 
             # Prepare data for insertion
             chunk_data = []
-            for chunk, embedding in zip(chunks, embeddings):
+            for chunk, embedding in zip(chunks, embeddings, strict=True):
                 chunk_data.append({
                     "document_id": chunk.document_id,
                     "chunk_text": chunk.text,
@@ -139,10 +140,10 @@ class IngestionService:
         cls,
         file_path: str,
         title: str,
-        source_url: Optional[str] = None,
-        content_type: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        source_url: str | None = None,
+        content_type: str | None = None,
+        metadata: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
         """
         Complete ingestion workflow for a document
 

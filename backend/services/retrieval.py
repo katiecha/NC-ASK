@@ -4,10 +4,11 @@ Document retrieval service for RAG pipeline.
 This service orchestrates embedding generation and vector search to find
 relevant document chunks for a given query.
 """
-from typing import List, Dict, Any
 import logging
-from services.interfaces import RetrievalResult, EmbeddingProvider, VectorStore
+from typing import Any
+
 from services.config import settings
+from services.interfaces import EmbeddingProvider, RetrievalResult, VectorStore
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +60,7 @@ class DocumentRetrieval:
         self,
         query: str,
         top_k: int | None = None
-    ) -> List[RetrievalResult]:
+    ) -> list[RetrievalResult]:
         """
         Retrieve top-k most similar document chunks for a query.
 
@@ -102,7 +103,7 @@ class DocumentRetrieval:
 
     def format_context_for_llm(
         self,
-        retrieval_results: List[RetrievalResult],
+        retrieval_results: list[RetrievalResult],
         max_tokens: int | None = None
     ) -> str:
         """
@@ -147,8 +148,8 @@ class DocumentRetrieval:
 
     def extract_citations(
         self,
-        retrieval_results: List[RetrievalResult]
-    ) -> List[Dict[str, Any]]:
+        retrieval_results: list[RetrievalResult]
+    ) -> list[dict[str, Any]]:
         """
         Extract citation information from retrieval results.
 
@@ -210,14 +211,14 @@ class RetrievalService:
         cls,
         query: str,
         top_k: int | None = None
-    ) -> List[RetrievalResult]:
+    ) -> list[RetrievalResult]:
         """DEPRECATED: Use DocumentRetrieval instance instead"""
         return cls.get_instance().retrieve_similar_chunks(query, top_k)
 
     @classmethod
     def format_context_for_llm(
         cls,
-        retrieval_results: List[RetrievalResult],
+        retrieval_results: list[RetrievalResult],
         max_tokens: int | None = None
     ) -> str:
         """DEPRECATED: Use DocumentRetrieval instance instead"""
@@ -226,7 +227,7 @@ class RetrievalService:
     @classmethod
     def extract_citations(
         cls,
-        retrieval_results: List[RetrievalResult]
-    ) -> List[Dict[str, Any]]:
+        retrieval_results: list[RetrievalResult]
+    ) -> list[dict[str, Any]]:
         """DEPRECATED: Use DocumentRetrieval instance instead"""
         return cls.get_instance().extract_citations(retrieval_results)

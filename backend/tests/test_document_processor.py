@@ -1,5 +1,3 @@
-import os
-import tempfile
 
 from services.document_processor import DocumentProcessor
 

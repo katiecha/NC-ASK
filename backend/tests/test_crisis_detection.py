@@ -1,8 +1,6 @@
-from typing import List, Tuple
 
 import pytest
-
-from services.crisis_detection import KeywordCrisisDetector, CrisisDetector
+from services.crisis_detection import CrisisDetector, KeywordCrisisDetector
 
 
 @pytest.mark.parametrize(

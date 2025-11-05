@@ -1,14 +1,15 @@
 """
 Pydantic models for API request/response validation
 """
+from typing import Any, Literal
+
 from pydantic import BaseModel, Field, field_validator
-from typing import List, Optional, Dict, Any, Literal
 
 
 class QueryRequest(BaseModel):
     """Request model for query endpoint"""
     query: str = Field(..., min_length=1, max_length=500, description="User's question")
-    session_id: Optional[str] = Field(None, description="Optional session identifier")
+    session_id: str | None = Field(None, description="Optional session identifier")
     view_type: Literal["provider", "patient"] = Field(
         default="patient",
         description="User view type: 'provider' for healthcare professionals, 'patient' for parents/caregivers"
@@ -26,7 +27,7 @@ class QueryRequest(BaseModel):
 class Citation(BaseModel):
     """Citation information"""
     title: str = Field(..., description="Document title")
-    url: Optional[str] = Field(None, description="Source URL")
+    url: str | None = Field(None, description="Source URL")
     relevance_score: float = Field(..., ge=0, le=1, description="Relevance score (0-1)")
 
 
@@ -35,18 +36,18 @@ class CrisisResource(BaseModel):
     name: str = Field(..., description="Resource name")
     phone: str = Field(..., description="Phone number")
     description: str = Field(..., description="Resource description")
-    url: Optional[str] = Field(None, description="Resource URL")
+    url: str | None = Field(None, description="Resource URL")
     priority: int = Field(..., description="Priority level")
 
 
 class QueryResponse(BaseModel):
     """Response model for query endpoint"""
     response: str = Field(..., description="Generated response text")
-    citations: List[Citation] = Field(default=[], description="List of citations")
+    citations: list[Citation] = Field(default=[], description="List of citations")
     crisis_detected: bool = Field(default=False, description="Whether crisis was detected")
-    crisis_severity: Optional[str] = Field(None, description="Crisis severity level")
-    crisis_resources: List[CrisisResource] = Field(default=[], description="Crisis resources")
-    disclaimers: Optional[List[str]] = Field(default=None, description="Legal/medical disclaimers")
+    crisis_severity: str | None = Field(None, description="Crisis severity level")
+    crisis_resources: list[CrisisResource] = Field(default=[], description="Crisis resources")
+    disclaimers: list[str] | None = Field(default=None, description="Legal/medical disclaimers")
 
 
 class HealthResponse(BaseModel):
@@ -58,15 +59,15 @@ class HealthResponse(BaseModel):
 class ErrorResponse(BaseModel):
     """Error response model"""
     error: str = Field(..., description="Error message")
-    detail: Optional[str] = Field(None, description="Detailed error information")
+    detail: str | None = Field(None, description="Detailed error information")
 
 
 class IngestionRequest(BaseModel):
     """Request model for document ingestion"""
     title: str = Field(..., description="Document title")
-    source_url: Optional[str] = Field(None, description="Source URL")
-    content_type: Optional[str] = Field(None, description="Content type (PDF, DOCX, etc.)")
-    metadata: Optional[Dict[str, Any]] = Field(default={}, description="Additional metadata")
+    source_url: str | None = Field(None, description="Source URL")
+    content_type: str | None = Field(None, description="Content type (PDF, DOCX, etc.)")
+    metadata: dict[str, Any] | None = Field(default={}, description="Additional metadata")
 
 
 class IngestionResponse(BaseModel):

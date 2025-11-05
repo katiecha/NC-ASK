@@ -4,8 +4,9 @@ Vector store implementations for document storage and similarity search.
 This module provides concrete implementations of the VectorStore interface,
 allowing easy swapping between different vector databases (Supabase, Pinecone, Weaviate, etc.).
 """
-from typing import List, Dict, Any
 import logging
+from typing import Any
+
 from services.interfaces import RetrievalResult
 from services.supabase_client import get_supabase
 
@@ -51,10 +52,10 @@ class SupabaseVectorStore:
 
     def search_similar(
         self,
-        query_embedding: List[float],
+        query_embedding: list[float],
         top_k: int,
         threshold: float = 0.1
-    ) -> List[RetrievalResult]:
+    ) -> list[RetrievalResult]:
         """
         Search for similar document chunks using vector similarity.
 
@@ -120,8 +121,8 @@ class SupabaseVectorStore:
 
     def store_document_chunks(
         self,
-        chunks: List[Dict[str, Any]]
-    ) -> List[int]:
+        chunks: list[dict[str, Any]]
+    ) -> list[int]:
         """
         Store document chunks with their embeddings in Supabase.
 
@@ -249,16 +250,16 @@ class InMemoryVectorStore:
 
     def __init__(self):
         """Initialize in-memory storage"""
-        self.chunks: List[Dict[str, Any]] = []
+        self.chunks: list[dict[str, Any]] = []
         self.next_id = 1
         logger.info("Initialized InMemoryVectorStore (no database)")
 
     def search_similar(
         self,
-        query_embedding: List[float],
+        query_embedding: list[float],
         top_k: int,
         threshold: float = 0.1
-    ) -> List[RetrievalResult]:
+    ) -> list[RetrievalResult]:
         """
         Search for similar chunks using cosine similarity.
 
@@ -316,8 +317,8 @@ class InMemoryVectorStore:
 
     def store_document_chunks(
         self,
-        chunks: List[Dict[str, Any]]
-    ) -> List[int]:
+        chunks: list[dict[str, Any]]
+    ) -> list[int]:
         """Store chunks in memory"""
         chunk_ids = []
 
