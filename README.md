@@ -99,7 +99,7 @@ For detailed architecture information, see [06_ARCHITECTURE.md](docs/06_ARCHITEC
 - **[Deployment Guide](docs/05_DEPLOYMENT.md)** - Production deployment instructions
 - **[Architecture](docs/06_ARCHITECTURE.md)** - System architecture and technical design
 - **[Implementation Summary](docs/07_IMPLEMENTATION_SUMMARY.md)** - Current implementation status and features
-- **[Claude Code Guidance](docs/08_CLAUDE.md)** - AI-assisted development guidelines
+- **[Claude Code Guidance](docs/CLAUDE.md)** - AI-assisted development guidelines
 
 ## Document Configuration
 
