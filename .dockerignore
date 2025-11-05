@@ -1,0 +1,68 @@
+# .dockerignore - Exclude unnecessary files from Docker builds
+# This speeds up builds and prevents secret leakage
+
+# Development files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+node_modules/
+.venv/
+venv/
+env/
+
+# Git
+.git/
+.github/
+.gitignore
+
+# Environment & Secrets
+.env
+.env.*
+*.env
+*.env.local
+!.env.example
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Tests
+backend/tests/
+frontend/src/**/*.test.tsx
+frontend/src/**/*.test.ts
+frontend/src/**/*.spec.tsx
+frontend/src/**/*.spec.ts
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Logs
+*.log
+logs/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# CI/CD
+.github/
