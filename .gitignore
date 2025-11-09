@@ -105,6 +105,11 @@ logs/
 ruff_cache/
 .prettier-cache/
 
+# Promptfoo outputs
+promptfoo-results.json
+promptfoo-output.txt
+.promptfoo/
+
 # Other
 backend/__pycache__/
 frontend/.next/

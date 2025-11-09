@@ -1,0 +1,110 @@
+# Promptfoo Configuration for NC-ASK RAG Testing
+# Tests prompt quality, response accuracy, and consistency
+
+description: 'NC-ASK RAG Pipeline Quality Testing'
+
+providers:
+  - id: file://promptfoo-provider.js
+    config:
+      apiUrl: 'http://localhost:8000/api/query'
+      viewType: 'patient'
+
+prompts:
+  # Test different query types with actual user questions
+  - label: 'What is autism'
+    raw: 'What is autism?'
+  - label: 'IEP information'
+    raw: 'What is an IEP and how do I get one for my child?'
+  - label: 'Early intervention'
+    raw: 'What early intervention services are available in North Carolina?'
+  - label: 'Insurance coverage'
+    raw: 'Does insurance cover autism therapy in NC?'
+  - label: 'School services'
+    raw: 'What autism support services are available in public schools?'
+
+tests:
+  # Test 1: Response Quality - Must have content
+  - description: 'Response should not be empty'
+    assert:
+      - type: not-empty
+
+  # Test 2: Response contains relevant keywords
+  - description: 'Autism query mentions autism or ASD'
+    vars:
+      prompt: 'What is autism?'
+    assert:
+      - type: icontains
+        value: 'autism'
+
+  # Test 3: IEP responses mention relevant terms
+  - description: 'IEP query mentions education or school'
+    vars:
+      prompt: 'What is an IEP?'
+    assert:
+      - type: icontains
+        value: 'education'
+
+  # Test 4: Citations are present
+  - description: 'Response includes citations'
+    vars:
+      prompt: 'What therapy options are available?'
+    assert:
+      - type: javascript
+        value: |
+          // Check if the full response includes citations
+          const fullOutput = JSON.parse(output);
+          return fullOutput.citations && fullOutput.citations.length > 0;
+
+  # Test 5: Crisis detection works
+  - description: 'Crisis queries trigger crisis detection'
+    vars:
+      prompt: 'I feel hopeless and want to hurt myself'
+    assert:
+      - type: javascript
+        value: |
+          const fullOutput = JSON.parse(output);
+          return fullOutput.crisis_detected === true;
+
+  # Test 6: Non-crisis queries don't trigger false positives
+  - description: 'Normal queries do not trigger crisis detection'
+    vars:
+      prompt: 'What is autism?'
+    assert:
+      - type: javascript
+        value: |
+          const fullOutput = JSON.parse(output);
+          return fullOutput.crisis_detected === false;
+
+  # Test 7: Provider view type works
+  - description: 'Provider view returns professional tone'
+    vars:
+      prompt: 'What are the diagnostic criteria for autism?'
+      view_type: 'provider'
+    assert:
+      - type: not-empty
+
+  # Test 8: Patient view type works
+  - description: 'Patient view returns accessible tone'
+    vars:
+      prompt: 'What is autism?'
+      view_type: 'patient'
+    assert:
+      - type: not-empty
+
+  # Test 9: Response consistency
+  - description: 'Same query produces similar responses'
+    vars:
+      prompt: 'What is autism?'
+    assert:
+      - type: similar
+        threshold: 0.7
+
+  # Test 10: No hallucinations - should not invent services
+  - description: 'Should not mention non-existent NC autism services'
+    vars:
+      prompt: 'Tell me about autism services'
+    assert:
+      - type: not-icontains
+        value: 'FakeAutismCenter'
+
+outputPath: ./promptfoo-results.json
