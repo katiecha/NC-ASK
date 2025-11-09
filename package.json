@@ -10,7 +10,10 @@
     "build": "cd frontend && npm run build",
     "preview": "cd frontend && npm run preview",
     "typecheck": "cd frontend && npm run typecheck",
-    "lint": "cd frontend && npm run lint"
+    "lint": "cd frontend && npm run lint",
+    "test": "cd frontend && npm run test",
+    "test:ui": "cd frontend && npm run test:ui",
+    "test:coverage": "cd frontend && npm run test:coverage"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
