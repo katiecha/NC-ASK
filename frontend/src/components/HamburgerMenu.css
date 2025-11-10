@@ -5,11 +5,11 @@
   align-items: center;
   width: 48px;
   height: 48px;
-  background: white;
+  background: var(--color-surface-elevated);
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-sm);
   gap: 4px;
 }
 
@@ -20,6 +20,6 @@
 .hamburger-line {
   width: 18px;
   height: 2px;
-  background-color: #333;
+  background-color: var(--color-text);
   border-radius: 1px;
 }

@@ -85,11 +85,11 @@
 
 /* Dark mode styles for user message */
 .dark-mode .user-message {
-  background: var(--unc-navy);
+  background: var(--color-surface);
 }
 
 .dark-mode .user-message p {
-  color: #FFFFFF;
+  color: var(--color-text);
 }
 
 .loading-indicator {
