@@ -1,0 +1,42 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: nc-ask-frontend
+  labels:
+    app: nc-ask
+    component: frontend
+spec:
+  # This will create a URL like: nc-ask-frontend-nc-ask.apps.your-cluster.com
+  # OpenShift will automatically generate the host if not specified
+  to:
+    kind: Service
+    name: nc-ask-frontend
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    # Enable TLS with edge termination
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: nc-ask-backend
+  labels:
+    app: nc-ask
+    component: backend
+spec:
+  # Backend API route for direct access if needed
+  # Example: nc-ask-backend-nc-ask.apps.your-cluster.com/api/health
+  to:
+    kind: Service
+    name: nc-ask-backend
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
