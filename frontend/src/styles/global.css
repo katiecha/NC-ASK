@@ -50,33 +50,29 @@
   --color-primary: #7CB8E8;  /* Lightened Carolina Blue for dark mode */
   --color-secondary: #5FE3B5; /* Brightened Longleaf Pine */
 
-  /* Backgrounds - UNC Black with variations */
-  --color-gray: var(--unc-black);
-  --color-white: #1f1f1f;
-  --color-background: var(--unc-black);
-  --color-surface: #1a1a1a;
-  --color-surface-elevated: #252525;
+  /* Background / surface palette tuned for dark mode */
+  --color-gray: #0b1116;
+  --color-white: #0f1720; /* used as dark surface variable to preserve existing usage */
+  --color-background: #071018; /* page background */
+  --color-surface: #0f1720; /* card/panel background */
+  --color-surface-elevated: #111827; /* elevated surfaces */
 
-  /* All text in dark mode is pure white - WCAG AAA compliant */
-  --color-text: #FFFFFF;        /* Pure white: 21:1 contrast ratio */
-  --color-text-secondary: #CCCCCC; /* Light gray: 11.9:1 contrast ratio */
+  /* Text colors tuned for warm contrast on dark backgrounds */
+  --color-text: #E6F0FA;        /* near-white for body text */
+  --color-text-secondary: #A6B4C2; /* subdued secondary text */
 
-  /* Borders - visible against dark background */
-  --color-border: #4a4a4a;
+  /* Borders - slightly bluish slate */
+  --color-border: #21303d;
 
   /* Status colors with high contrast - UNC palette adjusted */
   --color-error: #FF6B8A;     /* Brightened Azalea Pink */
   --color-warning: #FFE34D;   /* Brightened Sunburst Yellow */
   --color-success: #D4E84D;   /* Brightened Davie Green */
 
-  /* Dark Mode Specific Variables */
-  --color-dark-surface: #252525;
-  --color-dark-border: #4a4a4a;
-
   /* Stronger shadows for dark mode depth */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.7);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.75);
 }
 
 /* Apply dark mode to body */
@@ -113,14 +109,13 @@
 }
 
 .dark-mode button {
-  background-color: #FFFFFF; /* White buttons */
-  color: var(--unc-navy); /* Navy text on white */
-  border: 2px solid #FFFFFF;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  border: 1px solid transparent;
 }
 
 .dark-mode button:hover {
-  background-color: #e0e0e0;
-  color: var(--unc-navy);
+  background-color: #95c9f2; /* slightly lighter primary */
 }
 
 /* Force all headings to be white in dark mode */
@@ -130,7 +125,7 @@
 .dark-mode h4,
 .dark-mode h5,
 .dark-mode h6 {
-  color: #FFFFFF !important;
+  color: var(--color-text) !important;
 }
 
 /* Force all paragraphs and text to be white */
@@ -138,7 +133,7 @@
 .dark-mode span,
 .dark-mode div,
 .dark-mode label {
-  color: #FFFFFF;
+  color: var(--color-text);
 }
 
 .dark-mode a {

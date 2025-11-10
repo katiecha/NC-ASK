@@ -4,7 +4,7 @@
   right: 20px;
   z-index: 1000;
 
-  background-color: white;
+  background-color: var(--color-surface-elevated);
   border: none;
   border-radius: 50%;
   width: 48px;
@@ -29,13 +29,13 @@
 
 /* Dark mode styles - keep white like hamburger menu */
 .dark-mode .dark-mode-toggle {
-  background-color: white;
+  background-color: var(--color-surface-elevated);
   border: none;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-sm);
 }
 
 .dark-mode .dark-mode-toggle svg {
-  color: #333;
+  color: var(--color-text);
 }
 
 /* Accessibility - reduce motion */

@@ -34,3 +34,22 @@
   margin: 0;
   font-style: italic;
 }
+
+/* Dark mode overrides - target global .dark-mode so CSS module classes are adjusted */
+:global(.dark-mode) .indicator {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+:global(.dark-mode) .label {
+  color: var(--color-text-secondary);
+}
+
+:global(.dark-mode) .viewName {
+  color: var(--color-text);
+  background-color: var(--color-surface-elevated);
+}
+
+:global(.dark-mode) .description {
+  color: var(--color-text-secondary);
+}
