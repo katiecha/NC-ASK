@@ -99,26 +99,26 @@ The POC implements a functional RAG pipeline using managed cloud services for ra
 ### 1.4 Key Features
 
 **Currently Implemented:**
-- ✅ Natural language Q&A with source citations
-- ✅ View-based response tailoring (Provider/Patient)
-- ✅ Crisis detection with immediate resource display
-- ✅ Multi-format document support (PDF, DOCX, HTML, TXT)
-- ✅ Vector similarity search with pgvector
-- ✅ Input sanitization and validation
-- ✅ Medical/legal disclaimer automation
-- ✅ Dark mode support
-- ✅ Mobile-responsive UI
-- ✅ Privacy-focused (no PII storage, ephemeral sessions)
-- ✅ Docker-based development environment
+- Natural language Q&A with source citations
+- View-based response tailoring (Provider/Patient)
+- Crisis detection with immediate resource display
+- Multi-format document support (PDF, DOCX, HTML, TXT)
+- Vector similarity search with pgvector
+- Input sanitization and validation
+- Medical/legal disclaimer automation
+- Dark mode support
+- Mobile-responsive UI
+- Privacy-focused (no PII storage, ephemeral sessions)
+- Docker-based development environment
 
 **Post-POC / Production Features:**
-- ⏳ Self-hosted LLM (planned for OpenShift migration)
-- ⏳ Hybrid search (BM25 + vector fusion)
-- ⏳ Response caching for common queries
-- ⏳ User feedback collection and quality metrics
-- ⏳ Analytics dashboard for monitoring
-- ⏳ Kubernetes/OpenShift deployment
-- ⏳ Email export (optional, SendGrid integration)
+- Self-hosted LLM (planned for OpenShift migration)
+- Hybrid search (BM25 + vector fusion)
+- Response caching for common queries
+- User feedback collection and quality metrics
+- Analytics dashboard for monitoring
+- Kubernetes/OpenShift deployment
+- Email export (optional, SendGrid integration)
 
 ### 1.5 Technology Stack
 
@@ -387,11 +387,11 @@ These enhancements should be considered **after** successful OpenShift migration
 
 ### 3.4 NOT Recommended (At This Time)
 
-**❌ Knowledge Graphs**
+**Knowledge Graphs**
 - **Why skip:** High complexity, unclear ROI for policy documents, vector search likely sufficient
 - **When to reconsider:** If you have structured data sources (databases, APIs) or measure specific relationship query failures
 
-**❌ Multi-Model Routing**
+**Multi-Model Routing**
 - **Why skip:** Modern LLMs handle multiple tasks well, routing adds complexity
 - **When to reconsider:** If you need specialized models for specific tasks (unlikely)
 
