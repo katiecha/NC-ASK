@@ -20,7 +20,6 @@ The system is designed with a microservices mindset where every component is ind
 - **Loose Coupling**: Components can be swapped (e.g., pgvector → Elasticsearch) without rewriting the system
 - **Single Responsibility**: Each service handles one clear concern
 
-
 ## Essential Commands
 
 ### Development
@@ -64,33 +63,6 @@ python scripts/ingest_documents.py
 
 ### Backend Structure (FastAPI + RAG Pipeline)
 
-The backend follows a layered architecture with dependency injection:
-
-```
-backend/
-├── main.py                    # FastAPI app entry point
-├── api/
-│   ├── routes.py             # API endpoints (uses dependency injection)
-│   └── models.py             # Pydantic request/response models
-├── services/
-│   ├── interfaces.py         # Interface definitions for all services
-│   ├── service_factory.py    # Creates services with proper dependencies
-│   ├── rag_pipeline.py       # Orchestrates: retrieval → LLM → response
-│   ├── retrieval.py          # Vector similarity search
-│   ├── vector_store.py       # Supabase pgvector operations
-│   ├── embeddings.py         # sentence-transformers wrapper
-│   ├── llm_service.py        # Gemini API integration
-│   ├── crisis_detection.py   # Keyword-based crisis detection
-│   ├── document_processor.py # PDF/DOCX/HTML text extraction
-│   ├── ingestion.py          # Document chunking and storage
-│   └── supabase_client.py    # Supabase client initialization
-├── config/
-│   ├── documents.json        # Document metadata configuration
-│   └── document_config.py    # Document config loader
-└── scripts/
-    └── ingest_documents.py   # Script to ingest docs into vector store
-```
-
 **Key Architecture Points:**
 1. **Dependency Injection**: All services implement interfaces from `interfaces.py` and are created via `ServiceFactory`
 2. **RAG Pipeline Flow** (`rag_pipeline.py:process_query()`):
@@ -100,26 +72,6 @@ backend/
 5. **LLM**: Google Gemini 1.5 Flash via google-generativeai SDK
 
 ### Frontend Structure (React + TypeScript)
-
-```
-frontend/src/
-├── main.tsx                  # Entry point
-├── App.tsx                   # Main app with routing
-├── pages/
-│   ├── Home.tsx             # Main query interface
-│   └── About.tsx            # About page
-├── components/
-│   ├── SearchInput.tsx      # Query input component
-│   ├── QueryResponse.tsx    # Response display with citations
-│   ├── Layout.tsx           # Page layout wrapper
-│   ├── Sidebar.tsx          # Navigation sidebar
-│   ├── DarkModeToggle.tsx   # Theme switcher
-│   └── PrivacyModal.tsx     # Privacy policy modal
-├── contexts/
-│   └── DarkModeContext.tsx  # Theme state management
-└── services/
-    └── api.ts               # Backend API client (fetch wrapper)
-```
 
 **Key Architecture Points:**
 1. **Routing**: react-router-dom for navigation
@@ -137,6 +89,7 @@ frontend/src/
 - **Descriptive names**: `embedding_vector`, `document_chunks`, `retrieved_context`
 - **Docstrings**: Google style for all public methods
 - **Max line length**: 100 characters
+- **No emojis**: Do not use any emojis in code (e.g., ✅, ❌, ⚠️, ✨, etc.)
 
 ### TypeScript/React (Frontend)
 - **ES modules only**: `import/export` (not CommonJS `require`)

@@ -165,7 +165,7 @@ class KeywordCrisisDetector:
             Formatted crisis response text
         """
         crisis_message = """
-⚠️ **IMPORTANT CRISIS RESOURCES** ⚠️
+**IMPORTANT CRISIS RESOURCES**
 
 If you or someone you know is in crisis or considering self-harm, please reach out for immediate help:
 

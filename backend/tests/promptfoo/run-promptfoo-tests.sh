@@ -9,9 +9,9 @@ echo "================================"
 
 # Check if backend is already running
 if curl -s http://localhost:8000/api/health > /dev/null 2>&1; then
-    echo "✅ Backend server is already running"
+    echo "Backend server is already running"
 else
-    echo "⚠️  Backend server is not running"
+    echo "Backend server is not running"
     echo "Please start the backend server first with:"
     echo "  cd backend && uvicorn main:app --reload"
     echo ""
@@ -32,7 +32,7 @@ cd "$(dirname "$0")/../../.."
 npm run promptfoo
 
 echo ""
-echo "✅ Tests complete!"
+echo "Tests complete!"
 echo ""
 echo "To view results in the web UI, run:"
 echo "  npm run promptfoo:view"
