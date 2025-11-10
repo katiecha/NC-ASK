@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nc-ask-config
+  labels:
+    app: nc-ask
+data:
+  # Rate Limiting
+  RATE_LIMIT_PER_MINUTE: "10"
+  MAX_QUERY_LENGTH: "500"
+
+  # RAG Configuration
+  EMBEDDING_MODEL: "sentence-transformers/all-MiniLM-L6-v2"
+  EMBEDDING_DIMENSION: "384"
+  TOP_K_RETRIEVAL: "5"
+  CHUNK_SIZE: "500"
+  CHUNK_OVERLAP: "50"
+
+  # LLM Configuration
+  LLM_MODEL: "gemini-2.5-flash-lite"
+  MAX_CONTEXT_TOKENS: "2000"
+  LLM_TEMPERATURE: "0.3"
+
+  # Feature Flags
+  ENABLE_EMAIL_EXPORT: "false"
+  ENABLE_QUERY_LOGGING: "true"
+  LOG_LEVEL: "INFO"
+
+  # CORS - Update this with your actual frontend route URL
+  # Format: https://nc-ask-nc-ask.apps.your-cluster.com
+  ALLOWED_ORIGINS: "http://localhost:5173,http://localhost:3000"
