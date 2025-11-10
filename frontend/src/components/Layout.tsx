@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import HamburgerMenu from './HamburgerMenu';
 import Sidebar from './Sidebar';
-import InfoButton from './InfoButton';
 import DarkModeToggle from './DarkModeToggle';
 import './Layout.css';
 
@@ -34,8 +33,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <main className="layout-main">
         {children}
       </main>
-
-      <InfoButton />
 
       {isSidebarOpen && <div className="sidebar-overlay" onClick={closeSidebar} />}
     </div>
