@@ -14,7 +14,7 @@ spec:
   source:
     type: Git
     git:
-      uri: https://github.com/YOUR_ORG/NC-ASK.git
+      uri: https://github.com/NC-ASK/NC-ASK
       ref: main
     contextDir: .
   strategy:
@@ -41,7 +41,7 @@ spec:
   source:
     type: Git
     git:
-      uri: https://github.com/YOUR_ORG/NC-ASK.git
+      uri: https://github.com/NC-ASK/NC-ASK
       ref: main
     contextDir: .
   strategy:
