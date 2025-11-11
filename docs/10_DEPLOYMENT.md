@@ -25,7 +25,7 @@ Before you begin, ensure you have:
 
 ---
 
-## 📋 Complete Deployment Steps
+## Complete Deployment Steps
 
 ### Step 1: Install OpenShift CLI (if not already installed)
 
@@ -203,6 +203,8 @@ oc get imagestream
 ### Step 9: Start the Builds
 
 This will clone your Git repository and build the Docker images.
+
+**IMPORTANT:** Complete builds BEFORE applying deployments in Step 10!
 
 ```bash
 # Start backend build
@@ -572,6 +574,81 @@ oc rollout restart deployment/nc-ask-backend
 
 ## Troubleshooting
 
+### Quick Reference: Common Issues
+
+| Symptom | Root Cause | Fix |
+|---------|-----------|-----|
+| `ImagePullBackOff` with "authentication required" | Wrong namespace in image path | Update deployment to use correct namespace: `oc set image deployment/nc-ask-backend backend=image-registry.openshift-image-registry.svc:5000/<YOUR_NAMESPACE>/backend:latest` |
+| `CreateContainerError` with "executable file not found" | Image built without dependencies | Rebuild image: `oc start-build nc-ask-backend --follow` |
+| `ProgressDeadlineExceeded` | Pods fail to start in time | Check pod events: `oc describe pod <pod-name>` |
+| Build takes 10+ minutes | Large ML dependencies (normal) | Wait for "Push successful" message |
+| Pods stuck in `Pending` | Resource limits or quotas | Check: `oc describe pod <pod-name>` |
+
+### Deployment Fails with "ProgressDeadlineExceeded"
+
+**Symptom:** Pods fail to start and deployment times out
+**Common Causes:**
+1. Image pull authentication errors
+2. Container startup failures
+3. Health check failures
+
+**Solution:**
+```bash
+# Check what's happening
+oc get pods
+oc describe pod <pod-name>
+oc get events --sort-by='.lastTimestamp' | tail -20
+```
+
+### Image Pull Errors: "authentication required"
+
+**Symptom:** Pods show `ImagePullBackOff` or `ErrImagePull` with authentication errors
+
+**Root Cause:** The deployment is trying to pull from the wrong namespace or image doesn't exist
+
+**Solution:**
+```bash
+# 1. Check which namespace you're in
+oc project
+
+# 2. Check if the image exists in your namespace
+oc get imagestream
+
+# 3. Verify the deployment is using the correct image path
+# The image path should match your current namespace
+oc get deployment nc-ask-backend -o yaml | grep image:
+
+# 4. Update deployment to use correct namespace image
+# Replace <YOUR_NAMESPACE> with your actual namespace (e.g., from `oc project`)
+oc set image deployment/nc-ask-backend backend=image-registry.openshift-image-registry.svc:5000/<YOUR_NAMESPACE>/backend:latest
+
+# 5. Verify the fix
+oc rollout status deployment/nc-ask-backend
+```
+
+### Container Crashes: "executable file not found in $PATH"
+
+**Symptom:** Pods show `CreateContainerError` with message like `exec: "gunicorn": executable file not found`
+
+**Root Cause:** The Docker image was built without required dependencies
+
+**Solution:**
+```bash
+# 1. Trigger a fresh build to rebuild the image with all dependencies
+oc start-build nc-ask-backend --follow
+
+# 2. Wait for build to complete (5-10 minutes)
+# Watch for "Push successful" message
+
+# 3. Verify build succeeded
+oc get builds
+
+# 4. Once build completes, pods should automatically restart with new image
+oc get pods -w
+```
+
+**Prevention:** Ensure `requirements.txt` includes all runtime dependencies (gunicorn, uvicorn, etc.)
+
 ### Pods Not Starting
 
 ```bash
@@ -585,7 +662,8 @@ oc describe pod nc-ask-backend-xxxxx-xxxxx
 oc logs nc-ask-backend-xxxxx-xxxxx
 
 # Common fixes:
-# - ImagePullBackOff: Check if build completed successfully
+# - ImagePullBackOff: Check namespace and image path (see above)
+# - CreateContainerError: Rebuild image with dependencies (see above)
 # - CrashLoopBackOff: Check logs for application errors
 # - Pending: Check resource limits or quotas
 ```
@@ -603,6 +681,7 @@ oc start-build nc-ask-backend
 # - Git clone failed: Check if repo is public or add credentials
 # - Dockerfile errors: Check Dockerfile syntax
 # - Dependency errors: Check requirements.txt or package.json
+# - Build timeout: Large ML dependencies may need more time (normal for first build)
 ```
 
 ### Frontend Can't Connect to Backend
@@ -637,6 +716,77 @@ curl https://$(oc get route nc-ask-backend -o jsonpath='{.spec.host}')/api/healt
 
 # Check pod events
 oc get events --sort-by='.lastTimestamp' | grep -i error
+```
+
+---
+
+## Best Practices & Tips
+
+### Verify Image Paths Before Deployment
+
+Before applying deployments, ensure the image paths match your namespace:
+
+```bash
+# Get your current namespace
+NAMESPACE=$(oc project -q)
+
+# Verify images exist in your namespace
+oc get imagestream
+
+# Check deployment YAML uses correct namespace
+grep "image:" openshift/backend-deployment.yaml
+
+# Expected format:
+# image: image-registry.openshift-image-registry.svc:5000/<YOUR_NAMESPACE>/backend:latest
+```
+
+### Wait for Builds to Complete
+
+Don't apply deployments until builds finish successfully:
+
+```bash
+# Start builds
+oc start-build nc-ask-backend
+oc start-build nc-ask-frontend
+
+# Wait for both to complete
+oc get builds -w
+
+# Verify STATUS shows "Complete" before proceeding
+# Then apply deployments
+oc apply -f openshift/backend-deployment.yaml
+oc apply -f openshift/frontend-deployment.yaml
+```
+
+### Monitor Deployment Progress
+
+After applying deployments, actively monitor for issues:
+
+```bash
+# Watch pods starting
+oc get pods -w
+
+# In another terminal, watch events
+oc get events -w
+
+# Check for errors
+oc get events --sort-by='.lastTimestamp' | grep -i "error\|warning"
+```
+
+### Handling Long Build Times
+
+The backend build can take 10+ minutes due to ML dependencies (sentence-transformers):
+
+```bash
+# Start build in background and monitor
+oc start-build nc-ask-backend --follow
+
+# This is NORMAL:
+# - Downloading 80MB+ for sentence-transformers
+# - Installing PyTorch dependencies
+# - Building wheels for various packages
+
+# The build will show "Push successful" when complete
 ```
 
 ---
