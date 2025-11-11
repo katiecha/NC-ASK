@@ -53,3 +53,60 @@
 :global(.dark-mode) .description {
   color: var(--color-text-secondary);
 }
+
+/* Responsive design for mobile devices */
+@media (max-width: 768px) {
+  .indicator {
+    padding: 10px 12px;
+    margin-bottom: 16px;
+  }
+
+  .badge {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .label {
+    font-size: 12px;
+  }
+
+  .viewName {
+    font-size: 13px;
+    padding: 2px 8px;
+  }
+
+  .description {
+    font-size: 11px;
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .indicator {
+    padding: 8px 10px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+  }
+
+  .badge {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+
+  .label {
+    font-size: 11px;
+  }
+
+  .viewName {
+    font-size: 12px;
+    padding: 3px 8px;
+    display: inline-block;
+  }
+
+  .description {
+    font-size: 10px;
+    line-height: 1.4;
+  }
+}
