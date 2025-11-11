@@ -709,6 +709,37 @@ oc get deployment nc-ask-backend -o jsonpath='{.spec.template.spec.containers[0]
 oc set image deployment/nc-ask-backend backend=image-registry.openshift-image-registry.svc:5000/$NAMESPACE/backend:latest
 ```
 
+### 6. Resource Limits Verification (CRITICAL FOR ML WORKLOADS)
+
+**✅ Ensure sufficient CPU and memory for ML model loading:**
+
+```bash
+# Check current resource limits
+oc get deployment nc-ask-backend -o jsonpath='{.spec.template.spec.containers[0].resources}' | jq
+
+# REQUIRED minimums for 4 workers:
+# - CPU limit: 2000m (2 cores)
+# - Memory limit: 3Gi
+# - CPU request: 1000m
+# - Memory request: 2Gi
+
+# If limits are too low, update:
+oc set resources deployment/nc-ask-backend \
+  --limits=cpu=2000m,memory=3Gi \
+  --requests=cpu=1000m,memory=2Gi
+```
+
+**Why this is critical:**
+- NC-ASK uses sentence-transformers ML models
+- 4 gunicorn workers each load models on startup
+- Insufficient resources cause workers to hang indefinitely
+- Symptoms: Pod `Running` but never `Ready`, health checks timeout
+
+**Resource requirements:**
+- **Minimum:** CPU=1000m, Memory=1.5Gi (1 worker only, testing)
+- **Production:** CPU=2000m, Memory=3Gi (4 workers, recommended)
+- **High traffic:** CPU=4000m, Memory=4Gi (8 workers)
+
 ---
 
 ## Troubleshooting
@@ -717,6 +748,7 @@ oc set image deployment/nc-ask-backend backend=image-registry.openshift-image-re
 
 | Symptom | Root Cause | Fix |
 |---------|-----------|-----|
+| **Pod maxed at CPU/memory limits, workers hang** | **Resource limits too low for ML workload (MOST COMMON)** | **Set limits: CPU=2000m, Memory=3Gi** `oc set resources deployment/nc-ask-backend --limits=cpu=2000m,memory=3Gi --requests=cpu=1000m,memory=2Gi` |
 | `ImagePullBackOff` with "authentication required" | Wrong namespace in image path | Update deployment: `oc set image deployment/nc-ask-backend backend=image-registry.openshift-image-registry.svc:5000/<YOUR_NAMESPACE>/backend:latest` |
 | `CreateContainerError` with "executable file not found" | Docker image built with wrong package paths | Check Dockerfile uses `pip install --prefix=/install` and copies to `/usr/local` (not `/root/.local`) |
 | `CrashLoopBackOff` after workers boot | Gunicorn worker timeout (30s default) too short for ML model loading | Add `--timeout 300` to gunicorn command in Dockerfile |
@@ -958,6 +990,84 @@ oc start-build nc-ask-backend --follow
 oc get build nc-ask-backend-<build-number> -o jsonpath='{.spec.revision.git.commit}'
 ```
 
+### CRITICAL: Insufficient Resource Limits (CPU/Memory)
+
+**Symptom:** Pod is `Running` but never becomes `Ready`. Workers boot but app never starts. Health checks timeout. Pod shows high CPU/memory usage near limits.
+
+**This is the #1 cause of deployment failures for ML applications.**
+
+**Root Cause:** The NC-ASK backend loads ML models (sentence-transformers) which requires significant CPU and memory. With 4 gunicorn workers, each loading models simultaneously on startup, insufficient resources cause:
+- Workers to hang indefinitely while loading models
+- CPU throttling preventing models from loading
+- Memory pressure causing OOM or extreme slowness
+
+**Diagnosis:**
+
+```bash
+# 1. Check current resource usage
+oc adm top pod -l component=backend
+
+# Look for CPU/memory at or near limits:
+# NAME                       CPU(cores)   MEMORY(bytes)
+# nc-ask-backend-xxx-xxx     501m         1023Mi     # BAD: maxed out at 500m/1Gi limits
+
+# 2. Check configured limits
+oc get deployment nc-ask-backend -o jsonpath='{.spec.template.spec.containers[0].resources}' | jq
+
+# 3. Check if workers are hanging
+oc logs deployment/nc-ask-backend --tail=50
+# If you see workers boot but no "Application startup complete", it's resource starvation
+```
+
+**Solution:**
+
+Set resource limits appropriate for ML workload:
+
+```bash
+# Set CPU to 2 cores and memory to 3GB (minimum for 4 workers + ML models)
+oc set resources deployment/nc-ask-backend \
+  --limits=cpu=2000m,memory=3Gi \
+  --requests=cpu=1000m,memory=2Gi
+
+# Wait for new pod to be created
+oc get pods -w
+
+# Verify new pod has higher limits
+oc describe pod <new-pod-name> | grep -A 5 "Limits:"
+```
+
+**Expected behavior after fix:**
+- Pod becomes `Ready` within 3-4 minutes
+- Logs show "Application startup complete" for all 4 workers
+- Health checks return HTTP 200
+- CPU usage: 200-800m (well below 2000m limit)
+- Memory usage: 1.5-2.5Gi (well below 3Gi limit)
+
+**Resource Requirements for NC-ASK:**
+
+| Configuration | CPU Limit | Memory Limit | Notes |
+|--------------|-----------|--------------|-------|
+| **Minimum (1 worker)** | 1000m (1 core) | 1.5Gi | For testing only |
+| **Recommended (4 workers)** | 2000m (2 cores) | 3Gi | Production default |
+| **High traffic** | 4000m (4 cores) | 4Gi | Scale up workers to 8 |
+
+**Why these limits?**
+- Each worker loads sentence-transformers model (~200-300MB RAM)
+- Model loading uses significant CPU (encoding operations)
+- 4 workers loading simultaneously = 4x resource spike on startup
+- After startup, steady-state usage is much lower
+
+**Alternative: Reduce worker count** (if resource limits are strict):
+
+```dockerfile
+# In Dockerfile.prod, reduce from 4 to 2 workers:
+CMD ["gunicorn", "main:app", \
+     "--workers", "2", \
+     ...
+```
+
+Then rebuild and redeploy. 2 workers require: CPU=1000m, Memory=2Gi
+
 ### Docker Multi-Stage Build Permission Issues
 
 **Symptom:** `CreateContainerError` with "executable file not found in $PATH" for commands installed via pip (gunicorn, uvicorn, etc.)
@@ -1182,18 +1292,42 @@ For detailed documentation, see:
 
 ## Deployment Checklist
 
+### Pre-Deployment
 - [ ] OpenShift CLI installed
 - [ ] Logged into OpenShift cluster
 - [ ] Created `nc-ask` project
-- [ ] Created secrets with Supabase and Gemini credentials
+- [ ] Created secrets with Supabase and Gemini credentials (all 4 keys)
 - [ ] Applied ConfigMap
+
+### Critical Configuration Checks
+- [ ] **Verified Dockerfile uses `pip install --prefix=/install`** (not `--user`)
+- [ ] **Verified Dockerfile copies to `/usr/local`** (not `/root/.local`)
+- [ ] **Verified Dockerfile has `--timeout 300`** in gunicorn command
+- [ ] **Verified Dockerfile healthcheck uses `/health`** (not `/api/health`)
+- [ ] **Set resource limits: CPU=2000m, Memory=3Gi** (CRITICAL for ML workload)
+- [ ] Configured environment variables from secrets
+- [ ] Set health probes: path=`/health`, initialDelaySeconds=180s
+- [ ] Verified BuildConfig uses correct git branch
+
+### Build & Deploy
 - [ ] Applied BuildConfig and started builds
-- [ ] Builds completed successfully
+- [ ] Builds completed successfully (wait for "Push successful")
 - [ ] Applied Deployments
-- [ ] All pods are Running
+- [ ] All pods are Running **AND Ready (1/1)**
+- [ ] Pods show "Application startup complete" in logs
+- [ ] Health checks returning HTTP 200
+
+### Post-Deployment
 - [ ] Applied Routes
 - [ ] Updated CORS configuration
 - [ ] Rebuilt frontend with backend URL
 - [ ] Tested backend health endpoint
 - [ ] Tested frontend in browser
 - [ ] Verified application works end-to-end
+
+### Common Gotchas (Double-check these!)
+- [ ] Resource limits set to at least CPU=2000m, Memory=3Gi
+- [ ] Environment variables configured (run: `oc set env deployment/nc-ask-backend --from=secret/nc-ask-secrets`)
+- [ ] Health probe path is `/health` not `/api/health`
+- [ ] Gunicorn timeout is 300s not default 30s
+- [ ] BuildConfig branch matches your code branch
