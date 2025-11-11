@@ -572,16 +572,158 @@ oc rollout restart deployment/nc-ask-backend
 
 ---
 
+## Critical Pre-Deployment Checks
+
+Before deploying to OpenShift, verify these essential configurations to avoid common deployment failures:
+
+### 1. Dockerfile Configuration Checklist
+
+**✅ Verify `backend/Dockerfile.prod` has correct settings:**
+
+```bash
+# Check these critical lines in your Dockerfile:
+grep -A 3 "pip install" backend/Dockerfile.prod
+# Should show: pip install --prefix=/install (NOT --user)
+
+grep -A 2 "COPY --from=builder" backend/Dockerfile.prod
+# Should show: COPY --from=builder /install /usr/local (NOT /root/.local)
+
+grep "timeout" backend/Dockerfile.prod
+# Should show: "--timeout", "300" in gunicorn command
+
+grep "HEALTHCHECK" backend/Dockerfile.prod
+# Should show: curl -f http://localhost:8000/health (NOT /api/health)
+# Should show: --start-period=180s (allows 3 minutes for startup)
+```
+
+**Required Dockerfile patterns:**
+```dockerfile
+# Stage 1: Builder
+RUN pip install --prefix=/install --no-cache-dir -r requirements.txt
+
+# Stage 2: Runtime
+COPY --from=builder /install /usr/local
+
+# Healthcheck with correct path and startup time
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=180s \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Gunicorn with 5-minute timeout for ML model loading
+CMD ["gunicorn", "main:app", \
+     "--workers", "4", \
+     "--worker-class", "uvicorn.workers.UvicornWorker", \
+     "--bind", "0.0.0.0:8000", \
+     "--timeout", "300", \
+     "--access-logfile", "-", \
+     "--error-logfile", "-", \
+     "--log-level", "info"]
+```
+
+### 2. Environment Variables Checklist
+
+**✅ Verify secrets exist with all required keys:**
+
+```bash
+# Check secret exists
+oc get secret nc-ask-secrets
+
+# Verify all 4 keys are present
+oc get secret nc-ask-secrets -o jsonpath='{.data}' | jq 'keys'
+# Must show: ["GOOGLE_API_KEY", "SECRET_KEY", "SUPABASE_ANON_KEY", "SUPABASE_URL"]
+```
+
+**✅ Verify deployment is configured to use secrets:**
+
+```bash
+# Check deployment environment variables
+oc get deployment nc-ask-backend -o jsonpath='{.spec.template.spec.containers[0].env[*].name}'
+# Must include: SUPABASE_URL SUPABASE_ANON_KEY GOOGLE_API_KEY SECRET_KEY
+
+# If missing, configure:
+oc set env deployment/nc-ask-backend --from=secret/nc-ask-secrets
+```
+
+### 3. Health Probe Configuration Checklist
+
+**✅ Verify health probes use correct path and timing:**
+
+```bash
+# Check readiness probe
+oc get deployment nc-ask-backend -o jsonpath='{.spec.template.spec.containers[0].readinessProbe}' | jq
+
+# Must have:
+# - path: /health (NOT /api/health)
+# - initialDelaySeconds: 180 or higher
+# - timeoutSeconds: 5 or higher
+```
+
+**✅ Set correct probes if needed:**
+
+```bash
+# Readiness probe (allows 3 minutes for startup)
+oc set probe deployment/nc-ask-backend --readiness \
+  --get-url=http://:8000/health \
+  --initial-delay-seconds=180 \
+  --period-seconds=10 \
+  --timeout-seconds=5 \
+  --failure-threshold=3
+
+# Liveness probe (or remove during initial setup)
+oc set probe deployment/nc-ask-backend --liveness \
+  --get-url=http://:8000/health \
+  --initial-delay-seconds=180 \
+  --period-seconds=30 \
+  --timeout-seconds=10 \
+  --failure-threshold=3
+```
+
+### 4. BuildConfig Branch Verification
+
+**✅ Ensure BuildConfig uses correct git branch:**
+
+```bash
+# Check current branch in BuildConfig
+oc get bc nc-ask-backend -o jsonpath='{.spec.source.git.ref}'
+
+# Check your local branch
+git branch --show-current
+
+# If different, update BuildConfig:
+oc patch bc/nc-ask-backend -p '{"spec":{"source":{"git":{"ref":"your-branch-name"}}}}'
+```
+
+### 5. Image Path Verification
+
+**✅ Verify deployment uses correct namespace:**
+
+```bash
+# Get your namespace
+NAMESPACE=$(oc project -q)
+echo "Your namespace: $NAMESPACE"
+
+# Check deployment image path
+oc get deployment nc-ask-backend -o jsonpath='{.spec.template.spec.containers[0].image}'
+# Should contain: image-registry.openshift-image-registry.svc:5000/$NAMESPACE/backend
+
+# If wrong, update:
+oc set image deployment/nc-ask-backend backend=image-registry.openshift-image-registry.svc:5000/$NAMESPACE/backend:latest
+```
+
+---
+
 ## Troubleshooting
 
 ### Quick Reference: Common Issues
 
 | Symptom | Root Cause | Fix |
 |---------|-----------|-----|
-| `ImagePullBackOff` with "authentication required" | Wrong namespace in image path | Update deployment to use correct namespace: `oc set image deployment/nc-ask-backend backend=image-registry.openshift-image-registry.svc:5000/<YOUR_NAMESPACE>/backend:latest` |
-| `CreateContainerError` with "executable file not found" | Image built without dependencies | Rebuild image: `oc start-build nc-ask-backend --follow` |
-| `ProgressDeadlineExceeded` | Pods fail to start in time | Check pod events: `oc describe pod <pod-name>` |
-| Build takes 10+ minutes | Large ML dependencies (normal) | Wait for "Push successful" message |
+| `ImagePullBackOff` with "authentication required" | Wrong namespace in image path | Update deployment: `oc set image deployment/nc-ask-backend backend=image-registry.openshift-image-registry.svc:5000/<YOUR_NAMESPACE>/backend:latest` |
+| `CreateContainerError` with "executable file not found" | Docker image built with wrong package paths | Check Dockerfile uses `pip install --prefix=/install` and copies to `/usr/local` (not `/root/.local`) |
+| `CrashLoopBackOff` after workers boot | Gunicorn worker timeout (30s default) too short for ML model loading | Add `--timeout 300` to gunicorn command in Dockerfile |
+| Workers boot but app never starts | Missing environment variables | Configure secrets: `oc set env deployment/nc-ask-backend --from=secret/nc-ask-secrets` |
+| Health check failures | Wrong health check path or insufficient startup time | Health endpoint is `/health` (not `/api/health`), set readiness initialDelaySeconds to 180s+ |
+| Build takes 10-25 minutes | sentence-transformers downloads 80MB+ ML models (normal) | Wait for "Push successful" message, do not interrupt |
+| BuildConfig using wrong branch | BuildConfig pointing to wrong git branch | Update: `oc patch bc/nc-ask-backend -p '{"spec":{"source":{"git":{"ref":"your-branch"}}}}'` |
 | Pods stuck in `Pending` | Resource limits or quotas | Check: `oc describe pod <pod-name>` |
 
 ### Deployment Fails with "ProgressDeadlineExceeded"
@@ -648,6 +790,220 @@ oc get pods -w
 ```
 
 **Prevention:** Ensure `requirements.txt` includes all runtime dependencies (gunicorn, uvicorn, etc.)
+
+### CrashLoopBackOff: Workers Timeout During Startup
+
+**Symptom:** Pods show `CrashLoopBackOff`, logs show gunicorn workers boot but FastAPI app never starts
+
+**Root Cause:** The default gunicorn worker timeout (30 seconds) is too short for loading ML models like sentence-transformers (~80MB download on first startup)
+
+**Diagnosis:**
+```bash
+# Check pod logs - you'll see workers boot but then container restarts
+oc logs <pod-name> --tail=50
+
+# Expected pattern indicating this issue:
+# [INFO] Starting gunicorn
+# [INFO] Booting worker with pid: 7
+# [INFO] Booting worker with pid: 8
+# ... (then container restarts with no error message)
+```
+
+**Solution:**
+
+1. **Update Dockerfile to increase gunicorn timeout:**
+   ```dockerfile
+   CMD ["gunicorn", "main:app", \
+        "--workers", "4", \
+        "--worker-class", "uvicorn.workers.UvicornWorker", \
+        "--bind", "0.0.0.0:8000", \
+        "--timeout", "300", \
+        "--access-logfile", "-", \
+        "--error-logfile", "-", \
+        "--log-level", "info"]
+   ```
+
+2. **Rebuild and redeploy:**
+   ```bash
+   # Commit Dockerfile changes
+   git add backend/Dockerfile.prod
+   git commit -m "fix: increase gunicorn timeout for ML model loading"
+   git push
+
+   # Trigger new build
+   oc start-build nc-ask-backend --follow
+
+   # Wait for build to complete (20-25 minutes)
+   # Deploy new image
+   oc rollout restart deployment/nc-ask-backend
+   ```
+
+**Why this happens:** On first startup, sentence-transformers needs to download the all-MiniLM-L6-v2 model from HuggingFace. This can take 60-120 seconds depending on network speed. The default 30s timeout kills workers before they finish loading.
+
+### Missing Environment Variables
+
+**Symptom:** Workers boot but app never loads, no error messages in logs
+
+**Root Cause:** Required environment variables (SUPABASE_URL, SUPABASE_ANON_KEY, GOOGLE_API_KEY, SECRET_KEY) not configured
+
+**Diagnosis:**
+```bash
+# Check if environment variables are configured
+oc get deployment nc-ask-backend -o jsonpath='{.spec.template.spec.containers[0].env[*].name}'
+
+# Should show: SUPABASE_URL SUPABASE_ANON_KEY GOOGLE_API_KEY SECRET_KEY ENVIRONMENT
+# If missing, need to add them
+```
+
+**Solution:**
+```bash
+# 1. Verify secret exists and has required keys
+oc get secret nc-ask-secrets -o jsonpath='{.data}' | jq 'keys'
+# Should show: ["GOOGLE_API_KEY", "SECRET_KEY", "SUPABASE_ANON_KEY", "SUPABASE_URL"]
+
+# 2. Configure deployment to use secret as environment variables
+oc set env deployment/nc-ask-backend --from=secret/nc-ask-secrets
+
+# 3. Pods will automatically restart with new environment variables
+oc get pods -w
+```
+
+### Health Check Failures
+
+**Symptom:** Pods stuck in not-ready state, health checks timing out or returning 404
+
+**Common Causes:**
+1. Wrong health check path (using `/api/health` when app has `/health`)
+2. Insufficient startup time for ML model loading
+3. Health check timeout too short
+
+**Diagnosis:**
+```bash
+# Check current health check configuration
+oc get deployment nc-ask-backend -o jsonpath='{.spec.template.spec.containers[0].readinessProbe}' | jq
+
+# Check what path the app actually exposes
+oc exec deployment/nc-ask-backend -- curl -s http://localhost:8000/health
+# vs
+oc exec deployment/nc-ask-backend -- curl -s http://localhost:8000/api/health
+```
+
+**Solution:**
+
+1. **Verify the correct health endpoint path** (check `backend/main.py` - NC-ASK uses `/health` at root level, not `/api/health`)
+
+2. **Update readiness probe with correct path and timing:**
+   ```bash
+   # Set readiness probe to /health with 3-minute initial delay
+   oc set probe deployment/nc-ask-backend --readiness \
+     --get-url=http://:8000/health \
+     --initial-delay-seconds=180 \
+     --period-seconds=10 \
+     --timeout-seconds=5 \
+     --failure-threshold=3
+   ```
+
+3. **Remove liveness probe temporarily during initial setup** (prevents premature restarts):
+   ```bash
+   oc set probe deployment/nc-ask-backend --liveness --remove
+   ```
+
+4. **After confirming app starts successfully, re-add liveness probe:**
+   ```bash
+   oc set probe deployment/nc-ask-backend --liveness \
+     --get-url=http://:8000/health \
+     --initial-delay-seconds=180 \
+     --period-seconds=30 \
+     --timeout-seconds=10 \
+     --failure-threshold=3
+   ```
+
+**Also update Dockerfile healthcheck:**
+```dockerfile
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=180s \
+    CMD curl -f http://localhost:8000/health || exit 1
+```
+
+### BuildConfig Using Wrong Branch
+
+**Symptom:** New builds don't include your latest code changes, even after pushing to git
+
+**Root Cause:** OpenShift BuildConfig is pulling from a different git branch than your code
+
+**Diagnosis:**
+```bash
+# Check which branch BuildConfig is using
+oc get bc nc-ask-backend -o jsonpath='{.spec.source.git.ref}'
+# Shows: main (or other branch name)
+
+# Check which branch your code is on
+git branch --show-current
+# Shows: openshift-deployment (or other branch name)
+
+# If these don't match, BuildConfig won't use your changes
+```
+
+**Solution:**
+```bash
+# Update BuildConfig to use your branch
+oc patch bc/nc-ask-backend -p '{"spec":{"source":{"git":{"ref":"openshift-deployment"}}}}'
+
+# Verify the update
+oc get bc nc-ask-backend -o jsonpath='{.spec.source.git.ref}'
+
+# Trigger new build with correct branch
+oc start-build nc-ask-backend --follow
+
+# Check build used correct commit
+oc get build nc-ask-backend-<build-number> -o jsonpath='{.spec.revision.git.commit}'
+```
+
+### Docker Multi-Stage Build Permission Issues
+
+**Symptom:** `CreateContainerError` with "executable file not found in $PATH" for commands installed via pip (gunicorn, uvicorn, etc.)
+
+**Root Cause:** In multi-stage Dockerfile, Python packages installed to `/root/.local` in builder stage, but runtime container runs as non-root user (`appuser`) who can't access `/root/.local`
+
+**Diagnosis:**
+```bash
+# Debug by checking where packages are installed
+oc debug deployment/nc-ask-backend --image=<your-image> -- ls -la /root/.local/bin
+# Error: Permission denied (appuser can't read /root/.local)
+
+oc debug deployment/nc-ask-backend --image=<your-image> -- ls -la /usr/local/bin
+# Should see gunicorn, uvicorn, etc. here for correct setup
+```
+
+**Solution - Update Dockerfile:**
+
+**WRONG** (packages only accessible to root):
+```dockerfile
+# Builder stage
+RUN pip install --user -r requirements.txt
+
+# Runtime stage
+COPY --from=builder /root/.local /root/.local
+ENV PATH=/root/.local/bin:$PATH
+USER appuser  # Can't access /root/.local!
+```
+
+**CORRECT** (packages accessible to all users):
+```dockerfile
+# Builder stage
+RUN pip install --prefix=/install --no-cache-dir -r requirements.txt
+
+# Runtime stage
+COPY --from=builder /install /usr/local
+USER appuser  # Can access /usr/local!
+```
+
+After fixing Dockerfile, rebuild:
+```bash
+git add backend/Dockerfile.prod
+git commit -m "fix: install packages to /usr/local for non-root access"
+git push
+oc start-build nc-ask-backend --follow
+```
 
 ### Pods Not Starting
 
