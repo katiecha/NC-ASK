@@ -10,7 +10,9 @@
     "build": "cd frontend && npm run build",
     "preview": "cd frontend && npm run preview",
     "typecheck": "cd frontend && npm run typecheck",
-    "lint": "cd frontend && npm run lint"
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && python -m ruff check ."
   },
   "devDependencies": {
     "concurrently": "^9.2.1"

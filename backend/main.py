@@ -5,10 +5,10 @@ Main application entry point
 import logging
 from contextlib import asynccontextmanager
 
-from api.routes import router
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+
+from api.routes import router
 from services.config import settings
 
 # Configure logging
@@ -57,18 +57,6 @@ async def root():
         "version": "1.0.0",
         "status": "running"
     }
-
-
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return JSONResponse(
-        status_code=200,
-        content={
-            "status": "healthy",
-            "service": "NC-ASK Backend"
-        }
-    )
 
 
 if __name__ == "__main__":
