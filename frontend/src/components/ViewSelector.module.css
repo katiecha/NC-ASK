@@ -18,7 +18,7 @@
   padding: 40px;
   max-width: 700px;
   width: 100%;
-  box-shadow: var(--shadow-elevated, 0 10px 40px rgba(0,0,0,0.3));
+  box-shadow: var(--shadow-lg);
   border: 1px solid var(--color-border);
   animation: fadeIn 0.3s ease-in-out;
 }
@@ -71,7 +71,7 @@
   /* keep the same background as the modal (no blue highlight) */
   background-color: var(--color-surface-elevated);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-elevated, 0 4px 12px rgba(0,0,0,0.12));
+  box-shadow: var(--shadow-md);
 }
 
 .modal .optionButton:focus {
