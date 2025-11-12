@@ -4,9 +4,9 @@ API route handlers with dependency injection.
 import logging
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from services.service_factory import get_service_factory
 
 from api.models import Citation, CrisisResource, HealthResponse, QueryRequest, QueryResponse
+from services.service_factory import get_service_factory
 
 logger = logging.getLogger(__name__)
 

@@ -5,10 +5,10 @@ Main application entry point
 import logging
 from contextlib import asynccontextmanager
 
-from api.routes import router
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+
+from api.routes import router
 from services.config import settings
 
 # Configure logging

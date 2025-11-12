@@ -13,8 +13,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import logging
 
 import httpx
-from config import get_document_config
 from dotenv import load_dotenv
+
+from config import get_document_config
 from services.downloader import TEMP_DOWNLOAD_DIR, cleanup_temp_downloads, download_remote_file
 from services.ingestion import IngestionService
 
