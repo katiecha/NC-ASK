@@ -22,7 +22,7 @@ spec:
         image: image-registry.openshift-image-registry.svc:5000/nc-ask/frontend:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: 8080
           protocol: TCP
         resources:
           requests:
@@ -34,7 +34,7 @@ spec:
         livenessProbe:
           httpGet:
             path: /
-            port: 80
+            port: 8080
           initialDelaySeconds: 5
           periodSeconds: 30
           timeoutSeconds: 3
@@ -42,7 +42,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /
-            port: 80
+            port: 8080
           initialDelaySeconds: 5
           periodSeconds: 10
           timeoutSeconds: 3
@@ -68,6 +68,6 @@ spec:
   ports:
   - name: http
     port: 80
-    targetPort: 80
+    targetPort: 8080
     protocol: TCP
   type: ClusterIP
