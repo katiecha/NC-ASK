@@ -1,7 +1,5 @@
 import types
 
-import pytest
-
 
 def test_supabase_client_singleton_and_admin(monkeypatch):
     """Mock supabase.create_client to test singleton and admin creation."""
