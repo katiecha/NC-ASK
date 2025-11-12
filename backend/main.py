@@ -59,18 +59,6 @@ async def root():
     }
 
 
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return JSONResponse(
-        status_code=200,
-        content={
-            "status": "healthy",
-            "service": "NC-ASK Backend"
-        }
-    )
-
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(

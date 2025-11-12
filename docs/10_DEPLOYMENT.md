@@ -125,7 +125,7 @@ oc start-build nc-ask-frontend --follow
 
 ```bash
 # Test backend
-curl https://$(oc get route nc-ask-backend -o jsonpath='{.spec.host}')/health
+curl https://$(oc get route nc-ask-backend -o jsonpath='{.spec.host}')/api/health
 
 # Check pods are ready
 oc get pods
@@ -193,7 +193,7 @@ CMD ["gunicorn", "main:app", "--timeout", "300", ...]
 #### Health Check Configuration
 ```dockerfile
 HEALTHCHECK --start-period=180s \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f http://localhost:8000/api/health || exit 1
 ```
 
 **Why:** ML models take 3-4 minutes to load across 4 workers. The `--start-period=180s` gives the container 3 minutes before health checks count as failures. Without this, Docker/OpenShift will restart the container prematurely while it's still initializing.
@@ -212,11 +212,11 @@ oc set resources deployment/nc-ask-backend \
 ```bash
 # Set correct path and adequate startup time
 oc set probe deployment/nc-ask-backend --readiness \
-  --get-url=http://:8000/health \
+  --get-url=http://:8000/api/health \
   --initial-delay-seconds=180
 ```
 
-**Why:** OpenShift uses health probes to determine if a pod is ready to receive traffic. The health endpoint must be `/health` (not `/api/health`) to match the FastAPI route in `backend/main.py`. The `initialDelaySeconds=180` (3 minutes) allows ML models to load before health checks begin. Without adequate delay, OpenShift marks the pod as failed and restarts it repeatedly.
+**Why:** OpenShift uses health probes to determine if a pod is ready to receive traffic. The health endpoint is `/api/health` to match the FastAPI router in `backend/api/routes.py`. The `initialDelaySeconds=180` (3 minutes) allows ML models to load before health checks begin. Without adequate delay, OpenShift marks the pod as failed and restarts it repeatedly.
 
 ---
 
@@ -289,12 +289,12 @@ oc set env deployment/nc-ask-backend --from=secret/nc-ask-secrets
 
 **Symptom:** Pod not ready, health checks returning 404
 
-**Cause:** Wrong path (`/api/health` instead of `/health`) or insufficient startup time
+**Cause:** Wrong path or insufficient startup time
 
 **Fix:**
 ```bash
 oc set probe deployment/nc-ask-backend --readiness \
-  --get-url=http://:8000/health \
+  --get-url=http://:8000/api/health \
   --initial-delay-seconds=180
 ```
 
@@ -372,7 +372,7 @@ oc adm top pod -l component=backend
 oc get events --sort-by='.lastTimestamp' | tail -20
 
 # Test health endpoint
-oc exec deployment/nc-ask-backend -- curl http://localhost:8000/health
+oc exec deployment/nc-ask-backend -- curl http://localhost:8000/api/health
 
 # Monitor builds
 oc get builds -w
@@ -404,7 +404,7 @@ oc logs -f build/nc-ask-backend-1
 - **Configuration:**
   - Gunicorn workers: 4
   - Worker timeout: 300s
-  - Health check: `/health`
+  - Health check: `/api/health`
   - Initial delay: 180s
   - Port: 8000
 
