@@ -40,6 +40,7 @@ export const ViewProvider: React.FC<ViewProviderProps> = ({ children }) => {
  *
  * @throws Error if used outside ViewProvider
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export const useView = (): ViewContextType => {
   const context = useContext(ViewContext);
   if (context === undefined) {
