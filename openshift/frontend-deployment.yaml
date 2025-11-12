@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: image-registry.openshift-image-registry.svc:5000/nc-ask/frontend:latest
+        image: image-registry.openshift-image-registry.svc:5000/katiechai-dev/frontend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

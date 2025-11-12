@@ -26,6 +26,7 @@ data:
   ENABLE_QUERY_LOGGING: "true"
   LOG_LEVEL: "INFO"
 
-  # CORS - Update this with your actual frontend route URL
-  # Format: https://nc-ask-nc-ask.apps.your-cluster.com
-  ALLOWED_ORIGINS: "http://localhost:5173,http://localhost:3000"
+  # CORS - OpenShift route URLs (will need to be updated with actual cluster domain)
+  # Format: https://nc-ask-frontend-<namespace>.apps.<cluster-domain>
+  # For now, allow all origins in production - should be restricted to actual route URL
+  ALLOWED_ORIGINS: "*"
