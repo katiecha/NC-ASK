@@ -36,24 +36,24 @@ spec:
             name: nc-ask-config
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "250m"
+            memory: "2Gi"
+            cpu: "1000m"
           limits:
-            memory: "1Gi"
-            cpu: "500m"
+            memory: "3Gi"
+            cpu: "2000m"
         livenessProbe:
           httpGet:
-            path: /api/health
+            path: /health
             port: 8000
-          initialDelaySeconds: 40
+          initialDelaySeconds: 180
           periodSeconds: 30
           timeoutSeconds: 10
           failureThreshold: 3
         readinessProbe:
           httpGet:
-            path: /api/health
+            path: /health
             port: 8000
-          initialDelaySeconds: 20
+          initialDelaySeconds: 180
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
