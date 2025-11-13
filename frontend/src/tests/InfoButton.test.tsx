@@ -32,9 +32,9 @@ describe('InfoButton', () => {
   it('displays info icon image', () => {
     renderWithRouter(<InfoButton />);
 
-    const image = screen.getByAltText('Info');
-    expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute('src', '/info.svg');
+    const svg = screen.getByRole('link').querySelector('svg');
+    expect(svg).toBeInTheDocument();
+    expect(svg).toHaveClass('info-icon');
   });
 
   it('has correct CSS class', () => {

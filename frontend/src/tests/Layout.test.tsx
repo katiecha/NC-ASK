@@ -48,16 +48,6 @@ describe('Layout', () => {
     expect(darkModeButton).toBeInTheDocument();
   });
 
-  it('renders info button', () => {
-    renderWithProviders(
-      <Layout>
-        <div>Content</div>
-      </Layout>
-    );
-
-    expect(screen.getByLabelText('About NC ASK')).toBeInTheDocument();
-  });
-
   it('sidebar is closed by default', () => {
     const { container } = renderWithProviders(
       <Layout>

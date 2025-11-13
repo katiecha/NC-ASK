@@ -13,7 +13,7 @@ import {
 
 // Mock fetch globally
 const mockFetch = vi.fn();
-global.fetch = mockFetch;
+globalThis.fetch = mockFetch;
 
 // Mock sessionStorage
 const mockSessionStorage = {
