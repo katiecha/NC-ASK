@@ -16,7 +16,7 @@
   border: none;
   border-radius: 12px;
   background: var(--color-white, #ffffff);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
   font-size: 16px;
   line-height: 1.4;
   resize: none;
@@ -29,7 +29,7 @@
 }
 
 .search-input:focus {
-  box-shadow: 0 3px 12px rgba(75, 156, 211, 0.2);
+  box-shadow: var(--shadow-md);
 }
 
 .search-input::placeholder {

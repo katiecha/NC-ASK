@@ -2,7 +2,7 @@
   padding: 1.5rem;
   background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   max-width: 95%;
   border: 1px solid #e0e0e0;
 }
@@ -10,7 +10,7 @@
 .query-response.crisis-response {
   border: 2px solid #dc3545;
   background-color: #fff5f5;
-  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.15);
+  box-shadow: var(--shadow-md);
 }
 
 .crisis-alert {

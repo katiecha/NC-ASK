@@ -12,7 +12,7 @@
   justify-content: center;
   text-decoration: none;
   color: var(--color-text);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
   z-index: 1000;
   cursor: pointer;
 }
