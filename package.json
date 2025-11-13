@@ -12,9 +12,15 @@
     "typecheck": "cd frontend && npm run typecheck",
     "lint": "npm run lint:frontend && npm run lint:backend",
     "lint:frontend": "cd frontend && npm run lint",
-    "lint:backend": "cd backend && python -m ruff check ."
+    "lint:backend": "cd backend && python -m ruff check .",
+    "test": "cd frontend && npm run test",
+    "test:ui": "cd frontend && npm run test:ui",
+    "test:coverage": "cd frontend && npm run test:coverage",
+    "promptfoo": "npx promptfoo eval --config backend/tests/promptfoo/promptfoo-tests.yaml",
+    "promptfoo:view": "npx promptfoo view"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "promptfoo": "^0.119.4"
   }
 }

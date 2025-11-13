@@ -1,14 +1,9 @@
 import types
 
-import pytest
-
-# TODO: Fix these tests - they need proper env var handling before Settings() is created
-# Tracked in separate ticket
-pytestmark = pytest.mark.skip(reason="Supabase client tests need refactoring for proper env var mocking")
-
 
 def test_supabase_client_singleton_and_admin(monkeypatch):
     """Mock supabase.create_client to test singleton and admin creation."""
+    # Import after conftest has set environment variables
     import services.supabase_client as sc
     from services.supabase_client import SupabaseClient
 
@@ -40,6 +35,8 @@ def test_supabase_client_singleton_and_admin(monkeypatch):
 
 
 def test_get_supabase_convenience(monkeypatch):
+    """Test the convenience function get_supabase returns client instance."""
+    # Import after conftest has set environment variables
     import services.supabase_client as sc
     from services.supabase_client import SupabaseClient, get_supabase
 

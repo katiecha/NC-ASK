@@ -18,7 +18,7 @@ env/
 ENV/
 .venv
 
-# Environment Variables - NEVER COMMIT THESE
+# Environment Variables
 .env
 .env.local
 .env.*.local
@@ -69,7 +69,7 @@ coverage/
 # Docker
 docker-compose.override.yml
 
-# API Keys and Secrets - CRITICAL
+# API Keys and Secrets
 config/secrets.json
 *.pem
 *.key
@@ -98,3 +98,21 @@ logs/
 # Backup files
 *.bak
 *.backup
+
+# Lint / formatter caches
+.mypy_cache/
+.pylint.d/
+ruff_cache/
+.prettier-cache/
+
+# Promptfoo outputs
+promptfoo-results.json
+promptfoo-output.txt
+.promptfoo/
+
+# Other
+backend/__pycache__/
+frontend/.next/
+frontend/.eslintcache
+frontend/.turbo/
+frontend/node_modules/

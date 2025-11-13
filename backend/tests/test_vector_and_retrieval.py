@@ -77,22 +77,19 @@ def test_document_retrieval_retrieve_calls_and_error_handling():
             return [0.1, 0.2, 0.3]
 
     class FakeStore:
-        def __init__(self):
-            self.called_with = None
-
+        called_with = None
         def search_similar(self, query_embedding, top_k, threshold=0.1):
-            self.called_with = (query_embedding, top_k, threshold)
+            FakeStore.called_with = (query_embedding, top_k, threshold)
             return [make_result(1, 1, "Doc", "chunk", score=0.5)]
 
     dr = DocumentRetrieval(vector_store=FakeStore(), embedding_provider=FakeEmbedding())
-
     res = dr.retrieve_similar_chunks("hello", top_k=1)
     assert isinstance(res, list)
     assert res[0].document_id == 1
 
-    # Now simulate embedding provider raising
+    # Simulate embedding provider error
     class BadEmbedding:
-        def generate_embedding(self, text):
+        def generate_embedding(self, _text):
             raise RuntimeError("embedding error")
 
     dr_bad = DocumentRetrieval(vector_store=FakeStore(), embedding_provider=BadEmbedding())
