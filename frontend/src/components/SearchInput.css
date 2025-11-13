@@ -12,28 +12,32 @@
   width: 100%;
   min-height: 56px;
   max-height: 200px;
-  height: 56px;
   padding: 16px 20px;
   border: none;
   border-radius: 12px;
   background: var(--color-white, #ffffff);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
   font-size: 16px;
   line-height: 1.4;
-  resize: vertical;
+  resize: none;
   outline: none;
   font-family: inherit;
   transition: box-shadow 0.2s ease;
   overflow-y: auto;
+  overflow-x: hidden;
+  word-wrap: break-word;
 }
 
 .search-input:focus {
-  box-shadow: 0 3px 12px rgba(75, 156, 211, 0.2);
+  box-shadow: var(--shadow-md);
 }
 
 .search-input::placeholder {
   color: var(--color-text-secondary);
   opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Dark mode specific styles for search input */
@@ -45,4 +49,39 @@
 .dark-mode .search-input::placeholder {
   color: #FFFFFF;
   opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Scrollbar styling - consistent with app */
+.search-input::-webkit-scrollbar {
+  width: 4px;
+}
+
+.search-input::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.4);
+  border-radius: 4px;
+}
+
+.search-input::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 768px) {
+  .search-input {
+    font-size: 15px;
+    padding: 14px 18px;
+    min-height: 52px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-input {
+    font-size: 14px;
+    padding: 12px 16px;
+    min-height: 48px;
+    border-radius: 10px;
+  }
 }

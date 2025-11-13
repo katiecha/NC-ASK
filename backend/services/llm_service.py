@@ -8,9 +8,9 @@ import logging
 from typing import Literal
 
 import google.generativeai as genai
+
 from config.examples import format_examples_for_prompt, get_examples
 from config.prompts import get_system_prompt
-
 from services.config import settings
 
 logger = logging.getLogger(__name__)

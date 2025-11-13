@@ -15,12 +15,12 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
 }
 
 .action-button:hover {
-  box-shadow: 0 3px 12px rgba(75, 156, 211, 0.2);
+  box-shadow: var(--shadow-md);
   transform: translateY(-1px);
 }
 

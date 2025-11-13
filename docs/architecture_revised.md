@@ -385,6 +385,16 @@ These enhancements should be considered **after** successful OpenShift migration
 - **Effort:** Medium (session storage, context management)
 - **ROI:** Medium - validate use case (most queries are single-shot)
 
+### 3.4 NOT Recommended (At This Time)
+
+**Knowledge Graphs**
+- **Why skip:** High complexity, unclear ROI for policy documents, vector search likely sufficient
+- **When to reconsider:** If you have structured data sources (databases, APIs) or measure specific relationship query failures
+
+**Multi-Model Routing**
+- **Why skip:** Modern LLMs handle multiple tasks well, routing adds complexity
+- **When to reconsider:** If you need specialized models for specific tasks (unlikely)
+
 ---
 
 ## 4. Code Architecture (Current Implementation)

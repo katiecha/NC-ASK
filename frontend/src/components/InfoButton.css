@@ -4,16 +4,17 @@
   right: 20px;
   width: 48px;
   height: 48px;
-  background: white;
+  background-color: var(--color-surface-elevated);
   border: none;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  color: #666;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
   z-index: 1000;
+  cursor: pointer;
 }
 
 .info-button:focus {
@@ -21,14 +22,42 @@
 }
 
 .info-icon {
-  font-size: 18px;
-  font-weight: 600;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  width: 20px;
+  height: 20px;
+  display: block;
+  color: #333;
 }
 
-/* Dark mode styles - keep white like hamburger menu */
 .dark-mode .info-button {
-  background: white;
-  color: #333;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  background-color: var(--color-surface-elevated);
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.dark-mode .info-button .info-icon {
+  color: var(--color-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .info-button {
+    transition: none;
+  }
+
+  .info-button:hover {
+    transform: none;
+  }
+
+  .info-button:active {
+    transform: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .info-button {
+    bottom: auto;
+    top: 67px;
+    right: 15px;
+    width: 44px;
+    height: 44px;
+  }
 }

@@ -6,10 +6,10 @@
 }
 
 .about-content {
-  background: var(--color-white);
+  background: var(--color-surface);
   border-radius: 12px;
   padding: 48px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-lg);
   text-align: center;
   position: relative;
 }
@@ -20,15 +20,15 @@
   left: 20px;
   width: 48px;
   height: 48px;
-  background: white;
+  background: var(--color-surface-elevated);
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #333;
+  color: var(--color-text);
 }
 
 .back-button:focus {
@@ -54,21 +54,20 @@
 .brain-icon {
   width: 32px;
   height: 32px;
-  color: var(--color-blue);
+  color: var(--color-primary);
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
 }
 
-/* Ensure the brain icon (SVG) inherits text color and responds to dark mode */
 .dark-mode .brain-icon {
-  color: var(--color-text); /* In dark-mode this resolves to white */
+  color: var(--color-text);
 }
 
 .app-title {
   font-size: 28px;
   font-weight: 600;
-  color: var(--color-navy);
+  color: var(--color-text);
   margin: 0;
 }
 
@@ -79,7 +78,7 @@
 
 .about-description p {
   margin: 20px 0;
-  color: var(--color-black);
+  color: var(--color-text);
   line-height: 1.6;
   font-size: 16px;
 }
@@ -98,9 +97,118 @@
 .feature-badge {
   padding: 10px 20px;
   background: transparent;
-  color: var(--color-blue);
+  color: var(--color-primary);
   border-radius: 24px;
   font-size: 14px;
   font-weight: 500;
-  border: 1px solid var(--color-blue);
+  border: 1px solid var(--color-primary);
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 768px) {
+  .about {
+    padding: 15px;
+  }
+
+  .about-content {
+    padding: 36px 24px;
+    border-radius: 10px;
+  }
+
+  .back-button {
+    top: 15px;
+    left: 15px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .about-header {
+    margin-bottom: 32px;
+  }
+
+  .brain-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .app-title {
+    font-size: 24px;
+  }
+
+  .about-description {
+    margin-bottom: 32px;
+  }
+
+  .about-description p {
+    margin: 16px 0;
+    font-size: 15px;
+  }
+
+  .feature-badges {
+    gap: 10px;
+  }
+
+  .feature-badge {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about {
+    padding: 8px;
+  }
+
+  .about-content {
+    padding: 20px 16px;
+    border-radius: 8px;
+  }
+
+  .back-button {
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .back-button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .about-header {
+    margin-bottom: 16px;
+  }
+
+  .nc-ask-logo {
+    gap: 8px;
+  }
+
+  .brain-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .app-title {
+    font-size: 20px;
+  }
+
+  .about-description {
+    margin-bottom: 16px;
+  }
+
+  .about-description p {
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .feature-badges {
+    gap: 6px;
+  }
+
+  .feature-badge {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
 }

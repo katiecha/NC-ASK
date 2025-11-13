@@ -1,0 +1,81 @@
+# BuildConfig for Backend - builds from local Dockerfile
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: nc-ask-backend
+  labels:
+    app: nc-ask
+    component: backend
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: backend:latest
+  source:
+    type: Git
+    git:
+      uri: https://github.com/katiecha/NC-ASK
+      ref: main
+    contextDir: .
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: backend/Dockerfile.prod
+  triggers:
+  - type: ConfigChange
+  - type: ImageChange
+---
+# BuildConfig for Frontend - builds from local Dockerfile
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: nc-ask-frontend
+  labels:
+    app: nc-ask
+    component: frontend
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: frontend:latest
+  source:
+    type: Git
+    git:
+      uri: https://github.com/katiecha/NC-ASK
+      ref: main
+    contextDir: .
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: frontend/Dockerfile.prod
+      # Build arg for API URL - will be set to backend route
+      buildArgs:
+      - name: VITE_API_BASE_URL
+        value: https://nc-ask-backend-nc-ask.apps.your-cluster.com
+  triggers:
+  - type: ConfigChange
+  - type: ImageChange
+---
+# ImageStream for Backend
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: backend
+  labels:
+    app: nc-ask
+    component: backend
+spec:
+  lookupPolicy:
+    local: true
+---
+# ImageStream for Frontend
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: frontend
+  labels:
+    app: nc-ask
+    component: frontend
+spec:
+  lookupPolicy:
+    local: true
