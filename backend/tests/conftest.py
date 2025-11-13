@@ -66,7 +66,7 @@ def mock_supabase_client():
 @pytest.fixture(autouse=True)
 def mock_gemini():
     """Mock Google Gemini API to prevent real API calls."""
-    with patch("google.generativeai.configure") as mock_configure:
+    with patch("google.generativeai.configure") as _mock_configure:
         with patch("google.generativeai.GenerativeModel") as mock_model_class:
             # Mock the model instance
             mock_model = MagicMock()
