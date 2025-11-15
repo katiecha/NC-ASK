@@ -16,6 +16,85 @@
   padding: 0 20px;
 }
 
+.top-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.top-controls .indicator {
+  flex: 1; /* let the view indicator span the available width like before */
+}
+
+/* Position the export button fixed under the DarkModeToggle so it never jumps around */
+.export-btn {
+  position: fixed;
+  top: 80px; /* reduced spacing below the dark mode toggle */
+  right: 20px;
+  z-index: 1001;
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  border: none;
+  width: 48px; /* match dark mode toggle size */
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  transition: box-shadow 0.2s ease, transform 0.08s ease;
+}
+
+.export-btn:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.dark-mode .export-btn {
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.export-btn svg {
+  color: #333;
+}
+
+.dark-mode .export-btn svg {
+  color: var(--color-text);
+}
+
+/* Make the view indicator span between left and right header controls */
+.top-controls {
+  position: relative;
+}
+
+.top-controls .indicator {
+  /* Expand the indicator to visually span between the left (hamburger) control and the right controls */
+  position: relative;
+  left: -96px;
+  width: calc(100% + 192px);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .export-btn {
+    top: 84px; /* slightly less gap on small screens */
+    right: 15px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .top-controls .indicator {
+    margin: 0 64px;
+    width: calc(100% - 128px);
+  }
+}
+
 .messages-container {
   flex: 1;
   overflow-y: auto;

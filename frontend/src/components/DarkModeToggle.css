@@ -17,6 +17,7 @@
   cursor: pointer;
 
   box-shadow: var(--shadow-md);
+  transition: box-shadow 0.2s ease, transform 0.08s ease;
 }
 
 .dark-mode-toggle:focus {
@@ -31,6 +32,15 @@
 .dark-mode .dark-mode-toggle {
   background-color: var(--color-surface-elevated);
   border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Hover effect to match export button behavior */
+.dark-mode-toggle:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.dark-mode .dark-mode-toggle:hover {
   box-shadow: var(--shadow-sm);
 }
 
