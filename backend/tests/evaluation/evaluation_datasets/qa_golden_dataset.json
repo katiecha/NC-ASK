@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "description": "Golden dataset for Ragas evaluation of NC-ASK RAG pipeline",
+    "created": "2025-11-19",
+    "version": "1.0",
+    "note": "This dataset is pre-filled with answers from few-shot examples. You can edit these or add more."
+  },
+  "evaluation_data": [
+    {
+      "id": "provider-001",
+      "question": "What are the eligibility criteria for the Innovations Waiver?",
+      "ground_truth": "**Eligibility Criteria**:\n1. IDD diagnosis documented by qualified professional\n2. Age ≥3 years\n3. ICF/IID level of care via CAP-DA assessment\n4. NC residency with legal immigration status\n5. Medicaid-eligible or meets Medicaid financial criteria\n\n**Application Process**:\n- Contact LME/MCO (Alliance: 1-800-510-9132 | Vaya: 1-800-849-6127 | Partners: 1-888-235-4673 | Trillium: 1-877-685-2415)\n- Complete CAP-DA assessment\n- Slot assignment from waitlist (priority based on population status)",
+      "contexts": [],
+      "view_type": "provider",
+      "category": "waiver_eligibility"
+    },
+    {
+      "id": "provider-002",
+      "question": "How do I refer a patient for IEP evaluation?",
+      "ground_truth": "**Referral Process**:\n1. Submit written referral to school principal or Director of Exceptional Children\n2. Include educational concerns and supporting documentation\n3. Request comprehensive psychoeducational evaluation under IDEA\n\n**Timeline**:\n- School response: 10 business days\n- Evaluation completion: 90 days from parental consent\n\n**Evaluation Domains** (as indicated):\nCognitive functioning, academic achievement, communication, motor skills, behavioral/emotional functioning, adaptive behavior\n\n**Clinical Documentation**: Medical records, developmental history, diagnostic reports\n\n**Regulatory Requirements**: Prior written notice and parental consent required (34 CFR §300.304)\n\n**Resource**: NC DPI Exceptional Children Division: 919-807-3969",
+      "contexts": [],
+      "view_type": "provider",
+      "category": "education_referral"
+    },
+    {
+      "id": "provider-003",
+      "question": "What medications are covered for autism treatment?",
+      "ground_truth": "**NC Medicaid Coverage** (requires FDA approval for indication + medical necessity):\n- Atypical antipsychotics (risperidone, aripiprazole): irritability/aggression\n- SSRIs: co-morbid anxiety/OCD\n- Stimulants/atomoxetine: co-morbid ADHD\n- Sleep medications: documented sleep disorders\n\n**Prior Authorization**: Required for certain medications. Submit clinical documentation.\n\n**Clinical Considerations**:\n- No FDA-approved medications for core autism symptoms\n- Pharmacotherapy targets behavioral/psychiatric co-morbidities only\n- Evidence-based behavioral interventions = first-line treatment\n\n**Recommendations**: Review patient formulary and PA requirements. Consider referral to developmental-behavioral pediatrician or child psychiatrist.",
+      "contexts": [],
+      "view_type": "provider",
+      "category": "medication_coverage"
+    },
+    {
+      "id": "patient-001",
+      "question": "I need help for my child with autism but I'm not sure where to start.",
+      "ground_truth": "In North Carolina, each county is served by a Local Management Entity/Managed Care Organization (LME/MCO) that manages Medicaid services for mental health, developmental disabilities and substance-use needs. They can connect you to programs like the Innovations Waiver and 1915(i) services, which offer home- and community-based supports, respite and crisis services. To find your LME/MCO, use the state directory or call 1-855-262-1946. You do not need to know the program names in advance—describe your child's needs, and the LME/MCO will explain the options and help you apply.\n\nWould you like help finding the phone number for your county's LME/MCO or learning how to apply for Medicaid if you aren't already enrolled?",
+      "contexts": [],
+      "view_type": "patient",
+      "category": "getting_started"
+    },
+    {
+      "id": "patient-002",
+      "question": "We need support at home for daily activities—what programs could help us?",
+      "ground_truth": "Two main Medicaid programs provide in-home support: the Innovations Waiver and 1915(i) services. Both are designed for people with intellectual or developmental disabilities. The Innovations Waiver offers assistance with daily tasks like bathing, dressing and cooking; support for community participation; and adaptations to your home or vehicle. 1915(i) services (which replaced an earlier program called 1915(b)(3)) help children and adults learn skills to live at home and participate in the community, find a job and provide respite for caregivers. Your LME/MCO can tell you which program fits your situation and help you join the Innovations waitlist or apply for 1915(i) services.\n\nAre you currently enrolled in Medicaid, or would you like guidance on how to get coverage so you can access these services?",
+      "contexts": [],
+      "view_type": "patient",
+      "category": "home_support"
+    },
+    {
+      "id": "patient-003",
+      "question": "My child is having a behavioral crisis. Is there someone who can come to us?",
+      "ground_truth": "Yes. North Carolina has mobile crisis teams—counselors who can meet you at home, school or another safe place to help calm the situation. Mobile crisis services are available 24 hours a day, seven days a week and are free even if you don't have insurance. They will listen, assess the situation and connect you with ongoing support. For immediate danger, call 988 or 911 and ask for a Crisis Intervention Team officer. Otherwise, you can call your LME/MCO's crisis line to reach a mobile crisis team.\n\nIs anyone in immediate danger? If not, would you like the phone number for your local mobile crisis provider?",
+      "contexts": [],
+      "view_type": "patient",
+      "category": "crisis_response"
+    },
+    {
+      "id": "patient-004",
+      "question": "We're overwhelmed and need a break—are there programs that support caregivers?",
+      "ground_truth": "Both the Innovations Waiver and 1915(i) services include respite care and other caregiver supports. The Innovations Waiver provides scheduled breaks and emergency respite, as well as training and consultations to help family and friends support you better. 1915(i) services can also give caregivers a break and teach skills to help your loved one live more independently. To access respite, contact your LME/MCO and explain that you need caregiver support; they will help determine which program you qualify for.\n\nDo you want information on joining the Innovations waitlist or applying for 1915(i) services to start getting respite support?",
+      "contexts": [],
+      "view_type": "patient",
+      "category": "caregiver_support"
+    },
+    {
+      "id": "patient-005",
+      "question": "I've heard there are services to help adults with disabilities live on their own. How does that work?",
+      "ground_truth": "1915(i) services are designed to help adults and children with mental-health conditions, substance-use disorders, traumatic brain injuries or intellectual/developmental disabilities live and work in their communities. They can teach skills to live at home, participate in the community and find employment. They also provide respite and community transition support. These services are available through Medicaid Tailored Plans, NC Medicaid Direct or the Eastern Band of Cherokee Indians Tribal Option. An LME/MCO care manager will help you set goals and coordinate services.\n\nDo you know which Medicaid plan you have? If not, would you like help finding out so we can determine whether you can access 1915(i) services?",
+      "contexts": [],
+      "view_type": "patient",
+      "category": "independent_living"
+    },
+    {
+      "id": "patient-006",
+      "question": "Our therapist mentioned 'Intensive In-Home.' What does that mean?",
+      "ground_truth": "Intensive In-Home (IIH) services are team-based mental-health supports for children and young adults (ages 3–20) who are experiencing severe behavioral or emotional challenges. A team of therapists and case managers works with the whole family in your home to provide individual therapy, family therapy, crisis intervention, behavioral interventions, and coaching on daily routines and coping skills. IIH is intended to prevent out-of-home placements and is covered by Medicaid and some private insurance plans. Eligibility usually requires that outpatient therapy has been tried and that the child's needs are intense.\n\nHave you already tried outpatient therapy, and would you like help contacting your LME/MCO to see if your child qualifies for Intensive In-Home services?",
+      "contexts": [],
+      "view_type": "patient",
+      "category": "mental_health_services"
+    },
+    {
+      "id": "patient-007",
+      "question": "I'm not sure what Medicaid plan I have or what services I'm eligible for.",
+      "ground_truth": "NC Medicaid offers different plan types. Standard Plans cover general physical and behavioral health, while Tailored Plans provide additional services for people with serious mental illness, substance-use disorders, or I/DD. 1915(i) services are only available with Tailored Plans, NC Medicaid Direct or the Eastern Band of Cherokee Indians Tribal Option and are not available through Standard Plans. If you're unsure which plan you have, call the NC Medicaid Enrollment Broker at 1-833-870-5500. You can also call your LME/MCO or look at your Medicaid ID card.\n\nWould you like me to help you identify your plan or provide instructions on how to call the enrollment broker?",
+      "contexts": [],
+      "view_type": "patient",
+      "category": "medicaid_navigation"
+    },
+    {
+      "id": "patient-008",
+      "question": "I have Medicaid but don't know who to call for help with mental-health or developmental-disability services.",
+      "ground_truth": "Start with your LME/MCO. They manage mental-health, I/DD and substance-use services for Medicaid beneficiaries in your county. The LME/MCO directory lists phone numbers and crisis lines. Alliance Health (1-800-510-9132), Partners Health Management (1-888-235-4673), Trillium Health Resources (1-877-685-2415) and Vaya Health (1-800-962-9003) are the four LME/MCOs. If you don't know which serves your county, call 1-855-262-1946 for assistance.\n\nWould you like me to look up which LME/MCO serves your county and provide the contact number?",
+      "contexts": [],
+      "view_type": "patient",
+      "category": "service_navigation"
+    },
+    {
+      "id": "patient-009",
+      "question": "Is there a program that helps pay for ramps or other modifications to my home or vehicle?",
+      "ground_truth": "Yes. The Innovations Waiver covers home and vehicle modifications to make your environment safer and more accessible. It also pays for assistive technologies like communication devices and smart-home tools. To access these supports, you need to have a waiver slot. If you aren't yet on the waiver, contact your LME/MCO to join the waitlist. While waiting, some equipment may be covered through other Medicaid programs, so ask your care manager.\n\nAre you already on the Innovations waitlist, or would you like guidance on how to apply and explore interim options while you wait?",
+      "contexts": [],
+      "view_type": "patient",
+      "category": "home_modifications"
+    },
+    {
+      "id": "patient-010",
+      "question": "We're struggling to get to appointments. Is transportation available?",
+      "ground_truth": "NC Medicaid offers Non-Emergency Medical Transportation (NEMT), which provides free rides to and from doctor visits, mental-health appointments, and pharmacies. You should request a ride at least two days before your appointment. If you drive yourself or are driven by a friend or family member, you may be reimbursed for travel costs. To schedule a ride, call the NEMT number on your Medicaid card or contact your health plan.\n\nDo you need assistance finding the phone number to schedule NEMT or learning about mileage reimbursement?",
+      "contexts": [],
+      "view_type": "patient",
+      "category": "transportation"
+    }
+  ]
+}

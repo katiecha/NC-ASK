@@ -17,7 +17,10 @@
     "test:ui": "cd frontend && npm run test:ui",
     "test:coverage": "cd frontend && npm run test:coverage",
     "promptfoo": "npx promptfoo eval --config backend/tests/promptfoo/promptfoo-tests.yaml",
-    "promptfoo:view": "npx promptfoo view"
+    "promptfoo:view": "npx promptfoo view",
+    "evaluate:ragas": "cd backend/tests/evaluation && python run_evaluation.py --basic",
+    "evaluate:ragas:comprehensive": "cd backend/tests/evaluation && python run_evaluation.py --comprehensive",
+    "evaluate:ragas:report": "cd backend/tests/evaluation && python generate_report.py"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
