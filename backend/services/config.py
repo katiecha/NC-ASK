@@ -21,8 +21,12 @@ class Settings(BaseSettings):
     SUPABASE_ANON_KEY: str = "your_anon_key_here"
     SUPABASE_SERVICE_ROLE_KEY: str = "your_service_role_key_here"
 
-    # AI Services (PLACEHOLDER - to be configured)
-    GOOGLE_API_KEY: str = "your_gemini_api_key_here"
+    # OpenShift AI Services (PLACEHOLDER - to be configured)
+    # NOTE: Base URLs should NOT include /v1 suffix (added automatically by OpenAI SDK)
+    OPENSHIFT_API_KEY: str = "your_openshift_llm_api_key_here"
+    OPENSHIFT_BASE_URL: str = "https://your-openshift-llm-endpoint.com"
+    OPENSHIFT_EMBEDDING_API_KEY: str = "your_openshift_embedding_api_key_here"
+    OPENSHIFT_EMBEDDING_BASE_URL: str = "https://your-openshift-embedding-endpoint.com"
 
     # Security
     SECRET_KEY: str = "your-secret-key-for-session-signing-change-in-production"
@@ -49,14 +53,14 @@ class Settings(BaseSettings):
     MAX_QUERY_LENGTH: int = 500
 
     # RAG Configuration
-    EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
-    EMBEDDING_DIMENSION: int = 384
+    EMBEDDING_MODEL: str = "bge-large-en-v1.5"  # BGE-large deployed on OpenShift
+    EMBEDDING_DIMENSION: int = 1024  # BGE-large dimension (was 384 for all-MiniLM-L6-v2)
     TOP_K_RETRIEVAL: int = 5
     CHUNK_SIZE: int = 500
     CHUNK_OVERLAP: int = 50
 
     # LLM Configuration
-    LLM_MODEL: str = "gemini-1.5-flash"
+    LLM_MODEL: str = "llama-3-8b"  # Model name from OpenShift deployment (update to match your deployed model)
     MAX_CONTEXT_TOKENS: int = 2000
     LLM_TEMPERATURE: float = 0.3
 

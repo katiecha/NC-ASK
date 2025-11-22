@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS document_chunks (
     document_id INTEGER NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
     chunk_text TEXT NOT NULL,
     chunk_index INTEGER NOT NULL,
-    embedding vector(384),  -- Dimension for all-MiniLM-L6-v2
+    embedding vector(1024),  -- Dimension for BGE-large-en-v1.5
     metadata JSONB DEFAULT '{}'::jsonb,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -92,7 +92,7 @@ CREATE INDEX IF NOT EXISTS idx_crisis_priority ON crisis_resources(priority, act
 
 -- Function to match document chunks using vector similarity
 CREATE OR REPLACE FUNCTION match_document_chunks(
-    query_embedding vector(384),
+    query_embedding vector(1024),
     match_threshold float DEFAULT 0.1,
     match_count int DEFAULT 5
 )

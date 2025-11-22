@@ -21,12 +21,14 @@ from services.crisis_detection import KeywordCrisisDetector
 
 # Import concrete implementations
 from services.embeddings import SentenceTransformerEmbedding
+from services.openshift_embeddings import OpenShiftEmbedding
 from services.interfaces import CrisisDetector as CrisisDetectorProtocol
 
 # Import interfaces
 from services.interfaces import EmbeddingProvider, LLMProvider, VectorStore
 from services.interfaces import RetrievalService as RetrievalServiceProtocol
 from services.llm_service import GeminiLLM
+from services.openshift_llm import OpenShiftLLM
 from services.retrieval import DocumentRetrieval
 from services.vector_store import InMemoryVectorStore, SupabaseVectorStore
 
@@ -92,15 +94,14 @@ class ServiceFactory:
         """
         Get embedding provider.
 
-        Default: SentenceTransformerEmbedding with all-MiniLM-L6-v2
+        Default: OpenShiftEmbedding with BGE-large-en-v1.5 (deployed on OpenShift)
 
-        To swap for OpenAI embeddings:
-            1. Create OpenAIEmbedding class implementing EmbeddingProvider
-            2. Return OpenAIEmbedding() here instead
+        To swap back to local embeddings:
+            Return SentenceTransformerEmbedding(model_name=settings.EMBEDDING_MODEL) instead
         """
         if self._embedding_provider is None:
-            logger.info("Creating SentenceTransformerEmbedding provider")
-            self._embedding_provider = SentenceTransformerEmbedding(
+            logger.info("Creating OpenShiftEmbedding provider")
+            self._embedding_provider = OpenShiftEmbedding(
                 model_name=settings.EMBEDDING_MODEL
             )
         return self._embedding_provider
@@ -130,15 +131,14 @@ class ServiceFactory:
         """
         Get LLM provider.
 
-        Default: GeminiLLM with gemini-1.5-flash
+        Default: OpenShiftLLM with OpenAI-compatible API (deployed on OpenShift)
 
-        To swap for OpenAI:
-            1. Create OpenAILLM class implementing LLMProvider
-            2. Return OpenAILLM() here instead
+        To swap back to Gemini:
+            Return GeminiLLM(model_name=settings.LLM_MODEL, temperature=settings.LLM_TEMPERATURE) instead
         """
         if self._llm_provider is None:
-            logger.info("Creating GeminiLLM provider")
-            self._llm_provider = GeminiLLM(
+            logger.info("Creating OpenShiftLLM provider")
+            self._llm_provider = OpenShiftLLM(
                 model_name=settings.LLM_MODEL,
                 temperature=settings.LLM_TEMPERATURE
             )
