@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from services.document_processor import DocumentChunk, DocumentProcessor
-from services.embeddings import EmbeddingService
+from services.openshift_embeddings import OpenShiftEmbedding
 from services.supabase_client import SupabaseClient
 
 logger = logging.getLogger(__name__)
@@ -108,9 +108,10 @@ class IngestionService:
         try:
             supabase = SupabaseClient.get_admin_client()
 
-            # Generate embeddings for all chunks
+            # Generate embeddings for all chunks using OpenShift
+            embedding_provider = OpenShiftEmbedding()
             chunk_texts = [chunk.text for chunk in chunks]
-            embeddings = EmbeddingService.generate_embeddings(chunk_texts)
+            embeddings = embedding_provider.generate_embeddings(chunk_texts)
 
             # Prepare data for insertion
             chunk_data = []

@@ -24,10 +24,10 @@ class DocumentRetrieval:
     - Context formatting for LLM consumption
 
     Example:
-        >>> from services.embeddings import SentenceTransformerEmbedding
+        >>> from services.openshift_embeddings import OpenShiftEmbedding
         >>> from services.vector_store import SupabaseVectorStore
         >>>
-        >>> embedding_provider = SentenceTransformerEmbedding()
+        >>> embedding_provider = OpenShiftEmbedding()
         >>> vector_store = SupabaseVectorStore()
         >>> retrieval = DocumentRetrieval(vector_store, embedding_provider)
         >>>
@@ -177,57 +177,3 @@ class DocumentRetrieval:
 
         logger.info(f"Extracted {len(citations)} unique citations")
         return citations
-
-
-# ============================================================================
-# Backward Compatibility Layer (DEPRECATED - will be removed in future)
-# ============================================================================
-
-class RetrievalService:
-    """
-    DEPRECATED: Legacy static wrapper for backward compatibility.
-
-    Use DocumentRetrieval instance instead for better testability
-    and dependency injection.
-    """
-    _instance: DocumentRetrieval | None = None
-
-    @classmethod
-    def get_instance(cls) -> DocumentRetrieval:
-        """Get singleton instance with default dependencies"""
-        if cls._instance is None:
-            # Import here to avoid circular dependencies
-            from services.embeddings import SentenceTransformerEmbedding
-            from services.vector_store import SupabaseVectorStore
-
-            embedding_provider = SentenceTransformerEmbedding()
-            vector_store = SupabaseVectorStore()
-            cls._instance = DocumentRetrieval(vector_store, embedding_provider)
-
-        return cls._instance
-
-    @classmethod
-    def retrieve_similar_chunks(
-        cls,
-        query: str,
-        top_k: int | None = None
-    ) -> list[RetrievalResult]:
-        """DEPRECATED: Use DocumentRetrieval instance instead"""
-        return cls.get_instance().retrieve_similar_chunks(query, top_k)
-
-    @classmethod
-    def format_context_for_llm(
-        cls,
-        retrieval_results: list[RetrievalResult],
-        max_tokens: int | None = None
-    ) -> str:
-        """DEPRECATED: Use DocumentRetrieval instance instead"""
-        return cls.get_instance().format_context_for_llm(retrieval_results, max_tokens)
-
-    @classmethod
-    def extract_citations(
-        cls,
-        retrieval_results: list[RetrievalResult]
-    ) -> list[dict[str, Any]]:
-        """DEPRECATED: Use DocumentRetrieval instance instead"""
-        return cls.get_instance().extract_citations(retrieval_results)

@@ -44,8 +44,11 @@ class OpenShiftEmbedding:
         self.api_key = api_key or settings.OPENSHIFT_EMBEDDING_API_KEY
         raw_base_url = base_url or settings.OPENSHIFT_EMBEDDING_BASE_URL
 
-        # Remove /v1 suffix if present (OpenAI SDK adds it automatically)
-        self.base_url = raw_base_url.rstrip('/').removesuffix('/v1')
+        # Ensure /v1 suffix is present (OpenAI SDK requires it for custom base_url)
+        base = raw_base_url.rstrip('/')
+        if not base.endswith('/v1'):
+            base = f"{base}/v1"
+        self.base_url = base
         self.model_name = model_name or settings.EMBEDDING_MODEL
         self._client: OpenAI | None = None
         logger.info(f"Initialized OpenShiftEmbedding with model: {self.model_name}, base_url: {self.base_url}")

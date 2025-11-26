@@ -20,14 +20,12 @@ from services.config import settings
 from services.crisis_detection import KeywordCrisisDetector
 
 # Import concrete implementations
-from services.embeddings import SentenceTransformerEmbedding
 from services.openshift_embeddings import OpenShiftEmbedding
 from services.interfaces import CrisisDetector as CrisisDetectorProtocol
 
 # Import interfaces
 from services.interfaces import EmbeddingProvider, LLMProvider, VectorStore
 from services.interfaces import RetrievalService as RetrievalServiceProtocol
-from services.llm_service import GeminiLLM
 from services.openshift_llm import OpenShiftLLM
 from services.retrieval import DocumentRetrieval
 from services.vector_store import InMemoryVectorStore, SupabaseVectorStore
@@ -94,10 +92,10 @@ class ServiceFactory:
         """
         Get embedding provider.
 
-        Default: OpenShiftEmbedding with BGE-large-en-v1.5 (deployed on OpenShift)
+        Default: OpenShiftEmbedding with BGE-large-en-v1.5 (1024-dim, deployed on OpenShift)
 
-        To swap back to local embeddings:
-            Return SentenceTransformerEmbedding(model_name=settings.EMBEDDING_MODEL) instead
+        To swap providers:
+            Create a new class implementing EmbeddingProvider interface and return it here
         """
         if self._embedding_provider is None:
             logger.info("Creating OpenShiftEmbedding provider")
@@ -131,10 +129,10 @@ class ServiceFactory:
         """
         Get LLM provider.
 
-        Default: OpenShiftLLM with OpenAI-compatible API (deployed on OpenShift)
+        Default: OpenShiftLLM with granite-31-8b-instruct (OpenAI-compatible API, deployed on OpenShift)
 
-        To swap back to Gemini:
-            Return GeminiLLM(model_name=settings.LLM_MODEL, temperature=settings.LLM_TEMPERATURE) instead
+        To swap providers:
+            Create a new class implementing LLMProvider interface and return it here
         """
         if self._llm_provider is None:
             logger.info("Creating OpenShiftLLM provider")

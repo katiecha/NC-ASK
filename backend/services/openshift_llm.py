@@ -52,8 +52,11 @@ class OpenShiftLLM:
         self.api_key = api_key or settings.OPENSHIFT_API_KEY
         raw_base_url = base_url or settings.OPENSHIFT_BASE_URL
 
-        # Remove /v1 suffix if present (OpenAI SDK adds it automatically)
-        self.base_url = raw_base_url.rstrip('/').removesuffix('/v1')
+        # Ensure /v1 suffix is present (OpenAI SDK requires it for custom base_url)
+        base = raw_base_url.rstrip('/')
+        if not base.endswith('/v1'):
+            base = f"{base}/v1"
+        self.base_url = base
         self.model_name = model_name or settings.LLM_MODEL
         self.default_temperature = temperature or settings.LLM_TEMPERATURE
         self._client: OpenAI | None = None

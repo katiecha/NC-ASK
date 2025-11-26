@@ -53,15 +53,15 @@ class Settings(BaseSettings):
     MAX_QUERY_LENGTH: int = 500
 
     # RAG Configuration
-    EMBEDDING_MODEL: str = "bge-large-en-v1.5"  # BGE-large deployed on OpenShift
+    EMBEDDING_MODEL: str = "bge-large"  # BGE-large deployed on OpenShift
     EMBEDDING_DIMENSION: int = 1024  # BGE-large dimension (was 384 for all-MiniLM-L6-v2)
     TOP_K_RETRIEVAL: int = 5
     CHUNK_SIZE: int = 500
     CHUNK_OVERLAP: int = 50
 
     # LLM Configuration
-    LLM_MODEL: str = "llama-3-8b"  # Model name from OpenShift deployment (update to match your deployed model)
-    MAX_CONTEXT_TOKENS: int = 2000
+    LLM_MODEL: str = "granite-31-8b-instruct-quantize-w8a8"  # Model name from OpenShift deployment
+    MAX_CONTEXT_TOKENS: int = 8000
     LLM_TEMPERATURE: float = 0.3
 
     # Feature Flags
